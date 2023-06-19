@@ -5,6 +5,7 @@ cursor = cacheDB.cursor()
 
 
   # Idée : avoir un type "stucturelle" à passer en plus de chaque argument, pour créer la table et accéder aux donner et tout et tout
+  # I should take a look at implemenint django rest api in this project
   
   
   
