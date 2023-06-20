@@ -22,15 +22,16 @@ cursor.execute('''
         first_name TEXT NOT NULL,
         last_name TEXT NOT NULL,
         age INTEGER NOT NULL,
-        grade INTEGER NOT NULL
+        grade INTEGER NOT NULL,
+        address TEXT NOT NULL
     )
 ''')  # ID auto incremented
 
 for _ in range(100):  # Adjust this number to create as many fake students as you need.
     cursor.execute('''
-        INSERT INTO students_app_student (first_name, last_name, age, grade, adresse)
+        INSERT INTO students_app_student (first_name, last_name, age, grade, address)
         VALUES (?, ?, ?, ?, ?)
-    ''', (fake.first_name(), fake.last_name(), fake.random_int(min=18, max=25), fake.random_int(min=1, max=3), fake.adresse()))
+    ''', (fake.first_name(), fake.last_name(), fake.random_int(min=18, max=25), fake.random_int(min=1, max=3), fake.address()))
 
 connection.commit()
 connection.close()
