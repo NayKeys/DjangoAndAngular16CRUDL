@@ -18,13 +18,13 @@ cursor = connection.cursor()
 
 cursor.execute('''
     CREATE TABLE students_app_student (
-        id INTEGER PRIMARY KEY,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         first_name TEXT NOT NULL,
         last_name TEXT NOT NULL,
         age INTEGER NOT NULL,
         grade INTEGER NOT NULL
     )
-''')
+''')  # ID auto incremented
 
 for _ in range(100):  # Adjust this number to create as many fake students as you need.
     cursor.execute('''
