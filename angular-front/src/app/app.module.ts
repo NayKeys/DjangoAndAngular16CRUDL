@@ -5,16 +5,35 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StudentComponent } from './student/student.component';
 
+
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+
+// Import PrimeNG's table module
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
+import { InputTextModule } from 'primeng/inputtext';
+
+import { AppComponent } from './app.component';
+import { StudentComponent } from './student/student.component';
+
 @NgModule({
-  declarations: [
-    AppComponent,
-    StudentComponent
-  ],
+  declarations: [AppComponent, StudentComponent],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    HttpClientModule,
+    FormsModule,
+    // Add PrimeNG's table module to imports
+    TableModule,
+    ButtonModule,
+    DialogModule,
+    InputTextModule,
+    AppRoutingModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
