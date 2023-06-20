@@ -1,15 +1,15 @@
-from faker import faker
+from faker import Faker
 from datetime import date
 import sqlite3
 
-fake = faker()
+fake = Faker()
 
 fake.text()
 
 class Student:
   
   classe = ""
-  birthdate = date()
+  # birthdate = date()
   lastname = ""
   firstname = ""
 
@@ -28,9 +28,9 @@ cursor.execute('''
 
 for _ in range(100):  # Adjust this number to create as many fake students as you need.
     cursor.execute('''
-        INSERT INTO students_app_student (first_name, last_name, age, grade, adress)
+        INSERT INTO students_app_student (first_name, last_name, age, grade, adresse)
         VALUES (?, ?, ?, ?, ?)
-    ''', (fake.first_name(), fake.last_name(), fake.random_int(min=18, max=25), fake.random_int(min=1, max=3), fake.adress()))
+    ''', (fake.first_name(), fake.last_name(), fake.random_int(min=18, max=25), fake.random_int(min=1, max=3), fake.adresse()))
 
 connection.commit()
 connection.close()
