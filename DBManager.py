@@ -1,7 +1,8 @@
 import sqlite3
 
-cacheDB = sqlite3.connect(':memory:')
-cursor = cacheDB.cursor()
+# cacheDB = sqlite3.connect(':memory:')
+studentDB = sqlite3.connect('studentsDB.sqlite3')
+cursor = studentDB.cursor()
 
 
   # Idée : avoir un type "stucturelle" à passer en plus de chaque argument, pour créer la table et accéder aux donner et tout et tout
@@ -17,7 +18,7 @@ def createTable():
       age INTERGER
     )
   """)
-  cacheDB.commit()
+  studentDB.commit()
 
 def insert(data):
   cursor.execute("""
@@ -48,7 +49,7 @@ def fetchAll(id):
     print('{0} : {1} - {2}'.format(row[0], row[1], row[2]))
 
 def undoLast():
-  cacheDB.rollback()
+  studentDB.rollback()
 
 def close():
-  cacheDB.close()
+  studentDB.close()

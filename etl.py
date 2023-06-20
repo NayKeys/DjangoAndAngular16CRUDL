@@ -12,4 +12,3 @@ table3 = etl.fromcsv('data.csv')
 
 # From a JSON file
 table4 = etl.fromjson('data.json')
-

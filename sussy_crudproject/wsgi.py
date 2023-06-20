@@ -1,5 +1,5 @@
 """
-WSGI config for sussycrud project.
+WSGI config for sussy_crudproject project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sussycrud.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sussy_crudproject.settings')
 
 application = get_wsgi_application()
