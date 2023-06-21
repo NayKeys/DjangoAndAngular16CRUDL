@@ -6,26 +6,36 @@
       <th>Last Name</th>
       <th>Age</th>
       <th>Grade</th>
+      <th>Address</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-student>
-    <tr>
-      <td>{{student.id}}</td>
-      <td>{{student.first_name}}</td>
-      <td>{{student.last_name}}</td>
-      <td>{{student.age}}</td>
-      <td>{{student.grade}}</td>
+    <tr [pEditableRow]="student">
+      <td *ngIf="!newStudent || student !== this.student">{{student.id}}</td>
+      <td *ngIf="!newStudent || student !== this.student">{{student.first_name}}</td>
+      <td *ngIf="newStudent && student === this.student">
+        <p-inputText [(ngModel)]="student.first_name" required></p-inputText>
+      </td>
+      <td *ngIf="!newStudent || student !== this.student">{{student.last_name}}</td>
+      <td *ngIf="newStudent && student === this.student">
+        <p-inputText [(ngModel)]="student.last_name" required></p-inputText>
+      </td>
+      <td *ngIf="!newStudent || student !== this.student">{{student.age}}</td>
+      <td *ngIf="newStudent && student === this.student">
+        <p-inputText [(ngModel)]="student.age" required></p-inputText>
+      </td>
+      <td *ngIf="!newStudent || student !== this.student">{{student.grade}}</td>
+      <td *ngIf="newStudent && student === this.student">
+        <p-inputText [(ngModel)]="student.grade" required></p-inputText>
+      </td>
+      <td *ngIf="!newStudent || student !== this.student">{{student.address}}</td>
+      <td *ngIf="newStudent && student === this.student">
+        <p-inputText [(ngModel)]="student.address" required></p-inputText>
+      </td>
     </tr>
   </ng-template>
 </p-table>
 
-<button (click)="showDialogToAdd()" type="button">Add</button>
-<button (click)="save()" type="button" *ngIf="displayDialog">Save</button>
-<button (click)="delete()" type="button" *ngIf="displayDialog">Delete</button>
-
-<p-dialog [(visible)]="displayDialog" [modal]="true" [style]="{width: '300px'}" [closable]="false" *ngIf="displayDialog">
-  <p-inputText [(ngModel)]="student.first_name" placeholder="First Name"></p-inputText>
-  <p-inputText [(ngModel)]="student.last_name" placeholder="Last Name"></p-inputText>
-  <p-inputText [(ngModel)]="student.age" placeholder="Age"></p-inputText>
-  <p-inputText [(ngModel)]="student.grade" placeholder="Grade"></p-inputText>
-</p-dialog>
+<button (click)="addNew()" type="button">Add</button>
+<button (click)="save()" type="button" *ngIf="newStudent">Save</button>
+<button (click)="delete()" type="button" *ngIf="!newStudent && displayDialog">Delete</button>

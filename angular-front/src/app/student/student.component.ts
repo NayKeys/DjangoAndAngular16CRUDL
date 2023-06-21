@@ -7,16 +7,33 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./student.component.css'],
 })
 export class StudentComponent implements OnInit {
-  students: any[];
-  displayDialog: boolean;
-  student: any = {};
-  selectedStudent: any;
+  students: any[] = [];
+  student: any = this.emptyStudent();
   newStudent: boolean;
+  displayDialog: boolean;
+  selectedStudent: any;
 
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
     this.refresh();
+  }
+
+  emptyStudent() {
+    return {
+      id: null,
+      first_name: '',
+      last_name: '',
+      age: null,
+      grade: null,
+      address: '',
+    };
+  }
+
+  addNew() {
+    this.newStudent = true;
+    this.student = this.emptyStudent();
+    this.students = [this.student, ...this.students];
   }
 
   refresh() {
