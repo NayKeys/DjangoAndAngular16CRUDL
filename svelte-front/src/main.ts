@@ -64,8 +64,8 @@ const apiActionRequest = async function(csrfToken:string, action: string, data: 
     console.log("Error: " + resJson.message);
     return rows;
   } else {
-    for(const i in resJson.data) {
-      const refData = resJson[i];
+    for(let i = 0; i < resJson.data.length; i++) {
+      const refData = resJson.data[i];
       const row: DataRow = [refData.id.toString(), refData.reference.first_name, refData.reference.last_name, refData.reference.role, refData.reference.age, refData.reference.grade, refData.reference.address]
       rows.push(row);
     }

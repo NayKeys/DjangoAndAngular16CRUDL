@@ -2,12 +2,13 @@
   import Table from './Table.svelte';  // From https://svelte.dev/repl/36aaf2a1807a4fed81fe6212d20bca24?version=3.25.1
   import { onMount } from 'svelte';
   import type { DataRow } from './main'
+  import { apiActionRequest } from './main';
+  
 	function addRow() {
 		data = [...data, [...newRow]]
 		newRow = ['', "", "", "", '', '', ""]
 	}
 	function deleteRow(rowToBeDeleted: DataRow) {
-
 		data = data.filter(row => row != rowToBeDeleted)
 	}
   function update(rowToBeEdited: DataRow) {
@@ -15,10 +16,14 @@
   }
 	let columns: string[] = ["ID", "First Name", "Last Name", "Role", "Age", "Grade", "Address"]  // i dea: make this a prop sent from the backend
 
-  import { apiActionRequest } from './main';
+  let csrfToken: string = "fetching csrfToken...";
   onMount(async () => {
-    apiActionRequest('fetch_all', ["", "", "", "student", "", "", ""]).then((res) => {
-      data = res;
+    fetch('http://localhost:8000/api/csrf/', { method: 'GET'}).then(res => res.json()).then((res) => {
+      csrfToken = res.csrfToken
+      apiActionRequest(csrfToken, 'fetch_all', ["", "", "", "student", "", "", ""]).then((res) => {
+        data = res;
+        console.log(res)
+      })
     })
   });
   let data: DataRow[] = [
@@ -29,6 +34,11 @@
 	let newRow: DataRow = ['', "", "", "", '', '', ""];
 </script>
 
+{#if csrfToken == "fetching csrfToken..."}
+  <h1>Fetching csrfToken...</h1>
+{:else}
+  <h1>csrfToken: {csrfToken}</h1>
+{/if}
 <table>
 	<tr>
 		{#each columns as column}

@@ -1068,7 +1068,7 @@ var app = (function (exports) {
     	return child_ctx;
     }
 
-    // (34:0) {:else}
+    // (35:0) {:else}
     function create_else_block(ctx) {
     	let h1;
     	let t0;
@@ -1079,7 +1079,7 @@ var app = (function (exports) {
     			h1 = element("h1");
     			t0 = text("csrfToken: ");
     			t1 = text(/*csrfToken*/ ctx[0]);
-    			add_location(h1, file, 34, 2, 1330);
+    			add_location(h1, file, 35, 2, 1360);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -1098,14 +1098,14 @@ var app = (function (exports) {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(34:0) {:else}",
+    		source: "(35:0) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (32:0) {#if csrfToken == "fetching csrfToken..."}
+    // (33:0) {#if csrfToken == "fetching csrfToken..."}
     function create_if_block(ctx) {
     	let h1;
 
@@ -1113,7 +1113,7 @@ var app = (function (exports) {
     		c: function create() {
     			h1 = element("h1");
     			h1.textContent = "Fetching csrfToken...";
-    			add_location(h1, file, 32, 2, 1289);
+    			add_location(h1, file, 33, 2, 1319);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -1128,14 +1128,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(32:0) {#if csrfToken == \\\"fetching csrfToken...\\\"}",
+    		source: "(33:0) {#if csrfToken == \\\"fetching csrfToken...\\\"}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (39:2) {#each columns as column}
+    // (40:2) {#each columns as column}
     function create_each_block_3(ctx) {
     	let th;
     	let t_value = /*column*/ ctx[11] + "";
@@ -1145,7 +1145,7 @@ var app = (function (exports) {
     		c: function create() {
     			th = element("th");
     			t = text(t_value);
-    			add_location(th, file, 39, 3, 1413);
+    			add_location(th, file, 40, 3, 1443);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, th, anchor);
@@ -1161,14 +1161,14 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_3.name,
     		type: "each",
-    		source: "(39:2) {#each columns as column}",
+    		source: "(40:2) {#each columns as column}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (46:3) {#each row as cell}
+    // (47:3) {#each row as cell}
     function create_each_block_2(ctx) {
     	let td;
     	let mounted;
@@ -1184,7 +1184,7 @@ var app = (function (exports) {
     			attr_dev(td, "contenteditable", "true");
     			attr_dev(td, "class", "svelte-o0qdmk");
     			if (/*cell*/ ctx[17] === void 0) add_render_callback(td_input_handler);
-    			add_location(td, file, 46, 8, 1509);
+    			add_location(td, file, 47, 8, 1539);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, td, anchor);
@@ -1216,14 +1216,14 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_2.name,
     		type: "each",
-    		source: "(46:3) {#each row as cell}",
+    		source: "(47:3) {#each row as cell}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (44:1) {#each data as row}
+    // (45:1) {#each data as row}
     function create_each_block_1(ctx) {
     	let tr;
     	let t0;
@@ -1262,10 +1262,10 @@ var app = (function (exports) {
     			t2 = space();
     			button1 = element("button");
     			button1.textContent = "save changes";
-    			add_location(button0, file, 48, 3, 1575);
-    			add_location(button1, file, 49, 6, 1632);
+    			add_location(button0, file, 49, 3, 1605);
+    			add_location(button1, file, 50, 6, 1662);
     			attr_dev(tr, "class", "svelte-o0qdmk");
-    			add_location(tr, file, 44, 2, 1473);
+    			add_location(tr, file, 45, 2, 1503);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, tr, anchor);
@@ -1329,14 +1329,14 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(44:1) {#each data as row}",
+    		source: "(45:1) {#each data as row}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (55:2) {#each newRow as column}
+    // (56:2) {#each newRow as column}
     function create_each_block(ctx) {
     	let td;
     	let mounted;
@@ -1352,7 +1352,7 @@ var app = (function (exports) {
     			attr_dev(td, "contenteditable", "true");
     			attr_dev(td, "class", "svelte-o0qdmk");
     			if (/*column*/ ctx[11] === void 0) add_render_callback(td_input_handler_1);
-    			add_location(td, file, 55, 3, 1765);
+    			add_location(td, file, 56, 3, 1795);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, td, anchor);
@@ -1384,7 +1384,7 @@ var app = (function (exports) {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(55:2) {#each newRow as column}",
+    		source: "(56:2) {#each newRow as column}",
     		ctx
     	});
 
@@ -1468,14 +1468,14 @@ var app = (function (exports) {
     			t5 = space();
     			pre = element("pre");
     			t6 = text(t6_value);
-    			add_location(tr0, file, 37, 1, 1377);
-    			add_location(button, file, 57, 2, 1831);
+    			add_location(tr0, file, 38, 1, 1407);
+    			add_location(button, file, 58, 2, 1861);
     			set_style(tr1, "color", "grey");
     			attr_dev(tr1, "class", "svelte-o0qdmk");
-    			add_location(tr1, file, 53, 1, 1710);
+    			add_location(tr1, file, 54, 1, 1740);
     			set_style(pre, "background", "#eee");
-    			add_location(pre, file, 61, 1, 1880);
-    			add_location(table, file, 36, 0, 1368);
+    			add_location(pre, file, 62, 1, 1910);
+    			add_location(table, file, 37, 0, 1398);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1658,6 +1658,7 @@ var app = (function (exports) {
 
     			apiActionRequest(csrfToken, 'fetch_all', ["", "", "", "student", "", "", ""]).then(res => {
     				$$invalidate(1, data = res);
+    				console.log(res);
     			});
     		});
     	});
@@ -1772,8 +1773,8 @@ var app = (function (exports) {
             return rows;
         }
         else {
-            for (const i in resJson.data) {
-                const refData = resJson[i];
+            for (let i = 0; i < resJson.data.length; i++) {
+                const refData = resJson.data[i];
                 const row = [refData.id.toString(), refData.reference.first_name, refData.reference.last_name, refData.reference.role, refData.reference.age, refData.reference.grade, refData.reference.address];
                 rows.push(row);
             }
