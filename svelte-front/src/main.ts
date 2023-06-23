@@ -1,12 +1,5 @@
 import App from './App.svelte';
 
-const app = new App({
-	target: document.body,
-	props: {
-		name: 'world'
-	}
-});
-
 export type ReferenceData = {
 	id: number;
 	reference: {
@@ -41,7 +34,7 @@ export type ApiResponse = {
 	data: ReferenceData[];
 };
 
-let apiActionRequest = async function(action: string, data: DataRow): Promise<DataRow[]> {
+const apiActionRequest = async function(csrfToken:string, action: string, data: DataRow): Promise<DataRow[]> {
   const request: ApiRequest = {
     action: action,
     jwt: "jwt",
@@ -60,7 +53,8 @@ let apiActionRequest = async function(action: string, data: DataRow): Promise<Da
   const res = await fetch("http://localhost:8000/api/execute/", {
 		method: "POST",
 		headers: {
-			"Content-Type": "application/json",
+      "Content-Type": "application/json",
+      "X-CSRFToken": csrfToken,
 		},
 		body: JSON.stringify(request),
 	});
@@ -78,6 +72,12 @@ let apiActionRequest = async function(action: string, data: DataRow): Promise<Da
     return rows;
   }
 }
-export { apiActionRequest };
 
+const app = new App({
+	target: document.body,
+	props: {
+	},
+});
+
+export { apiActionRequest };
 export default app;

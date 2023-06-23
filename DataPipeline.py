@@ -89,17 +89,28 @@ def add_user_to_ldap(user):
   conn.unbind_s()
 
 
+class Reference:
+  pass
 
 class ReferenceData:
-  def __init__(self, id: int, first_name: str, last_name: str, role: str, age: str, grade: str, address: str):
-    self.id = id
-    self.reference.first_name = first_name
-    self.reference.first_name = first_name
-    self.reference.last_name = last_name
-    self.reference.role = role
-    self.reference.age = age
-    self.reference.grade = grade
-    self.reference.address = address
+  def __init__(self, dict):
+    self.id = dict['id']
+    self.reference = Reference()
+    self.reference.first_name = dict['first_name']
+    self.reference.last_name = dict['last_name']
+    self.reference.role = dict['role']
+    self.reference.age = dict['age']
+    self.reference.grade = dict['grade']
+    self.reference.address = dict['address']
+  # def __init__(self, id: int, first_name: str, last_name: str, role: str, age: str, grade: str, address: str):
+  #   self.id = id
+  #   self.reference.first_name = first_name
+  #   self.reference.first_name = first_name
+  #   self.reference.last_name = last_name
+  #   self.reference.role = role
+  #   self.reference.age = age
+  #   self.reference.grade = grade
+  #   self.reference.address = address
   def toJson(self):
     return {
       "id": self.id,
@@ -141,20 +152,22 @@ def insert_all(reference: ReferenceData):
 def update(reference: ReferenceData, updated_data):  # This function is an example, feel free to adapt it to your needs and your database types
   whole_sql_table = etl.fromdb(connect_sql(student_table), 'SELECT * FROM students_app_student')
   updated_data = etl.update(whole_sql_table, 'id', id, updated_data)
-  etl.todb(table, connect_sql(), 'students_app_student', create='False', commit=True)
+  etl.todb(table, connect_sql(student_table), 'students_app_student', create='False', commit=True)
   return ApiResponse(200, "Successfully updated").JsonResponse()
 
 def fetch_all(reference: ReferenceData):
-  table = etl.fromdb(connect_sql(), 'SELECT * FROM students_app_student WHERE role = ?', (reference.reference.role))
-  table = etl.sort(table)
-  return ApiResponse(200, "", ).JsonResponse()
+  fetched_data = etl.fromdb(connect_sql(student_table), 'SELECT * FROM students_app_student WHERE role = ?', (reference.get('role'), ))
+  fetched_data = etl.dicts(etl.sort(fetched_data))
+  if len(fetched_data) == 0:
+    return ApiResponse(404, "No data found with query role = "+reference.role).JsonResponse()
+  return ApiResponse(200, "", [ReferenceData(element) for element in fetched_data]).JsonResponse()
 
 def fetch(reference: ReferenceData):
-  table = etl.fromdb(connect_sql(), 'SELECT * FROM students_app_student WHERE id = ?', (id,))
+  table = etl.fromdb(connect_sql(student_table), 'SELECT * FROM students_app_student WHERE id = ?', (id,))
   return JsonResponse(etl.dicts(table), safe=False)
 
 def delete(reference: ReferenceData):
-  table = etl.fromdb(connect_sql(), 'DELETE FROM students_app_student WHERE id = ?', (id,))
+  table = etl.fromdb(connect_sql(student_table), 'DELETE FROM students_app_student WHERE id = ?', (id,))
   return JsonResponse(etl.dicts(table), status=200)
 
 
@@ -162,76 +175,76 @@ def delete(reference: ReferenceData):
 
 
 
-import os
-import json
-import sqlite3
-import petl as etl
-from django.http import JsonResponse
+# import os
+# import json
+# import sqlite3
+# import petl as etl
+# from django.http import JsonResponse
 
-CSV_PATH = 'students.csv'  # path to your CSV file
+# CSV_PATH = 'students.csv'  # path to your CSV file
 
-def connect_to_db():
-    conn = sqlite3.connect('db.sqlite3')
-    return conn
+# def connect_to_db():
+#     conn = sqlite3.connect('db.sqlite3')
+#     return conn
 
-def insert(student):
-    conn = connect_to_db()
-    table = etl.fromdicts([student], header=['id', 'first_name', 'last_name', 'age', 'grade'])
-    etl.todb(table, conn, 'students_app_student', create='False', commit=True)
+# def insert(student):
+#     conn = connect_to_db()
+#     table = etl.fromdicts([student], header=['id', 'first_name', 'last_name', 'age', 'grade'])
+#     etl.todb(table, conn, 'students_app_student', create='False', commit=True)
 
-    if os.path.exists(CSV_PATH):
-        csv_table = etl.fromcsv(CSV_PATH)
-        csv_table = etl.cat(csv_table, table)
-    else:
-        csv_table = table
+#     if os.path.exists(CSV_PATH):
+#         csv_table = etl.fromcsv(CSV_PATH)
+#         csv_table = etl.cat(csv_table, table)
+#     else:
+#         csv_table = table
 
-    etl.tocsv(csv_table, CSV_PATH)
-    return JsonResponse({"status": "Inserted"}, status=200)
+#     etl.tocsv(csv_table, CSV_PATH)
+#     return JsonResponse({"status": "Inserted"}, status=200)
 
-def insert_all(students):
-    conn = connect_to_db()
-    table = etl.fromdicts(students, header=['id', 'first_name', 'last_name', 'age', 'grade'])
-    etl.todb(table, conn, 'students_app_student', create='False', commit=True)
+# def insert_all(students):
+#     conn = connect_to_db()
+#     table = etl.fromdicts(students, header=['id', 'first_name', 'last_name', 'age', 'grade'])
+#     etl.todb(table, conn, 'students_app_student', create='False', commit=True)
 
-    if os.path.exists(CSV_PATH):
-        csv_table = etl.fromcsv(CSV_PATH)
-        csv_table = etl.cat(csv_table, table)
-    else:
-        csv_table = table
+#     if os.path.exists(CSV_PATH):
+#         csv_table = etl.fromcsv(CSV_PATH)
+#         csv_table = etl.cat(csv_table, table)
+#     else:
+#         csv_table = table
 
-    etl.tocsv(csv_table, CSV_PATH)
-    return JsonResponse({"status": "Inserted all"}, status=200)
+#     etl.tocsv(csv_table, CSV_PATH)
+#     return JsonResponse({"status": "Inserted all"}, status=200)
 
-def update(id, student):
-    conn = connect_to_db()
-    table = etl.fromdb(conn, 'SELECT * FROM students_app_student')
-    table = etl.update(table, 'id', id, student)
-    etl.todb(table, conn, 'students_app_student', create='False', commit=True)
+# def update(id, student):
+#     conn = connect_to_db()
+#     table = etl.fromdb(conn, 'SELECT * FROM students_app_student')
+#     table = etl.update(table, 'id', id, student)
+#     etl.todb(table, conn, 'students_app_student', create='False', commit=True)
 
-    csv_table = etl.fromcsv(CSV_PATH)
-    csv_table = etl.update(csv_table, 'id', id, student)
-    etl.tocsv(csv_table, CSV_PATH)
+#     csv_table = etl.fromcsv(CSV_PATH)
+#     csv_table = etl.update(csv_table, 'id', id, student)
+#     etl.tocsv(csv_table, CSV_PATH)
 
-    return JsonResponse({"status": "Updated"}, status=200)
+#     return JsonResponse({"status": "Updated"}, status=200)
 
-def remove(id):
-    conn = connect_to_db()
-    table = etl.fromdb(conn, 'SELECT * FROM students_app_student WHERE id != ?', (id,))
-    etl.todb(table, conn, 'students_app_student', create='False', commit=True)
+# def remove(id):
+#     conn = connect_to_db()
+#     table = etl.fromdb(conn, 'SELECT * FROM students_app_student WHERE id != ?', (id,))
+#     etl.todb(table, conn, 'students_app_student', create='False', commit=True)
 
-    csv_table = etl.fromcsv(CSV_PATH)
-    csv_table = etl.select(csv_table, lambda rec: rec.id != id)
-    etl.tocsv(csv_table, CSV_PATH)
+#     csv_table = etl.fromcsv(CSV_PATH)
+#     csv_table = etl.select(csv_table, lambda rec: rec.id != id)
+#     etl.tocsv(csv_table, CSV_PATH)
 
-    return JsonResponse({"status": "Removed"}, status=200)
+#     return JsonResponse({"status": "Removed"}, status=200)
 
-def fetch_all(field):
-    conn = connect_to_db()
-    table = etl.fromdb(conn, 'SELECT * FROM students_app_student')
-    table = etl.sort(table, field)
-    return JsonResponse(etl.dicts(table), safe=False)
+# def fetch_all(field):
+#     conn = connect_to_db()
+#     table = etl.fromdb(conn, 'SELECT * FROM students_app_student')
+#     table = etl.sort(table, field)
+#     return JsonResponse(etl.dicts(table), safe=False)
 
-def fetch(id):
-    conn = connect_to_db()
-    table = etl.fromdb(conn, 'SELECT * FROM students_app_student WHERE id = ?', (id,))
-    return JsonResponse(etl.dicts(table), safe=False)
+# def fetch(id):
+#     conn = connect_to_db()
+#     table = etl.fromdb(conn, 'SELECT * FROM students_app_student WHERE id = ?', (id,))
+#     return JsonResponse(etl.dicts(table), safe=False)

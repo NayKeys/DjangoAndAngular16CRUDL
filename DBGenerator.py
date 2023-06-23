@@ -34,7 +34,7 @@ for _ in range(100):  # Adjust this number to create as many fake students as yo
     cursor.execute('''
         INSERT INTO students_app_student (first_name, last_name, role, age, grade, address)
         VALUES (?, ?, ?, ?, ?, ?)
-    ''', (fake.first_name(), fake.last_name(), fake.random_int(min=18, max=25), random.choice(role), fake.random_int(min=1, max=3), fake.address()))
+    ''', (fake.first_name(), fake.last_name(), random.choice(role), fake.random_int(min=18, max=25), fake.random_int(min=1, max=3), fake.address()))
 
 connection.commit()
 connection.close()
