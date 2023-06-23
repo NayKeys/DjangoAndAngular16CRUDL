@@ -10,6 +10,7 @@ petl = "*"
 faker = "*"
 django-cors-headers = "*"
 python-ldap = "*"
+rando = "*"
 
 [dev-packages]
 

@@ -1,3 +1,5 @@
 angular-front/node_modules/*
 angular-front/node_modules
+svelte-front/node_modules/*
+svelte-front/node_modules
 .venv
