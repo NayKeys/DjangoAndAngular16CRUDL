@@ -1,51 +1,46 @@
 import json
 from django.http import JsonResponse
 import DataPipeline as pipe
+from DataPipeline import ApiRequest
 
 def execute(request):
   if request.method == 'POST':
-    data = json.loads(request.body)
-    action = data.get('action')
+    data: ApiRequest = ApiRequest(json.loads(request.body))
+    action = data.action
     
-  if action == 'insert':
-    if check_permission_create(data.get('reference'), data.get('jwt')):
-      data = data.get('reference')
-      return pipe.insert(data)
-    return JsonResponse({"error": "User not allowed"}, status=403)
+    if action == 'insert':
+      if check_permission_create(data.reference, data.get('jwt')):
+        return pipe.insert(data.reference)
+      return JsonResponse({"error": "User not allowed"}, status=403)
 
-  elif action == 'insert_all':
-    if check_permission_create(data.get('reference'), data.get('jwt')):
-      dataset = data.get('reference')
-      return pipe.insert_all(dataset)
-    return JsonResponse({"error": "User not allowed"}, status=403)
+    elif action == 'insert_all':  # TO BE DELETED
+      if check_permission_create(data.reference, data.get('jwt')):
+        dataset = data.reference
+        return pipe.insert_all(dataset)
+      return JsonResponse({"error": "User not allowed"}, status=403)
 
-  elif action == 'update':
-    if check_permission_update(data.get('reference'), data.get('jwt')):
-      id = data.get('id')
-      data = data.get('reference')
-    return JsonResponse({"error": "User not allowed"}, status=403)
-    return pipe.update(id, data)
+    elif action == 'update':
+      if check_permission_update(data.reference, data.get('jwt')):
+        return pipe.update(data.reference)
+      return JsonResponse({"error": "User not allowed"}, status=403)
 
-  elif action == 'fetch_all':
-    if check_permission_read(data.get('reference'), data.get('jwt')):
-      field = data.get('field')
-      return pipe.fetch_all(field)
-    return JsonResponse({"error": "User not allowed"}, status=403)
+    elif action == 'fetch_all':
+      if check_permission_read(data.reference, data.get('jwt')):
+        return pipe.fetch_all(data.reference)
+      return JsonResponse({"error": "User not allowed"}, status=403)
+      
+    elif action == 'fetch':
+      if check_permission_read(data.reference, data.get('jwt')):
+        return pipe.fetch(data.reference)
+      return JsonResponse({"error": "User not allowed"}, status=403)
     
-  elif action == 'fetch':
-    if check_permission_read(data.get('reference'), data.get('jwt')):
-      id = data.get('id')
-      return pipe.fetch(id)
-    return JsonResponse({"error": "User not allowed"}, status=403)
-  
-  elif action == 'delete':
-    if check_permission_delete(data.get('reference'), data.get('jwt')):
-      id = data.get('id')
-      return pipe.delete(id)
-    return JsonResponse({"error": "User not allowed"}, status=403)
-  
-  else:
-    return JsonResponse({"error": "Invalid method"}, status=400)
+    elif action == 'delete':
+      if check_permission_delete(data.reference, data.get('jwt')):
+        return pipe.delete(data.reference)
+      return JsonResponse({"error": "User not allowed"}, status=403)
+    
+    else:
+      return JsonResponse({"error": "Invalid method"}, status=400)
 
 def check_permission_create(data, jwt):
   return True

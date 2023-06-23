@@ -19,7 +19,7 @@ export type ReferenceData = {
 	};
 };
 
-export type RequestData = {
+export type ApiRequest = {
 	action: string;
 	jwt: string;
 	data: ReferenceData;
@@ -35,8 +35,14 @@ export type DataRow = [
 	address: string
 ];
 
+export type ApiResponse = {
+	status: number;
+	message: string;
+	data: ReferenceData[];
+};
+
 let apiActionRequest = async function(action: string, data: DataRow): Promise<DataRow[]> {
-  const request: RequestData = {
+  const request: ApiRequest = {
     action: action,
     jwt: "jwt",
     data: {
@@ -59,13 +65,18 @@ let apiActionRequest = async function(action: string, data: DataRow): Promise<Da
 		body: JSON.stringify(request),
 	});
   const rows: DataRow[] = [];
-  const resJson: ReferenceData[] = await res.json();
-	for(const i in resJson) {
-    const refData = resJson[i];
-    const row: DataRow = [refData.id.toString(), refData.reference.first_name, refData.reference.last_name, refData.reference.role, refData.reference.age, refData.reference.grade, refData.reference.address]
-    rows.push(row);
-  } 
-  return rows;
+  const resJson: ApiResponse = await res.json();
+  if (resJson.status !== 200) {  // If api returns error
+    console.log("Error: " + resJson.message);
+    return rows;
+  } else {
+    for(const i in resJson.data) {
+      const refData = resJson[i];
+      const row: DataRow = [refData.id.toString(), refData.reference.first_name, refData.reference.last_name, refData.reference.role, refData.reference.age, refData.reference.grade, refData.reference.address]
+      rows.push(row);
+    }
+    return rows;
+  }
 }
 export { apiActionRequest };
 

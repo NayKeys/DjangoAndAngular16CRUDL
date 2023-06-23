@@ -1,0 +1,15 @@
+{
+	"action": "<action>",
+  "jwt": "<jwt>",
+	"data": {
+		"id": "<id>",
+		"reference": {
+			"first_name": "<first_name>",
+			"last_name": "<last_name>",
+      "role": "<role>",
+			"age": "<age>",
+			"grade": "<grade>",
+			"address": "<address>"
+		}
+	}
+}

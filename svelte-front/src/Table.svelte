@@ -11,6 +11,7 @@
       },
       body: JSON.stringify({
         action: 'fetch_all',
+        
       }),
     });
     students = await res.json();

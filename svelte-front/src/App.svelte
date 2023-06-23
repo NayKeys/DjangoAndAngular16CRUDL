@@ -17,7 +17,7 @@
 
   import { apiActionRequest } from './main';
   onMount(async () => {
-    apiActionRequest('fetch_all', null).then((res) => {
+    apiActionRequest('fetch_all', ["", "", "", "student", "", "", ""]).then((res) => {
       data = res;
     })
   });

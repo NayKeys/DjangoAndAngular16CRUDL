@@ -90,37 +90,70 @@ def add_user_to_ldap(user):
 
 
 
+class ReferenceData:
+  def __init__(self, id: int, first_name: str, last_name: str, role: str, age: str, grade: str, address: str):
+    self.id = id
+    self.reference.first_name = first_name
+    self.reference.first_name = first_name
+    self.reference.last_name = last_name
+    self.reference.role = role
+    self.reference.age = age
+    self.reference.grade = grade
+    self.reference.address = address
+  def toJson(self):
+    return {
+      "id": self.id,
+      "reference": {
+        "first_name": self.reference.first_name, "last_name": self.reference.last_name, "role": self.reference.role, "age": self.reference.age, "grade": self.reference.grade, "address": self.reference.address
+      }
+    }
 
+class ApiRequest:
+  def __init__(self, action: str, jwt: str, data: ReferenceData):
+    self.action = action
+    self.jwt = jwt
+    self.data = data
+  def __init__(self, json):
+    self.action = json['action']
+    self.jwt = json['jwt']
+    self.data = json['data']
 
+class ApiResponse:
+  def __init__(self, status: str, message: str, data: ReferenceData):
+    self.status = status
+    self.message = message
+    self.data = data
+  def JsonResponse(self):
+    return JsonResponse({"status": self.status, "message": self.message, "data": [ref.toJson() for ref in self.data]}, status=self.status)
 
-def insert(data):  # This function is an example, feel free to adapt it to your needs and your database types
-  data = etl.fromdicts([data], header=['id', 'first_name', 'last_name', 'age', 'grade'])
+def insert(reference: ReferenceData):  # This function is an example, feel free to adapt it to your needs and your database types
+  data = etl.fromdicts([reference], header=['id', 'first_name', 'last_name', 'age', 'grade'])
   etl.todb(data, connect_sql(student_table), student_table.tableName, create='False', commit=True)
   # etl.tocsv(data, 'data.csv')
   # etl.tojson(data, 'data.json')
   # insertLDAP(student_ldap, 'cn='+data.firstName+',dc=example,dc=com', {'objectclass': [b'person'], 'cn': [data.firstName], 'sn': [data.lastName], 'mail': [data.email]})
-  return JsonResponse({"status": "Successfully inserted"}, status=200)
+  return ApiResponse(200, "Successfully inserted").JsonResponse()
 
-def insert_all(dataset):
+def insert_all(reference: ReferenceData):
   for data in dataset:  # Could be adapted for sql insertall requests
     insert(data)
 
-def update(id, updated_data):  # This function is an example, feel free to adapt it to your needs and your database types
+def update(reference: ReferenceData, updated_data):  # This function is an example, feel free to adapt it to your needs and your database types
   whole_sql_table = etl.fromdb(connect_sql(student_table), 'SELECT * FROM students_app_student')
   updated_data = etl.update(whole_sql_table, 'id', id, updated_data)
   etl.todb(table, connect_sql(), 'students_app_student', create='False', commit=True)
-  return JsonResponse({"status": "Updated"}, status=200)
+  return ApiResponse(200, "Successfully updated").JsonResponse()
 
-def fetch_all(field):
-  table = etl.fromdb(connect_sql(), 'SELECT * FROM students_app_student')
-  table = etl.sort(table, field)
-  return JsonResponse(etl.dicts(table), safe=False)
+def fetch_all(reference: ReferenceData):
+  table = etl.fromdb(connect_sql(), 'SELECT * FROM students_app_student WHERE role = ?', (reference.reference.role))
+  table = etl.sort(table)
+  return ApiResponse(200, "", ).JsonResponse()
 
-def fetch(id):
+def fetch(reference: ReferenceData):
   table = etl.fromdb(connect_sql(), 'SELECT * FROM students_app_student WHERE id = ?', (id,))
   return JsonResponse(etl.dicts(table), safe=False)
 
-def delete(id):
+def delete(reference: ReferenceData):
   table = etl.fromdb(connect_sql(), 'DELETE FROM students_app_student WHERE id = ?', (id,))
   return JsonResponse(etl.dicts(table), status=200)
 
