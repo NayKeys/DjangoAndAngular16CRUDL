@@ -1,43 +1,32 @@
 <script lang="ts">
   import Table from './Table.svelte';  // From https://svelte.dev/repl/36aaf2a1807a4fed81fe6212d20bca24?version=3.25.1
   import { onMount } from 'svelte';
-  type Row = [
-    id: string,
-    firstName: string,
-    lastName: string,
-    role: string,
-    age: string,
-    grade: string,
-    address: string,
-  ]
+  import type { DataRow } from './main'
 	function addRow() {
 		data = [...data, [...newRow]]
 		newRow = ['', "", "", "", '', '', ""]
 	}
-	function deleteRow(rowToBeDeleted: Row) {
+	function deleteRow(rowToBeDeleted: DataRow) {
+
 		data = data.filter(row => row != rowToBeDeleted)
 	}
-	let columns: string[] = ["ID", "First Name", "Last Name", "Role", "Age", "Grade", "Address"]  // Idea: make this a prop sent from the backend
-  
+  function update(rowToBeEdited: DataRow) {
+    console.log(data)
+  }
+	let columns: string[] = ["ID", "First Name", "Last Name", "Role", "Age", "Grade", "Address"]  // i dea: make this a prop sent from the backend
+
+  import { apiActionRequest } from './main';
   onMount(async () => {
-    // const res = await fetch('http://localhost:8000/api/execute/', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     action: 'fetch_all',
-    //   }),
-    // });
-    // students = await res.json();
+    apiActionRequest('fetch_all', null).then((res) => {
+      data = res;
+    })
   });
-  
-  let data: Row[] = [
+  let data: DataRow[] = [
     ['1', "John", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
     ['2', "Sarah", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
     ['3', "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"]
   ]
-	let newRow: Row = ['', "", "", "", '', '', ""];
+	let newRow: DataRow = ['', "", "", "", '', '', ""];
 </script>
 
 <table>
@@ -53,6 +42,7 @@
         <td contenteditable="true" bind:innerHTML={cell} />
 			{/each}
 			<button on:click={() => deleteRow(row)}>X</button>
+      <button on:click={() => update(row)}>save changes</button>
 		</tr>
 	{/each}
 
@@ -62,6 +52,7 @@
 		{/each}
 		<button on:click={addRow}>add</button>
 	</tr>
+
 
 	<pre style="background: #eee">{JSON.stringify(data, null, 2)}</pre>
 </table>

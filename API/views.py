@@ -8,38 +8,38 @@ def execute(request):
     action = data.get('action')
     
   if action == 'insert':
-    if check_permission_create(data.get('student'), data.get('jwt')):
-      data = data.get('student')
+    if check_permission_create(data.get('reference'), data.get('jwt')):
+      data = data.get('reference')
       return pipe.insert(data)
     return JsonResponse({"error": "User not allowed"}, status=403)
 
   elif action == 'insert_all':
-    if check_permission_create(data.get('student'), data.get('jwt')):
-      dataset = data.get('student')
+    if check_permission_create(data.get('reference'), data.get('jwt')):
+      dataset = data.get('reference')
       return pipe.insert_all(dataset)
     return JsonResponse({"error": "User not allowed"}, status=403)
 
   elif action == 'update':
-    if check_permission_update(data.get('student'), data.get('jwt')):
+    if check_permission_update(data.get('reference'), data.get('jwt')):
       id = data.get('id')
-      data = data.get('student')
+      data = data.get('reference')
     return JsonResponse({"error": "User not allowed"}, status=403)
     return pipe.update(id, data)
 
   elif action == 'fetch_all':
-    if check_permission_read(data.get('student'), data.get('jwt')):
+    if check_permission_read(data.get('reference'), data.get('jwt')):
       field = data.get('field')
       return pipe.fetch_all(field)
     return JsonResponse({"error": "User not allowed"}, status=403)
     
   elif action == 'fetch':
-    if check_permission_read(data.get('student'), data.get('jwt')):
+    if check_permission_read(data.get('reference'), data.get('jwt')):
       id = data.get('id')
       return pipe.fetch(id)
     return JsonResponse({"error": "User not allowed"}, status=403)
   
   elif action == 'delete':
-    if check_permission_delete(data.get('student'), data.get('jwt')):
+    if check_permission_delete(data.get('reference'), data.get('jwt')):
       id = data.get('id')
       return pipe.delete(id)
     return JsonResponse({"error": "User not allowed"}, status=403)

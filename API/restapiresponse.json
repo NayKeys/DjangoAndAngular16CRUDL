@@ -1,13 +1,15 @@
 {
-	"action": "<action>",
-  "jwt": "<jwt>",
-	"data": {
+	"status": "<status>",
+  "message": "<message>",
+	"data": [{
 		"id": "<id>",
-		"student": {
+		"reference": {
 			"first_name": "<first_name>",
 			"last_name": "<last_name>",
+      "role": "<role>",
 			"age": "<age>",
-			"grade": "<grade>"
+			"grade": "<grade>",
+			"address": "<address>"
 		}
-	}
+	}]
 }
