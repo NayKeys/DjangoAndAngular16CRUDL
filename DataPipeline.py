@@ -112,13 +112,17 @@ def update(id, updated_data):  # This function is an example, feel free to adapt
   return JsonResponse({"status": "Updated"}, status=200)
 
 def fetch_all(field):
-    table = etl.fromdb(connect_sql(), 'SELECT * FROM students_app_student')
-    table = etl.sort(table, field)
-    return JsonResponse(etl.dicts(table), safe=False)
+  table = etl.fromdb(connect_sql(), 'SELECT * FROM students_app_student')
+  table = etl.sort(table, field)
+  return JsonResponse(etl.dicts(table), safe=False)
 
 def fetch(id):
-    table = etl.fromdb(connect_sql(), 'SELECT * FROM students_app_student WHERE id = ?', (id,))
-    return JsonResponse(etl.dicts(table), safe=False)
+  table = etl.fromdb(connect_sql(), 'SELECT * FROM students_app_student WHERE id = ?', (id,))
+  return JsonResponse(etl.dicts(table), safe=False)
+
+def delete(id):
+  table = etl.fromdb(connect_sql(), 'DELETE FROM students_app_student WHERE id = ?', (id,))
+  return JsonResponse(etl.dicts(table), status=200)
 
 
 
@@ -136,39 +140,6 @@ CSV_PATH = 'students.csv'  # path to your CSV file
 def connect_to_db():
     conn = sqlite3.connect('db.sqlite3')
     return conn
-
-def execute(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        action = data.get('action')
-
-        if action == 'insert':
-            student = data.get('student')
-            return insert(student)
-
-        elif action == 'insert_all':
-            students = data.get('students')
-            return insert_all(students)
-
-        elif action == 'update':
-            id = data.get('id')
-            student = data.get('student')
-            return update(id, student)
-
-        elif action == 'fetch_all':
-            field = data.get('field')
-            return fetch_all(field)
-
-        elif action == 'fetch':
-            id = data.get('id')
-            return fetch(id)
-
-        elif action == 'remove':
-            id = data.get('id')
-            return remove(id)
-
-    else:
-        return JsonResponse({"error": "Invalid method"}, status=400)
 
 def insert(student):
     conn = connect_to_db()

@@ -1,5 +1,6 @@
 {
 	"action": "<action>",
+  "jwt": "<jwt>",
 	"data": {
 		"id": "<id>",
 		"student": {
