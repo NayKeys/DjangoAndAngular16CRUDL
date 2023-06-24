@@ -14,15 +14,9 @@ def execute(request):
     req: ApiRequest = ApiRequest(json.loads(request.body))
     action = req.action
     
-    if action == 'insert':
+    if action == 'create':
       if check_permission_create(req.data.get('reference'), req.jwt):
         return pipe.insert(req.data.get('reference'))
-      return JsonResponse({"error": "User not allowed"}, status=403)
-
-    elif action == 'insert_all':  # TO BE DELETED
-      if check_permission_create(req.data.get('reference'), req.jwt):
-        dataset = req.data.get('reference')
-        return pipe.insert_all(dataset)
       return JsonResponse({"error": "User not allowed"}, status=403)
 
     elif action == 'update':
