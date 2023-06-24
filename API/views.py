@@ -1,7 +1,7 @@
 import json
 from django.http import JsonResponse
-import DataPipeline as pipe
-from DataPipeline import ApiRequest
+import API.PipelineHub as pipe
+from API.PipelineHub import ApiRequest
 
 from django.middleware.csrf import get_token
 from django.http import JsonResponse
