@@ -50,6 +50,8 @@ class ApiResponse:
     self.message = message
     self.data = data
   def JsonResponse(self):
+    if self.data == None:
+      return JsonResponse({"status": self.status, "message": self.message}, status=self.status)
     return JsonResponse({"status": self.status, "message": self.message, "data": [ref.toJson() for ref in self.data]}, status=self.status)
 
 
@@ -65,7 +67,7 @@ def fetch_all(id: int, reference: ReferenceData):
     fetched_data = csv_pipeline.fetch_all(reference)
   elif (reference.get('first_name') != ""):
     fetched_data = ldap_pipeline.fetch_all(reference)
-  if len(fetched_data) == 0:
+  if hasattr(fetched_data, "args"):  # If has attribute args, then it is a petl empty table
     return ApiResponse(404, "No data found with query role = "+reference.get('role')).JsonResponse()
   return ApiResponse(200, "", [ReferenceData(element) for element in fetched_data]).JsonResponse()
 
@@ -76,37 +78,37 @@ def fetch(id: int, reference: ReferenceData):
     fetched_data = csv_pipeline.fetch(id)
   elif (reference.get('first_name') != ""):
     fetched_data = ldap_pipeline.fetch(id)
-  if len(fetched_data) == 0:
-    return ApiResponse(404, "No data found with query id = "+id).JsonResponse()
-  return ApiResponse(200, "Succesfuly retrieved element with id = "+id, [ReferenceData(element) for element in fetched_data]).JsonResponse()
+  if hasattr(fetched_data, "args"):  # If has attribute args, then it is a petl empty table
+    return ApiResponse(404, "No data found with query id = "+str(id)).JsonResponse()
+  return ApiResponse(200, "Succesfuly retrieved element with id = "+str(id), [ReferenceData(element) for element in fetched_data]).JsonResponse()
 
 def delete(id: int, reference: ReferenceData):
   if (id != ""):
-    sql_response = sql_pipeline.delete(id)
+    petl_response = sql_pipeline.delete(id)
   elif (reference.get('grade') != ""):
-    sql_response = csv_pipeline.delete(id)
+    petl_response = csv_pipeline.delete(id)
   elif (reference.get('first_name') != ""):
-    sql_response = ldap_pipeline.delete(id)
-  if len(sql_response) == 0:
-    return ApiResponse(200, "(btw no data) Succesfuly deleted element with id = "+id).JsonResponse()
-  return ApiResponse(200, "Succesfuly deleted element with id = "+id, [ReferenceData(element) for element in sql_response]).JsonResponse()
+    petl_response = ldap_pipeline.delete(id)
+  if hasattr(petl_response, "args"):  # If has attribute args, then it is a petl empty table
+    return ApiResponse(200, "(btw no data) Succesfuly deleted element with id = "+str(id), None).JsonResponse()
+  return ApiResponse(200, "Succesfuly deleted element with id = "+str(id), [ReferenceData(element) for element in petl_response]).JsonResponse()
 
 def update(id: int, reference: ReferenceData):
   if (id != ""):
-    sql_response = sql_pipeline.update(id, reference)
+    petl_response = sql_pipeline.update(id, reference)
   elif (reference.get('grade') != ""):
-    sql_response = csv_pipeline.update(id, reference)
+    petl_response = csv_pipeline.update(id, reference)
   elif (reference.get('first_name') != ""):
-    sql_response = ldap_pipeline.update(id, reference)
-  if len(sql_response) == 0:
-    return ApiResponse(200, "(btw no data) Succesfuly updated element with id = "+id).JsonResponse()
-  return ApiResponse(200, "Succesfuly updated element with id = "+id, [ReferenceData(element) for element in sql_response]).JsonResponse()
+    petl_response = ldap_pipeline.update(id, reference)
+  if hasattr(petl_response, "args"):  # If has attribute args, then it is a petl empty table
+    return ApiResponse(200, "(btw no data) Succesfuly updated element with id = "+str(id), None).JsonResponse()
+  return ApiResponse(200, "Succesfuly updated element with id = "+str(id), [ReferenceData(element) for element in petl_response]).JsonResponse()
 
 def insert(reference: ReferenceData):
   if (reference.get('role') != ""):
-    sql_response = sql_pipeline.insert(reference)
+    petl_response = sql_pipeline.insert(reference)
   elif (reference.get('grade') != ""):
-    sql_response = csv_pipeline.insert(reference)
-  if len(sql_response) == 0:
-    return ApiResponse(200, "(btw no data) Succesfuly created element").JsonResponse()
-  return ApiResponse(200, "Succesfuly created element", [ReferenceData(element) for element in sql_response]).JsonResponse()
+    petl_response = csv_pipeline.insert(reference)
+  if hasattr(petl_response, "args"):  # If has attribute args, then it is a petl empty table
+    return ApiResponse(200, "(btw no data) Succesfuly created element", None).JsonResponse()
+  return ApiResponse(200, "Succesfuly created element", [ReferenceData(element) for element in petl_response]).JsonResponse()
