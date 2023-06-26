@@ -102,13 +102,11 @@ def updated(reference: ReferenceData):
     return ApiResponse(200, "(btw no data) Succesfuly updated element with id = "+reference.get('id')).JsonResponse()
   return ApiResponse(200, "Succesfuly updated element with id = ", [ReferenceData(element) for element in sql_response]).JsonResponse()
 
-def insert(reference: ReferenceData):  # This function is an example, feel free to adapt it to your needs and your database types
+def insert(reference: ReferenceData):
   if (reference.get('role') != ""):
     sql_response = sql_pipeline.insert(reference)
   elif (reference.get('grade') != ""):
     sql_response = csv_pipeline.insert(reference)
-  elif (reference.get('first_name') != ""):
-    sql_response = ldap_pipeline.insert(reference)
   if len(sql_response) == 0:
     return ApiResponse(200, "(btw no data) Succesfuly created element").JsonResponse()
   return ApiResponse(200, "Succesfuly created element", [ReferenceData(element) for element in sql_response]).JsonResponse()

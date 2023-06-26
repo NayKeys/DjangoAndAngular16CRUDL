@@ -46,5 +46,5 @@ def update(reference: ReferenceData, updated_reference: ReferenceData):
   return etl.todb(updated_data, connect_sql(student_table),'students_app_student', create='False', commit=True)
 
 def insert(reference: ReferenceData):
-  to_be_inserted = etl.fromdicts([reference], header=['id', 'first_name', 'last_name', 'role', 'age', 'grade'])
+  to_be_inserted = etl.fromdicts([reference], header=['first_name', 'last_name', 'role', 'age', 'grade'])  # Id is autoincremented
   return etl.todb(to_be_inserted, connect_sql(student_table), student_table.tableName, create='True', commit=True)
