@@ -21,22 +21,22 @@ def execute(request):
 
     elif action == 'update':
       if check_permission_update(req.data.get('reference'), req.jwt):
-        return pipe.update(req.data.get('reference'))
+        return pipe.update(req.data.get('id'), req.data.get('reference'))
       return JsonResponse({"error": "User not allowed"}, status=403)
 
     elif action == 'fetch_all':
       if check_permission_read(req.data.get('reference'), req.jwt):
-        return pipe.fetch_all(req.data.get('reference'))
+        return pipe.fetch_all(req.data.get('id'), req.data.get('reference'))
       return JsonResponse({"error": "User not allowed"}, status=403)
       
     elif action == 'fetch':
       if check_permission_read(req.data.get('reference'), req.jwt):
-        return pipe.fetch(req.data.get('reference'))
+        return pipe.fetch(req.data.get('id'), req.data.get('reference'))
       return JsonResponse({"error": "User not allowed"}, status=403)
     
     elif action == 'delete':
       if check_permission_delete(req.data.get('reference'), req.jwt):
-        return pipe.delete(req.data.get('reference'))
+        return pipe.delete(req.data.get('id'), req.data.get('reference'))
       return JsonResponse({"error": "User not allowed"}, status=403)
     
     else:

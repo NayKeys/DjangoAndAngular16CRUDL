@@ -1,4 +1,9 @@
 /node_modules/
 /public/build/
+**/__pycache__
+*/__pycache__
+/sussy_crudproject/__pycache__/*
+/sussy_crudproject/__pycache__/
+
 
 .DS_Store

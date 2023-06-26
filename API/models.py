@@ -14,4 +14,4 @@ class Student(models.Model):
   role = models.CharField(max_length=7, choices=ROLES, default='student')
   age = models.IntegerField()
   grade = models.IntegerField()
-  address = models.CharField(max_length=200)
+  homeaddress = models.CharField(max_length=200)

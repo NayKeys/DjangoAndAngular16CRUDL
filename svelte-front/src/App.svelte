@@ -1,18 +1,37 @@
 <script lang="ts">
-  import Table from './Table.svelte';  // From https://svelte.dev/repl/36aaf2a1807a4fed81fe6212d20bca24?version=3.25.1
+  // From https://svelte.dev/repl/36aaf2a1807a4fed81fe6212d20bca24?version=3.25.1
   import { onMount } from 'svelte';
   import type { DataRow } from './main'
   import { apiActionRequest } from './main';
   
 	function addRow() {
 		data = [...data, [...newRow]]
-		newRow = ['', "", "", "", '', '', ""]
+    fetch('http://localhost:8000/api/csrf/', { method: 'GET'}).then(res => res.json()).then((res) => {
+      csrfToken = res.csrfToken
+      apiActionRequest(csrfToken, 'create', newRow).then((res) => {
+        data = res;
+        console.log("res :", res)
+      })
+    })
 	}
 	function deleteRow(rowToBeDeleted: DataRow) {
 		data = data.filter(row => row != rowToBeDeleted)
+    fetch('http://localhost:8000/api/csrf/', { method: 'GET'}).then(res => res.json()).then((res) => {
+      csrfToken = res.csrfToken
+      apiActionRequest(csrfToken, 'remove', newRow).then((res) => {
+        data = res;
+        console.log("res :", res)
+      })
+    })
 	}
-  function update(rowToBeEdited: DataRow) {
-    console.log(data)
+  function updateRow(rowToBeEdited: DataRow) {
+    fetch('http://localhost:8000/api/csrf/', { method: 'GET'}).then(res => res.json()).then((res) => {
+      csrfToken = res.csrfToken
+      apiActionRequest(csrfToken, 'update', rowToBeEdited).then((res) => {
+        data = res;
+        console.log("res :", res)
+      })
+    })
   }
 	let columns: string[] = ["ID", "First Name", "Last Name", "Role", "Age", "Grade", "Address"]  // i dea: make this a prop sent from the backend
 
@@ -22,7 +41,7 @@
       csrfToken = res.csrfToken
       apiActionRequest(csrfToken, 'fetch_all', ["", "", "", "student", "", "", ""]).then((res) => {
         data = res;
-        console.log(res)
+        console.log("res :", res)
       })
     })
   });
@@ -51,8 +70,8 @@
 			{#each row as cell}
         <td contenteditable="true" bind:innerHTML={cell} />
 			{/each}
+      <button on:click={() => updateRow(row)}>save changes</button>
 			<button on:click={() => deleteRow(row)}>X</button>
-      <button on:click={() => update(row)}>save changes</button>
 		</tr>
 	{/each}
 

@@ -8,7 +8,7 @@ export type ReferenceData = {
 		role: string;
 		age: string;
 		grade: string;
-		address: string;
+		homeaddress: string;
 	};
 };
 
@@ -25,7 +25,7 @@ export type DataRow = [
 	role: string,
 	age: string,
 	grade: string,
-	address: string
+	homeaddress: string
 ];
 
 export type ApiResponse = {
@@ -36,20 +36,20 @@ export type ApiResponse = {
 
 const apiActionRequest = async function(csrfToken:string, action: string, data: DataRow): Promise<DataRow[]> {
   const request: ApiRequest = {
-    action: action,
-    jwt: "jwt",
-    data: {
-      id: parseInt(data[0]),
-      reference: {
-        first_name: data[1],
-        last_name: data[2],
-        role: data[3],
-        age: data[4],
-        grade: data[5],
-        address: data[6],
-      },
-    }
-  }
+		action: action,
+		jwt: "jwt",
+		data: {
+			id: parseInt(data[0]),
+			reference: {
+				first_name: data[1],
+				last_name: data[2],
+				role: data[3],
+				age: data[4],
+				grade: data[5],
+				homeaddress: data[6],
+			},
+		},
+	};
   const res = await fetch("http://localhost:8000/api/execute/", {
 		method: "POST",
 		headers: {
@@ -66,7 +66,7 @@ const apiActionRequest = async function(csrfToken:string, action: string, data: 
   } else {
     for(let i = 0; i < resJson.data.length; i++) {
       const refData = resJson.data[i];
-      const row: DataRow = [refData.id.toString(), refData.reference.first_name, refData.reference.last_name, refData.reference.role, refData.reference.age, refData.reference.grade, refData.reference.address]
+      const row: DataRow = [refData.id.toString(), refData.reference.first_name, refData.reference.last_name, refData.reference.role, refData.reference.age, refData.reference.grade, refData.reference.homeaddress];
       rows.push(row);
     }
     return rows;

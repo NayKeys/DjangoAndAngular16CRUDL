@@ -1,5 +1,5 @@
 
-(function(l, r) { if (!l || l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src = '//' + (self.location.host || 'localhost').split(':')[0] + ':35730/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.getElementsByTagName('head')[0].appendChild(r) })(self.document);
+(function(l, r) { if (!l || l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src = '//' + (self.location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.getElementsByTagName('head')[0].appendChild(r) })(self.document);
 var app = (function (exports) {
     'use strict';
 
@@ -59,9 +59,6 @@ var app = (function (exports) {
     function space() {
         return text(' ');
     }
-    function empty() {
-        return text('');
-    }
     function listen(node, event, handler, options) {
         node.addEventListener(event, handler, options);
         return () => node.removeEventListener(event, handler, options);
@@ -72,14 +69,8 @@ var app = (function (exports) {
         else if (node.getAttribute(attribute) !== value)
             node.setAttribute(attribute, value);
     }
-    function to_number(value) {
-        return value === '' ? null : +value;
-    }
     function children(element) {
         return Array.from(element.childNodes);
-    }
-    function set_input_value(input, value) {
-        input.value = value == null ? '' : value;
     }
     function set_style(node, key, value, important) {
         if (value == null) {
@@ -227,99 +218,6 @@ var app = (function (exports) {
         if (block && block.i) {
             outroing.delete(block);
             block.i(local);
-        }
-    }
-
-    function destroy_block(block, lookup) {
-        block.d(1);
-        lookup.delete(block.key);
-    }
-    function update_keyed_each(old_blocks, dirty, get_key, dynamic, ctx, list, lookup, node, destroy, create_each_block, next, get_context) {
-        let o = old_blocks.length;
-        let n = list.length;
-        let i = o;
-        const old_indexes = {};
-        while (i--)
-            old_indexes[old_blocks[i].key] = i;
-        const new_blocks = [];
-        const new_lookup = new Map();
-        const deltas = new Map();
-        const updates = [];
-        i = n;
-        while (i--) {
-            const child_ctx = get_context(ctx, list, i);
-            const key = get_key(child_ctx);
-            let block = lookup.get(key);
-            if (!block) {
-                block = create_each_block(key, child_ctx);
-                block.c();
-            }
-            else if (dynamic) {
-                // defer updates until all the DOM shuffling is done
-                updates.push(() => block.p(child_ctx, dirty));
-            }
-            new_lookup.set(key, new_blocks[i] = block);
-            if (key in old_indexes)
-                deltas.set(key, Math.abs(i - old_indexes[key]));
-        }
-        const will_move = new Set();
-        const did_move = new Set();
-        function insert(block) {
-            transition_in(block, 1);
-            block.m(node, next);
-            lookup.set(block.key, block);
-            next = block.first;
-            n--;
-        }
-        while (o && n) {
-            const new_block = new_blocks[n - 1];
-            const old_block = old_blocks[o - 1];
-            const new_key = new_block.key;
-            const old_key = old_block.key;
-            if (new_block === old_block) {
-                // do nothing
-                next = new_block.first;
-                o--;
-                n--;
-            }
-            else if (!new_lookup.has(old_key)) {
-                // remove old block
-                destroy(old_block, lookup);
-                o--;
-            }
-            else if (!lookup.has(new_key) || will_move.has(new_key)) {
-                insert(new_block);
-            }
-            else if (did_move.has(old_key)) {
-                o--;
-            }
-            else if (deltas.get(new_key) > deltas.get(old_key)) {
-                did_move.add(new_key);
-                insert(new_block);
-            }
-            else {
-                will_move.add(old_key);
-                o--;
-            }
-        }
-        while (o--) {
-            const old_block = old_blocks[o];
-            if (!new_lookup.has(old_block.key))
-                destroy(old_block, lookup);
-        }
-        while (n)
-            insert(new_blocks[n - 1]);
-        run_all(updates);
-        return new_blocks;
-    }
-    function validate_each_keys(ctx, list, get_context, get_key) {
-        const keys = new Set();
-        for (let i = 0; i < list.length; i++) {
-            const key = get_key(get_context(ctx, list, i));
-            if (keys.has(key)) {
-                throw new Error('Cannot have duplicate keys in a keyed each');
-            }
-            keys.add(key);
         }
     }
     function mount_component(component, target, anchor, customElement) {
@@ -535,506 +433,6 @@ var app = (function (exports) {
         $inject_state() { }
     }
 
-    /* src/Table.svelte generated by Svelte v3.59.2 */
-    const file$1 = "src/Table.svelte";
-
-    function get_each_context$1(ctx, list, i) {
-    	const child_ctx = ctx.slice();
-    	child_ctx[10] = list[i];
-    	return child_ctx;
-    }
-
-    // (67:4) {#each students as student (student.id)}
-    function create_each_block$1(key_1, ctx) {
-    	let tr;
-    	let td0;
-    	let t0_value = /*student*/ ctx[10].id + "";
-    	let t0;
-    	let t1;
-    	let td1;
-    	let t2_value = /*student*/ ctx[10].first_name + "";
-    	let t2;
-    	let t3;
-    	let td2;
-    	let t4_value = /*student*/ ctx[10].last_name + "";
-    	let t4;
-    	let t5;
-    	let td3;
-    	let t6_value = /*student*/ ctx[10].age + "";
-    	let t6;
-    	let t7;
-    	let td4;
-    	let t8_value = /*student*/ ctx[10].grade + "";
-    	let t8;
-    	let t9;
-    	let mounted;
-    	let dispose;
-
-    	function click_handler() {
-    		return /*click_handler*/ ctx[5](/*student*/ ctx[10]);
-    	}
-
-    	const block = {
-    		key: key_1,
-    		first: null,
-    		c: function create() {
-    			tr = element("tr");
-    			td0 = element("td");
-    			t0 = text(t0_value);
-    			t1 = space();
-    			td1 = element("td");
-    			t2 = text(t2_value);
-    			t3 = space();
-    			td2 = element("td");
-    			t4 = text(t4_value);
-    			t5 = space();
-    			td3 = element("td");
-    			t6 = text(t6_value);
-    			t7 = space();
-    			td4 = element("td");
-    			t8 = text(t8_value);
-    			t9 = space();
-    			add_location(td0, file$1, 68, 8, 1559);
-    			add_location(td1, file$1, 69, 8, 1589);
-    			add_location(td2, file$1, 70, 8, 1627);
-    			add_location(td3, file$1, 71, 8, 1664);
-    			add_location(td4, file$1, 72, 8, 1695);
-    			add_location(tr, file$1, 67, 6, 1506);
-    			this.first = tr;
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, tr, anchor);
-    			append_dev(tr, td0);
-    			append_dev(td0, t0);
-    			append_dev(tr, t1);
-    			append_dev(tr, td1);
-    			append_dev(td1, t2);
-    			append_dev(tr, t3);
-    			append_dev(tr, td2);
-    			append_dev(td2, t4);
-    			append_dev(tr, t5);
-    			append_dev(tr, td3);
-    			append_dev(td3, t6);
-    			append_dev(tr, t7);
-    			append_dev(tr, td4);
-    			append_dev(td4, t8);
-    			append_dev(tr, t9);
-
-    			if (!mounted) {
-    				dispose = listen_dev(tr, "click", click_handler, false, false, false, false);
-    				mounted = true;
-    			}
-    		},
-    		p: function update(new_ctx, dirty) {
-    			ctx = new_ctx;
-    			if (dirty & /*students*/ 1 && t0_value !== (t0_value = /*student*/ ctx[10].id + "")) set_data_dev(t0, t0_value);
-    			if (dirty & /*students*/ 1 && t2_value !== (t2_value = /*student*/ ctx[10].first_name + "")) set_data_dev(t2, t2_value);
-    			if (dirty & /*students*/ 1 && t4_value !== (t4_value = /*student*/ ctx[10].last_name + "")) set_data_dev(t4, t4_value);
-    			if (dirty & /*students*/ 1 && t6_value !== (t6_value = /*student*/ ctx[10].age + "")) set_data_dev(t6, t6_value);
-    			if (dirty & /*students*/ 1 && t8_value !== (t8_value = /*student*/ ctx[10].grade + "")) set_data_dev(t8, t8_value);
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(tr);
-    			mounted = false;
-    			dispose();
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_each_block$1.name,
-    		type: "each",
-    		source: "(67:4) {#each students as student (student.id)}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (79:0) {#if selectedStudent}
-    function create_if_block$1(ctx) {
-    	let div;
-    	let input0;
-    	let t0;
-    	let input1;
-    	let t1;
-    	let input2;
-    	let t2;
-    	let input3;
-    	let t3;
-    	let button0;
-    	let t5;
-    	let button1;
-    	let mounted;
-    	let dispose;
-
-    	const block = {
-    		c: function create() {
-    			div = element("div");
-    			input0 = element("input");
-    			t0 = space();
-    			input1 = element("input");
-    			t1 = space();
-    			input2 = element("input");
-    			t2 = space();
-    			input3 = element("input");
-    			t3 = space();
-    			button0 = element("button");
-    			button0.textContent = "Save";
-    			t5 = space();
-    			button1 = element("button");
-    			button1.textContent = "Delete";
-    			attr_dev(input0, "placeholder", "First Name");
-    			add_location(input0, file$1, 80, 4, 1799);
-    			attr_dev(input1, "placeholder", "Last Name");
-    			add_location(input1, file$1, 81, 4, 1878);
-    			attr_dev(input2, "type", "number");
-    			attr_dev(input2, "placeholder", "Age");
-    			add_location(input2, file$1, 82, 4, 1955);
-    			attr_dev(input3, "type", "number");
-    			attr_dev(input3, "placeholder", "Grade");
-    			add_location(input3, file$1, 83, 4, 2034);
-    			add_location(button0, file$1, 84, 4, 2117);
-    			add_location(button1, file$1, 85, 4, 2166);
-    			add_location(div, file$1, 79, 2, 1789);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, div, anchor);
-    			append_dev(div, input0);
-    			set_input_value(input0, /*selectedStudent*/ ctx[1].first_name);
-    			append_dev(div, t0);
-    			append_dev(div, input1);
-    			set_input_value(input1, /*selectedStudent*/ ctx[1].last_name);
-    			append_dev(div, t1);
-    			append_dev(div, input2);
-    			set_input_value(input2, /*selectedStudent*/ ctx[1].age);
-    			append_dev(div, t2);
-    			append_dev(div, input3);
-    			set_input_value(input3, /*selectedStudent*/ ctx[1].grade);
-    			append_dev(div, t3);
-    			append_dev(div, button0);
-    			append_dev(div, t5);
-    			append_dev(div, button1);
-
-    			if (!mounted) {
-    				dispose = [
-    					listen_dev(input0, "input", /*input0_input_handler*/ ctx[6]),
-    					listen_dev(input1, "input", /*input1_input_handler*/ ctx[7]),
-    					listen_dev(input2, "input", /*input2_input_handler*/ ctx[8]),
-    					listen_dev(input3, "input", /*input3_input_handler*/ ctx[9]),
-    					listen_dev(button0, "click", /*saveStudent*/ ctx[3], false, false, false, false),
-    					listen_dev(button1, "click", /*deleteStudent*/ ctx[4], false, false, false, false)
-    				];
-
-    				mounted = true;
-    			}
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty & /*selectedStudent*/ 2 && input0.value !== /*selectedStudent*/ ctx[1].first_name) {
-    				set_input_value(input0, /*selectedStudent*/ ctx[1].first_name);
-    			}
-
-    			if (dirty & /*selectedStudent*/ 2 && input1.value !== /*selectedStudent*/ ctx[1].last_name) {
-    				set_input_value(input1, /*selectedStudent*/ ctx[1].last_name);
-    			}
-
-    			if (dirty & /*selectedStudent*/ 2 && to_number(input2.value) !== /*selectedStudent*/ ctx[1].age) {
-    				set_input_value(input2, /*selectedStudent*/ ctx[1].age);
-    			}
-
-    			if (dirty & /*selectedStudent*/ 2 && to_number(input3.value) !== /*selectedStudent*/ ctx[1].grade) {
-    				set_input_value(input3, /*selectedStudent*/ ctx[1].grade);
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div);
-    			mounted = false;
-    			run_all(dispose);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_if_block$1.name,
-    		type: "if",
-    		source: "(79:0) {#if selectedStudent}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    function create_fragment$1(ctx) {
-    	let table;
-    	let thead;
-    	let tr;
-    	let th0;
-    	let t1;
-    	let th1;
-    	let t3;
-    	let th2;
-    	let t5;
-    	let th3;
-    	let t7;
-    	let th4;
-    	let t9;
-    	let tbody;
-    	let each_blocks = [];
-    	let each_1_lookup = new Map();
-    	let t10;
-    	let if_block_anchor;
-    	let each_value = /*students*/ ctx[0];
-    	validate_each_argument(each_value);
-    	const get_key = ctx => /*student*/ ctx[10].id;
-    	validate_each_keys(ctx, each_value, get_each_context$1, get_key);
-
-    	for (let i = 0; i < each_value.length; i += 1) {
-    		let child_ctx = get_each_context$1(ctx, each_value, i);
-    		let key = get_key(child_ctx);
-    		each_1_lookup.set(key, each_blocks[i] = create_each_block$1(key, child_ctx));
-    	}
-
-    	let if_block = /*selectedStudent*/ ctx[1] && create_if_block$1(ctx);
-
-    	const block = {
-    		c: function create() {
-    			table = element("table");
-    			thead = element("thead");
-    			tr = element("tr");
-    			th0 = element("th");
-    			th0.textContent = "ID";
-    			t1 = space();
-    			th1 = element("th");
-    			th1.textContent = "First Name";
-    			t3 = space();
-    			th2 = element("th");
-    			th2.textContent = "Last Name";
-    			t5 = space();
-    			th3 = element("th");
-    			th3.textContent = "Age";
-    			t7 = space();
-    			th4 = element("th");
-    			th4.textContent = "Grade";
-    			t9 = space();
-    			tbody = element("tbody");
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
-    			t10 = space();
-    			if (if_block) if_block.c();
-    			if_block_anchor = empty();
-    			add_location(th0, file$1, 58, 6, 1321);
-    			add_location(th1, file$1, 59, 6, 1339);
-    			add_location(th2, file$1, 60, 6, 1365);
-    			add_location(th3, file$1, 61, 6, 1390);
-    			add_location(th4, file$1, 62, 6, 1409);
-    			add_location(tr, file$1, 57, 4, 1310);
-    			add_location(thead, file$1, 56, 2, 1298);
-    			add_location(tbody, file$1, 65, 2, 1447);
-    			add_location(table, file$1, 55, 0, 1288);
-    		},
-    		l: function claim(nodes) {
-    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, table, anchor);
-    			append_dev(table, thead);
-    			append_dev(thead, tr);
-    			append_dev(tr, th0);
-    			append_dev(tr, t1);
-    			append_dev(tr, th1);
-    			append_dev(tr, t3);
-    			append_dev(tr, th2);
-    			append_dev(tr, t5);
-    			append_dev(tr, th3);
-    			append_dev(tr, t7);
-    			append_dev(tr, th4);
-    			append_dev(table, t9);
-    			append_dev(table, tbody);
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				if (each_blocks[i]) {
-    					each_blocks[i].m(tbody, null);
-    				}
-    			}
-
-    			insert_dev(target, t10, anchor);
-    			if (if_block) if_block.m(target, anchor);
-    			insert_dev(target, if_block_anchor, anchor);
-    		},
-    		p: function update(ctx, [dirty]) {
-    			if (dirty & /*selectStudent, students*/ 5) {
-    				each_value = /*students*/ ctx[0];
-    				validate_each_argument(each_value);
-    				validate_each_keys(ctx, each_value, get_each_context$1, get_key);
-    				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, tbody, destroy_block, create_each_block$1, null, get_each_context$1);
-    			}
-
-    			if (/*selectedStudent*/ ctx[1]) {
-    				if (if_block) {
-    					if_block.p(ctx, dirty);
-    				} else {
-    					if_block = create_if_block$1(ctx);
-    					if_block.c();
-    					if_block.m(if_block_anchor.parentNode, if_block_anchor);
-    				}
-    			} else if (if_block) {
-    				if_block.d(1);
-    				if_block = null;
-    			}
-    		},
-    		i: noop,
-    		o: noop,
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(table);
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].d();
-    			}
-
-    			if (detaching) detach_dev(t10);
-    			if (if_block) if_block.d(detaching);
-    			if (detaching) detach_dev(if_block_anchor);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_fragment$1.name,
-    		type: "component",
-    		source: "",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    function instance$1($$self, $$props, $$invalidate) {
-    	let { $$slots: slots = {}, $$scope } = $$props;
-    	validate_slots('Table', slots, []);
-    	let students = [];
-    	let selectedStudent = null;
-
-    	onMount(async () => {
-    		const res = await fetch('http://localhost:8000/api/execute/', {
-    			method: 'POST',
-    			headers: { 'Content-Type': 'application/json' },
-    			body: JSON.stringify({ action: 'fetch_all' })
-    		});
-
-    		$$invalidate(0, students = await res.json());
-    	});
-
-    	function selectStudent(student) {
-    		$$invalidate(1, selectedStudent = student);
-    	}
-
-    	async function saveStudent() {
-    		// Add or update a student
-    		const action = selectedStudent.id ? 'update' : 'insert';
-
-    		const res = await fetch('http://localhost:8000/api/execute', {
-    			method: 'POST',
-    			headers: { 'Content-Type': 'application/json' },
-    			body: JSON.stringify({
-    				action,
-    				data: { student: selectedStudent }
-    			})
-    		});
-
-    		$$invalidate(0, students = await res.json());
-    	}
-
-    	async function deleteStudent() {
-    		// Delete a student
-    		const res = await fetch('http://localhost:8000/api/execute', {
-    			method: 'POST',
-    			headers: { 'Content-Type': 'application/json' },
-    			body: JSON.stringify({
-    				action: 'delete',
-    				data: { id: selectedStudent.id }
-    			})
-    		});
-
-    		$$invalidate(0, students = await res.json());
-    	}
-
-    	const writable_props = [];
-
-    	Object.keys($$props).forEach(key => {
-    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Table> was created with unknown prop '${key}'`);
-    	});
-
-    	const click_handler = student => selectStudent(student);
-
-    	function input0_input_handler() {
-    		selectedStudent.first_name = this.value;
-    		$$invalidate(1, selectedStudent);
-    	}
-
-    	function input1_input_handler() {
-    		selectedStudent.last_name = this.value;
-    		$$invalidate(1, selectedStudent);
-    	}
-
-    	function input2_input_handler() {
-    		selectedStudent.age = to_number(this.value);
-    		$$invalidate(1, selectedStudent);
-    	}
-
-    	function input3_input_handler() {
-    		selectedStudent.grade = to_number(this.value);
-    		$$invalidate(1, selectedStudent);
-    	}
-
-    	$$self.$capture_state = () => ({
-    		onMount,
-    		students,
-    		selectedStudent,
-    		selectStudent,
-    		saveStudent,
-    		deleteStudent
-    	});
-
-    	$$self.$inject_state = $$props => {
-    		if ('students' in $$props) $$invalidate(0, students = $$props.students);
-    		if ('selectedStudent' in $$props) $$invalidate(1, selectedStudent = $$props.selectedStudent);
-    	};
-
-    	if ($$props && "$$inject" in $$props) {
-    		$$self.$inject_state($$props.$$inject);
-    	}
-
-    	return [
-    		students,
-    		selectedStudent,
-    		selectStudent,
-    		saveStudent,
-    		deleteStudent,
-    		click_handler,
-    		input0_input_handler,
-    		input1_input_handler,
-    		input2_input_handler,
-    		input3_input_handler
-    	];
-    }
-
-    class Table extends SvelteComponentDev {
-    	constructor(options) {
-    		super(options);
-    		init(this, options, instance$1, create_fragment$1, safe_not_equal, {});
-
-    		dispatch_dev("SvelteRegisterComponent", {
-    			component: this,
-    			tagName: "Table",
-    			options,
-    			id: create_fragment$1.name
-    		});
-    	}
-    }
-
     /* src/App.svelte generated by Svelte v3.59.2 */
 
     const { console: console_1 } = globals;
@@ -1068,7 +466,7 @@ var app = (function (exports) {
     	return child_ctx;
     }
 
-    // (35:0) {:else}
+    // (54:0) {:else}
     function create_else_block(ctx) {
     	let h1;
     	let t0;
@@ -1079,7 +477,7 @@ var app = (function (exports) {
     			h1 = element("h1");
     			t0 = text("csrfToken: ");
     			t1 = text(/*csrfToken*/ ctx[0]);
-    			add_location(h1, file, 35, 2, 1360);
+    			add_location(h1, file, 54, 2, 2153);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -1098,14 +496,14 @@ var app = (function (exports) {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(35:0) {:else}",
+    		source: "(54:0) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (33:0) {#if csrfToken == "fetching csrfToken..."}
+    // (52:0) {#if csrfToken == "fetching csrfToken..."}
     function create_if_block(ctx) {
     	let h1;
 
@@ -1113,7 +511,7 @@ var app = (function (exports) {
     		c: function create() {
     			h1 = element("h1");
     			h1.textContent = "Fetching csrfToken...";
-    			add_location(h1, file, 33, 2, 1319);
+    			add_location(h1, file, 52, 2, 2112);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -1128,14 +526,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(33:0) {#if csrfToken == \\\"fetching csrfToken...\\\"}",
+    		source: "(52:0) {#if csrfToken == \\\"fetching csrfToken...\\\"}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (40:2) {#each columns as column}
+    // (59:2) {#each columns as column}
     function create_each_block_3(ctx) {
     	let th;
     	let t_value = /*column*/ ctx[11] + "";
@@ -1145,7 +543,7 @@ var app = (function (exports) {
     		c: function create() {
     			th = element("th");
     			t = text(t_value);
-    			add_location(th, file, 40, 3, 1443);
+    			add_location(th, file, 59, 3, 2236);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, th, anchor);
@@ -1161,14 +559,14 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_3.name,
     		type: "each",
-    		source: "(40:2) {#each columns as column}",
+    		source: "(59:2) {#each columns as column}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (47:3) {#each row as cell}
+    // (66:3) {#each row as cell}
     function create_each_block_2(ctx) {
     	let td;
     	let mounted;
@@ -1184,7 +582,7 @@ var app = (function (exports) {
     			attr_dev(td, "contenteditable", "true");
     			attr_dev(td, "class", "svelte-o0qdmk");
     			if (/*cell*/ ctx[17] === void 0) add_render_callback(td_input_handler);
-    			add_location(td, file, 47, 8, 1539);
+    			add_location(td, file, 66, 8, 2332);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, td, anchor);
@@ -1216,14 +614,14 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_2.name,
     		type: "each",
-    		source: "(47:3) {#each row as cell}",
+    		source: "(66:3) {#each row as cell}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (45:1) {#each data as row}
+    // (64:1) {#each data as row}
     function create_each_block_1(ctx) {
     	let tr;
     	let t0;
@@ -1258,14 +656,14 @@ var app = (function (exports) {
 
     			t0 = space();
     			button0 = element("button");
-    			button0.textContent = "X";
+    			button0.textContent = "save changes";
     			t2 = space();
     			button1 = element("button");
-    			button1.textContent = "save changes";
-    			add_location(button0, file, 49, 3, 1605);
-    			add_location(button1, file, 50, 6, 1662);
+    			button1.textContent = "X";
+    			add_location(button0, file, 68, 6, 2401);
+    			add_location(button1, file, 69, 3, 2466);
     			attr_dev(tr, "class", "svelte-o0qdmk");
-    			add_location(tr, file, 45, 2, 1503);
+    			add_location(tr, file, 64, 2, 2296);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, tr, anchor);
@@ -1329,14 +727,14 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(45:1) {#each data as row}",
+    		source: "(64:1) {#each data as row}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (56:2) {#each newRow as column}
+    // (75:2) {#each newRow as column}
     function create_each_block(ctx) {
     	let td;
     	let mounted;
@@ -1352,7 +750,7 @@ var app = (function (exports) {
     			attr_dev(td, "contenteditable", "true");
     			attr_dev(td, "class", "svelte-o0qdmk");
     			if (/*column*/ ctx[11] === void 0) add_render_callback(td_input_handler_1);
-    			add_location(td, file, 56, 3, 1795);
+    			add_location(td, file, 75, 3, 2591);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, td, anchor);
@@ -1384,7 +782,7 @@ var app = (function (exports) {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(56:2) {#each newRow as column}",
+    		source: "(75:2) {#each newRow as column}",
     		ctx
     	});
 
@@ -1468,14 +866,14 @@ var app = (function (exports) {
     			t5 = space();
     			pre = element("pre");
     			t6 = text(t6_value);
-    			add_location(tr0, file, 38, 1, 1407);
-    			add_location(button, file, 58, 2, 1861);
+    			add_location(tr0, file, 57, 1, 2200);
+    			add_location(button, file, 77, 2, 2657);
     			set_style(tr1, "color", "grey");
     			attr_dev(tr1, "class", "svelte-o0qdmk");
-    			add_location(tr1, file, 54, 1, 1740);
+    			add_location(tr1, file, 73, 1, 2536);
     			set_style(pre, "background", "#eee");
-    			add_location(pre, file, 62, 1, 1910);
-    			add_location(table, file, 37, 0, 1398);
+    			add_location(pre, file, 81, 1, 2706);
+    			add_location(table, file, 56, 0, 2191);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1557,7 +955,7 @@ var app = (function (exports) {
     				each_blocks_2.length = each_value_3.length;
     			}
 
-    			if (dirty & /*update, data, deleteRow*/ 50) {
+    			if (dirty & /*deleteRow, data, updateRow*/ 50) {
     				each_value_1 = /*data*/ ctx[1];
     				validate_each_argument(each_value_1);
     				let i;
@@ -1638,15 +1036,39 @@ var app = (function (exports) {
 
     	function addRow() {
     		$$invalidate(1, data = [...data, [...newRow]]);
-    		$$invalidate(2, newRow = ['', "", "", "", '', '', ""]);
+
+    		fetch('http://localhost:8000/api/csrf/', { method: 'GET' }).then(res => res.json()).then(res => {
+    			$$invalidate(0, csrfToken = res.csrfToken);
+
+    			apiActionRequest(csrfToken, 'create', newRow).then(res => {
+    				$$invalidate(1, data = res);
+    				console.log("res :", res);
+    			});
+    		});
     	}
 
     	function deleteRow(rowToBeDeleted) {
     		$$invalidate(1, data = data.filter(row => row != rowToBeDeleted));
+
+    		fetch('http://localhost:8000/api/csrf/', { method: 'GET' }).then(res => res.json()).then(res => {
+    			$$invalidate(0, csrfToken = res.csrfToken);
+
+    			apiActionRequest(csrfToken, 'remove', newRow).then(res => {
+    				$$invalidate(1, data = res);
+    				console.log("res :", res);
+    			});
+    		});
     	}
 
-    	function update(rowToBeEdited) {
-    		console.log(data);
+    	function updateRow(rowToBeEdited) {
+    		fetch('http://localhost:8000/api/csrf/', { method: 'GET' }).then(res => res.json()).then(res => {
+    			$$invalidate(0, csrfToken = res.csrfToken);
+
+    			apiActionRequest(csrfToken, 'update', rowToBeEdited).then(res => {
+    				$$invalidate(1, data = res);
+    				console.log("res :", res);
+    			});
+    		});
     	}
 
     	let columns = ["ID", "First Name", "Last Name", "Role", "Age", "Grade", "Address"]; // i dea: make this a prop sent from the backend
@@ -1658,7 +1080,7 @@ var app = (function (exports) {
 
     			apiActionRequest(csrfToken, 'fetch_all', ["", "", "", "student", "", "", ""]).then(res => {
     				$$invalidate(1, data = res);
-    				console.log(res);
+    				console.log("res :", res);
     			});
     		});
     	});
@@ -1681,8 +1103,8 @@ var app = (function (exports) {
     		$$invalidate(1, data);
     	}
 
-    	const click_handler = row => deleteRow(row);
-    	const click_handler_1 = row => update();
+    	const click_handler = row => updateRow(row);
+    	const click_handler_1 = row => deleteRow(row);
 
     	function td_input_handler_1(each_value, column_index) {
     		each_value[column_index] = this.innerHTML;
@@ -1690,12 +1112,11 @@ var app = (function (exports) {
     	}
 
     	$$self.$capture_state = () => ({
-    		Table,
     		onMount,
     		apiActionRequest,
     		addRow,
     		deleteRow,
-    		update,
+    		updateRow,
     		columns,
     		csrfToken,
     		data,
@@ -1719,7 +1140,7 @@ var app = (function (exports) {
     		newRow,
     		addRow,
     		deleteRow,
-    		update,
+    		updateRow,
     		columns,
     		td_input_handler,
     		click_handler,
@@ -1754,9 +1175,9 @@ var app = (function (exports) {
                     role: data[3],
                     age: data[4],
                     grade: data[5],
-                    address: data[6],
+                    homeaddress: data[6],
                 },
-            }
+            },
         };
         const res = await fetch("http://localhost:8000/api/execute/", {
             method: "POST",
@@ -1775,7 +1196,7 @@ var app = (function (exports) {
         else {
             for (let i = 0; i < resJson.data.length; i++) {
                 const refData = resJson.data[i];
-                const row = [refData.id.toString(), refData.reference.first_name, refData.reference.last_name, refData.reference.role, refData.reference.age, refData.reference.grade, refData.reference.address];
+                const row = [refData.id.toString(), refData.reference.first_name, refData.reference.last_name, refData.reference.role, refData.reference.age, refData.reference.grade, refData.reference.homeaddress];
                 rows.push(row);
             }
             return rows;
