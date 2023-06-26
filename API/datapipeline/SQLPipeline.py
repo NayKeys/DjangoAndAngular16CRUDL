@@ -38,15 +38,16 @@ def delete(id: int):
   return sql_response
 
 def update(id: int, updated_reference: ReferenceData):
-  data_to_be_updated = etl.fromdb(connect_sql(student_table), 'SELECT * FROM students_app_student', (id,))
-  if len(data_to_be_updated) == 0:
+  data_to_be_updated = etl.fromdb(connect_sql(student_table), 'SELECT * FROM students_app_student WHERE id = ?', (id,))
+  data_to_be_updated.__str__()
+  if not hasattr(N, "__len__"):  # if not array then empty petl response
     return ApiResponse(404, "No data found with query id = "+id).JsonResponse()
   query = ''
   for key in updated_reference.keys():  # Editing old row with new values
-    if re.match('^\D', updated_reference.get(key)):  # If contains a letter (if non digit)
-      query += key + ' = "' + updated_reference.get(key) + '", '
+    if re.match('^\D', str(updated_reference.get(key))):  # If contains a letter (if non digit)
+      query += key + ' = "' + str(updated_reference.get(key)) + '", '
     else:  # If digit no quotes
-      query += key + ' = ' + updated_reference.get(key) + ', '
+      query += key + ' = ' + str(updated_reference.get(key)) + ', '
   query = query[:-2]  # Removing last comma
   return etl.fromdb(connect_sql(student_table), 'UPDATE students_app_student SET '+query+' WHERE id = ?', (id,))
 
