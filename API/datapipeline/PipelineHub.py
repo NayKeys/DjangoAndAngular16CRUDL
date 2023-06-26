@@ -53,9 +53,9 @@ class ApiResponse:
     return JsonResponse({"status": self.status, "message": self.message, "data": [ref.toJson() for ref in self.data]}, status=self.status)
 
 
-import SQLPipeline as sql_pipeline
-import CSVPipeline as csv_pipeline
-import LDAPPipeline as ldap_pipeline
+import API.datapipeline.SQLPipeline as sql_pipeline
+import API.datapipeline.CSVPipeline as csv_pipeline
+import API.datapipeline.LDAPPipeline as ldap_pipeline
 
 def fetch_all(reference: ReferenceData):
   fetched_data = []

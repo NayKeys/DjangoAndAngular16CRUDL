@@ -33,12 +33,27 @@ ALLOWED_HOSTS = []
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
+  BASE_DIR / 'static',
 ]
 APPEND_SLASH=False
 logging_level = (
-    "INFO" if "LOGGING_LEVEL" not in os.environ else os.environ["LOGGING_LEVEL"]
+  "INFO" if "LOGGING_LEVEL" not in os.environ else os.environ["LOGGING_LEVEL"]
 )
+CAS_SERVER_URL = 'https://cas.ensea.fr/'
+AUTHENTICATION_BACKENDS = [
+  # ...
+  'django_cas_ng.backends.CASBackend',
+  # ...
+]
+REST_FRAMEWORK = {
+  'DEFAULT_AUTHENTICATION_CLASSES': [
+    'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    # ...
+  ],
+}
+
+
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -79,7 +94,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    
+    'django_cas_ng',
     'corsheaders',
     'API',
 ]
@@ -93,6 +109,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     
+    'django_cas_ng.middleware.CASMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',

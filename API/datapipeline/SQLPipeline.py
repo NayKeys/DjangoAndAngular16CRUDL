@@ -1,6 +1,6 @@
 import petl as etl
 import sqlite3
-from PipelineHub import ApiResponse, ReferenceData
+from API.datapipeline.PipelineHub import ApiResponse, ReferenceData
 
 class DBTable:
   def __init__(self, tableName, databaseUrl, dn=None, password=None):
