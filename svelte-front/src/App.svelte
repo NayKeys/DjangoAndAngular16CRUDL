@@ -3,56 +3,54 @@
   import { onMount } from 'svelte';
   import type { DataRow } from './main'
   import { apiActionRequest } from './main';
+  import Login from './Login.svelte';
   /* Notes:
   When update fails, the row is not updated in the backend, but the frontend is updated
   No undo button yet
-  New CSRF token is fetched on every action, which is not necessary
 
   */
-  
-  
+
+
+  function getMeta(metaName) {
+    const metas = document.getElementsByTagName('meta');
+    for (let i = 0; i < metas.length; i++) {
+      if (metas[i].getAttribute('name') === metaName) {
+        return metas[i].getAttribute('content');
+      }
+    }
+    return '';
+  }
+  const csrfToken = getMeta('csrf-token');
+  console.log("getMeta('csrf-token') :", getMeta('csrf-token'))
 	function addRow() {
-    fetch('http://localhost:8000/api/csrf/', { method: 'GET'}).then(resCSRF=> resCSRF.json()).then((resCSRF) => {
-      csrfToken = resCSRF.csrfToken
-      apiActionRequest(csrfToken, 'create', newRow).then((res) => {
-        if (res != undefined) {
-          data = [...data, [...newRow]]
-          console.log("res :", res)
-        }
-      })
+    apiActionRequest(csrfToken, 'create', newRow).then((res) => {
+      if (res != undefined) {
+        data = [...data, [...newRow]]
+        console.log("res :", res)
+      }
     })
 	}
 	function deleteRow(rowToBeDeleted: DataRow) {
-    fetch('http://localhost:8000/api/csrf/', { method: 'GET'}).then(resCSRF=> resCSRF.json()).then((resCSRF) => {
-      csrfToken = resCSRF.csrfToken
-      apiActionRequest(csrfToken, 'remove', rowToBeDeleted).then((res) => {
-        if (res != undefined) {
-          data = data.filter(row => row != rowToBeDeleted)
-          console.log("res :", res)
-        }
-      })
+    apiActionRequest(csrfToken, 'remove', rowToBeDeleted).then((res) => {
+      if (res != undefined) {
+        data = data.filter(row => row != rowToBeDeleted)
+        console.log("res :", res)
+      }
     })
 	}
   function updateRow(rowToBeEdited: DataRow) {
-    fetch('http://localhost:8000/api/csrf/', { method: 'GET'}).then(resCSRF=> resCSRF.json()).then((resCSRF) => {
-      csrfToken = resCSRF.csrfToken
-      apiActionRequest(csrfToken, 'update', rowToBeEdited).then((res) => {
-        if (res != undefined) {
-          console.log("res :", res)
-        }
-      })
+    apiActionRequest(csrfToken, 'update', rowToBeEdited).then((res) => {
+      if (res != undefined) {
+        console.log("res :", res)
+      }
     })
   }
 	let columns: string[] = ["ID", "First Name", "Last Name", "Role", "Age", "Grade", "Address"]  // i dea: make this a prop sent from the backend
 
-  let csrfToken: string = "fetching csrfToken...";
   onMount(async () => {
-    fetch('http://localhost:8000/api/csrf/', { method: 'GET'}).then(resCSRF=> resCSRF.json()).then((resCSRF) => {
-      csrfToken = resCSRF.csrfToken
-      apiActionRequest(csrfToken, 'fetch_all', ["", "", "", "student", "", "", ""]).then((res) => {
-        data = res;
-        console.log("res :", res)
-      })
+    apiActionRequest(csrfToken, 'fetch_all', ["", "", "", "student", "", "", ""]).then((res) => {
+      data = res;
+      console.log("res :", res)
     })
   });
   let data: DataRow[] = [
@@ -63,11 +61,7 @@
 	let newRow: DataRow = ['', "", "", "", '', '', ""];
 </script>
 
-{#if csrfToken == "fetching csrfToken..."}
-  <h1>Fetching csrfToken...</h1>
-{:else}
-  <h1>csrfToken: {csrfToken}</h1>
-{/if}
+<Login />
 <table>
 	<tr>
 		{#each columns as column}
