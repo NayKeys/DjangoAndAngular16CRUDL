@@ -59,56 +59,66 @@ import API.datapipeline.SQLPipeline as sql_pipeline
 import API.datapipeline.CSVPipeline as csv_pipeline
 import API.datapipeline.LDAPPipeline as ldap_pipeline
 
-def fetch_all(id: int, reference: ReferenceData):
-  fetched_data = []
-  if (reference.get('role') != ""):
-    fetched_data = sql_pipeline.fetch_all(reference)
-  elif (reference.get('grade') != ""):
-    fetched_data = csv_pipeline.fetch_all(reference)
-  elif (reference.get('first_name') != ""):
-    fetched_data = ldap_pipeline.fetch_all(reference)
-  if hasattr(fetched_data, "args"):  # If has attribute args, then it is a petl empty table
-    return ApiResponse(404, "No data found with query role = "+reference.get('role')).JsonResponse()
-  return ApiResponse(200, "", [ReferenceData(element) for element in fetched_data]).JsonResponse()
+def fetch_all(reference: ReferenceData):
+  try:
+    fetched_data = []
+    if (reference.get('role') != ""):
+      fetched_data = sql_pipeline.fetch_all(reference)
+    elif (reference.get('grade') != ""):
+      fetched_data = csv_pipeline.fetch_all(reference)
+    elif (reference.get('first_name') != ""):
+      fetched_data = ldap_pipeline.fetch_all(reference)
+    if (fetched_data):
+      return ApiResponse(200, "Succesfuly retrieved elements", [ReferenceData(element) for element in fetched_data]).JsonResponse()
+  except Exception as e:
+    return ApiResponse(404, "No data found with this query role = "+reference.get('role')+"\n error-message: "+str(e)).JsonResponse()
 
 def fetch(id: int, reference: ReferenceData):
-  if (id != ""):
-    fetched_data = sql_pipeline.fetch(id)
-  elif (reference.get('grade') != ""):
-    fetched_data = csv_pipeline.fetch(id)
-  elif (reference.get('first_name') != ""):
-    fetched_data = ldap_pipeline.fetch(id)
-  if hasattr(fetched_data, "args"):  # If has attribute args, then it is a petl empty table
-    return ApiResponse(404, "No data found with query id = "+str(id)).JsonResponse()
-  return ApiResponse(200, "Succesfuly retrieved element with id = "+str(id), [ReferenceData(element) for element in fetched_data]).JsonResponse()
+  try: 
+    if (id != ""):
+      fetched_data = sql_pipeline.fetch(id)
+    elif (reference.get('grade') != ""):
+      fetched_data = csv_pipeline.fetch(id)
+    elif (reference.get('first_name') != ""):
+      fetched_data = ldap_pipeline.fetch(id)
+    if (fetched_data):
+      return ApiResponse(200, "Succesfuly retrieved element with id = "+str(id), [ReferenceData(element) for element in fetched_data]).JsonResponse()
+  except Exception as e:
+    return ApiResponse(404, "No data found with query id = "+str(id)+"\n error-message: "+str(e)).JsonResponse()
 
 def delete(id: int, reference: ReferenceData):
-  if (id != ""):
-    petl_response = sql_pipeline.delete(id)
-  elif (reference.get('grade') != ""):
-    petl_response = csv_pipeline.delete(id)
-  elif (reference.get('first_name') != ""):
-    petl_response = ldap_pipeline.delete(id)
-  if hasattr(petl_response, "args"):  # If has attribute args, then it is a petl empty table
-    return ApiResponse(200, "(btw no data) Succesfuly deleted element with id = "+str(id), None).JsonResponse()
-  return ApiResponse(200, "Succesfuly deleted element with id = "+str(id), [ReferenceData(element) for element in petl_response]).JsonResponse()
+  try:
+    if (id != ""):
+      petl_response = sql_pipeline.delete(id)
+    elif (reference.get('grade') != ""):
+      petl_response = csv_pipeline.delete(id)
+    elif (reference.get('first_name') != ""):
+      petl_response = ldap_pipeline.delete(id)
+    if (petl_response):
+      return ApiResponse(200, "Succesfuly deleted element with id = "+str(id), [ReferenceData(element) for element in petl_response]).JsonResponse()
+  except Exception as e:
+    return ApiResponse(500, "Couldnt delete element with id = "+str(id+"\n error-message: "+str(e)), None).JsonResponse()
 
 def update(id: int, reference: ReferenceData):
-  if (id != ""):
-    petl_response = sql_pipeline.update(id, reference)
-  elif (reference.get('grade') != ""):
-    petl_response = csv_pipeline.update(id, reference)
-  elif (reference.get('first_name') != ""):
-    petl_response = ldap_pipeline.update(id, reference)
-  if hasattr(petl_response, "args"):  # If has attribute args, then it is a petl empty table
-    return ApiResponse(200, "(btw no data) Succesfuly updated element with id = "+str(id), None).JsonResponse()
-  return ApiResponse(200, "Succesfuly updated element with id = "+str(id), [ReferenceData(element) for element in petl_response]).JsonResponse()
+  try:
+    if (id != ""):
+      petl_response = sql_pipeline.update(id, reference)
+    elif (reference.get('grade') != ""):
+      petl_response = csv_pipeline.update(id, reference)
+    elif (reference.get('first_name') != ""):
+      petl_response = ldap_pipeline.update(id, reference)
+    if (petl_response):
+      return ApiResponse(200, "Succesfuly updated element with id = "+str(id), [ReferenceData(element) for element in petl_response]).JsonResponse()
+  except Exception as e:
+    return ApiResponse(500, "Couldnt update element with id = "+str(id+"\n error-message: "+str(e)), None).JsonResponse()
 
 def insert(reference: ReferenceData):
-  if (reference.get('role') != ""):
-    petl_response = sql_pipeline.insert(reference)
-  elif (reference.get('grade') != ""):
-    petl_response = csv_pipeline.insert(reference)
-  if hasattr(petl_response, "args"):  # If has attribute args, then it is a petl empty table
-    return ApiResponse(200, "(btw no data) Succesfuly created element", None).JsonResponse()
-  return ApiResponse(200, "Succesfuly created element", [ReferenceData(element) for element in petl_response]).JsonResponse()
+  try:
+    if (reference.get('role') != ""):
+      petl_response = sql_pipeline.insert(reference)
+    elif (reference.get('grade') != ""):
+      petl_response = csv_pipeline.insert(reference)
+    if (petl_response):
+      return ApiResponse(200, "Succesfuly created element", None).JsonResponse()
+  except Exception as e:
+    return ApiResponse(500, "Couldnt create element"+" \n error-message: "+str(e), None).JsonResponse()
