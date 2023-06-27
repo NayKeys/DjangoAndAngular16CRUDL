@@ -466,7 +466,7 @@ var app = (function (exports) {
     	return child_ctx;
     }
 
-    // (56:0) {:else}
+    // (62:0) {:else}
     function create_else_block(ctx) {
     	let h1;
     	let t0;
@@ -477,7 +477,7 @@ var app = (function (exports) {
     			h1 = element("h1");
     			t0 = text("csrfToken: ");
     			t1 = text(/*csrfToken*/ ctx[0]);
-    			add_location(h1, file, 56, 2, 2218);
+    			add_location(h1, file, 62, 2, 2458);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -496,14 +496,14 @@ var app = (function (exports) {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(56:0) {:else}",
+    		source: "(62:0) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (54:0) {#if csrfToken == "fetching csrfToken..."}
+    // (60:0) {#if csrfToken == "fetching csrfToken..."}
     function create_if_block(ctx) {
     	let h1;
 
@@ -511,7 +511,7 @@ var app = (function (exports) {
     		c: function create() {
     			h1 = element("h1");
     			h1.textContent = "Fetching csrfToken...";
-    			add_location(h1, file, 54, 2, 2177);
+    			add_location(h1, file, 60, 2, 2417);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -526,14 +526,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(54:0) {#if csrfToken == \\\"fetching csrfToken...\\\"}",
+    		source: "(60:0) {#if csrfToken == \\\"fetching csrfToken...\\\"}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (61:2) {#each columns as column}
+    // (67:2) {#each columns as column}
     function create_each_block_3(ctx) {
     	let th;
     	let t_value = /*column*/ ctx[11] + "";
@@ -543,7 +543,7 @@ var app = (function (exports) {
     		c: function create() {
     			th = element("th");
     			t = text(t_value);
-    			add_location(th, file, 61, 3, 2301);
+    			add_location(th, file, 67, 3, 2541);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, th, anchor);
@@ -559,14 +559,14 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_3.name,
     		type: "each",
-    		source: "(61:2) {#each columns as column}",
+    		source: "(67:2) {#each columns as column}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (68:3) {#each row as cell}
+    // (74:3) {#each row as cell}
     function create_each_block_2(ctx) {
     	let td;
     	let mounted;
@@ -582,7 +582,7 @@ var app = (function (exports) {
     			attr_dev(td, "contenteditable", "true");
     			attr_dev(td, "class", "svelte-o0qdmk");
     			if (/*cell*/ ctx[17] === void 0) add_render_callback(td_input_handler);
-    			add_location(td, file, 68, 8, 2397);
+    			add_location(td, file, 74, 8, 2637);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, td, anchor);
@@ -614,14 +614,14 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_2.name,
     		type: "each",
-    		source: "(68:3) {#each row as cell}",
+    		source: "(74:3) {#each row as cell}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (66:1) {#each data as row}
+    // (72:1) {#each data as row}
     function create_each_block_1(ctx) {
     	let tr;
     	let t0;
@@ -660,10 +660,10 @@ var app = (function (exports) {
     			t2 = space();
     			button1 = element("button");
     			button1.textContent = "X";
-    			add_location(button0, file, 70, 6, 2466);
-    			add_location(button1, file, 71, 3, 2531);
+    			add_location(button0, file, 76, 6, 2706);
+    			add_location(button1, file, 77, 3, 2771);
     			attr_dev(tr, "class", "svelte-o0qdmk");
-    			add_location(tr, file, 66, 2, 2361);
+    			add_location(tr, file, 72, 2, 2601);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, tr, anchor);
@@ -727,14 +727,14 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(66:1) {#each data as row}",
+    		source: "(72:1) {#each data as row}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (77:2) {#each newRow as column}
+    // (83:2) {#each newRow as column}
     function create_each_block(ctx) {
     	let td;
     	let mounted;
@@ -750,7 +750,7 @@ var app = (function (exports) {
     			attr_dev(td, "contenteditable", "true");
     			attr_dev(td, "class", "svelte-o0qdmk");
     			if (/*column*/ ctx[11] === void 0) add_render_callback(td_input_handler_1);
-    			add_location(td, file, 77, 3, 2656);
+    			add_location(td, file, 83, 3, 2896);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, td, anchor);
@@ -782,7 +782,7 @@ var app = (function (exports) {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(77:2) {#each newRow as column}",
+    		source: "(83:2) {#each newRow as column}",
     		ctx
     	});
 
@@ -866,14 +866,14 @@ var app = (function (exports) {
     			t5 = space();
     			pre = element("pre");
     			t6 = text(t6_value);
-    			add_location(tr0, file, 59, 1, 2265);
-    			add_location(button, file, 79, 2, 2722);
+    			add_location(tr0, file, 65, 1, 2505);
+    			add_location(button, file, 85, 2, 2962);
     			set_style(tr1, "color", "grey");
     			attr_dev(tr1, "class", "svelte-o0qdmk");
-    			add_location(tr1, file, 75, 1, 2601);
+    			add_location(tr1, file, 81, 1, 2841);
     			set_style(pre, "background", "#eee");
-    			add_location(pre, file, 83, 1, 2771);
-    			add_location(table, file, 58, 0, 2256);
+    			add_location(pre, file, 89, 1, 3011);
+    			add_location(table, file, 64, 0, 2496);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1035,40 +1035,39 @@ var app = (function (exports) {
     	validate_slots('App', slots, []);
 
     	function addRow() {
-    		fetch('http://localhost:8000/api/csrf/', { method: 'GET' }).then(res => res.json()).then(res => {
-    			$$invalidate(0, csrfToken = res.csrfToken);
+    		fetch('http://localhost:8000/api/csrf/', { method: 'GET' }).then(resCSRF => resCSRF.json()).then(resCSRF => {
+    			$$invalidate(0, csrfToken = resCSRF.csrfToken);
 
     			apiActionRequest(csrfToken, 'create', newRow).then(res => {
-    				if (res != None) {
+    				if (res != undefined) {
     					$$invalidate(1, data = [...data, [...newRow]]);
+    					console.log("res :", res);
     				}
-
-    				$$invalidate(1, data = res);
-    				console.log("res :", res);
     			});
     		});
     	}
 
     	function deleteRow(rowToBeDeleted) {
-    		$$invalidate(1, data = data.filter(row => row != rowToBeDeleted));
-
-    		fetch('http://localhost:8000/api/csrf/', { method: 'GET' }).then(res => res.json()).then(res => {
-    			$$invalidate(0, csrfToken = res.csrfToken);
+    		fetch('http://localhost:8000/api/csrf/', { method: 'GET' }).then(resCSRF => resCSRF.json()).then(resCSRF => {
+    			$$invalidate(0, csrfToken = resCSRF.csrfToken);
 
     			apiActionRequest(csrfToken, 'remove', rowToBeDeleted).then(res => {
-    				$$invalidate(1, data = res);
-    				console.log("res :", res);
+    				if (res != undefined) {
+    					$$invalidate(1, data = data.filter(row => row != rowToBeDeleted));
+    					console.log("res :", res);
+    				}
     			});
     		});
     	}
 
     	function updateRow(rowToBeEdited) {
-    		fetch('http://localhost:8000/api/csrf/', { method: 'GET' }).then(res => res.json()).then(res => {
-    			$$invalidate(0, csrfToken = res.csrfToken);
+    		fetch('http://localhost:8000/api/csrf/', { method: 'GET' }).then(resCSRF => resCSRF.json()).then(resCSRF => {
+    			$$invalidate(0, csrfToken = resCSRF.csrfToken);
 
     			apiActionRequest(csrfToken, 'update', rowToBeEdited).then(res => {
-    				$$invalidate(1, data = res);
-    				console.log("res :", res);
+    				if (res != undefined) {
+    					console.log("res :", res);
+    				}
     			});
     		});
     	}
@@ -1077,8 +1076,8 @@ var app = (function (exports) {
     	let csrfToken = "fetching csrfToken...";
 
     	onMount(async () => {
-    		fetch('http://localhost:8000/api/csrf/', { method: 'GET' }).then(res => res.json()).then(res => {
-    			$$invalidate(0, csrfToken = res.csrfToken);
+    		fetch('http://localhost:8000/api/csrf/', { method: 'GET' }).then(resCSRF => resCSRF.json()).then(resCSRF => {
+    			$$invalidate(0, csrfToken = resCSRF.csrfToken);
 
     			apiActionRequest(csrfToken, 'fetch_all', ["", "", "", "student", "", "", ""]).then(res => {
     				$$invalidate(1, data = res);
@@ -1193,17 +1192,17 @@ var app = (function (exports) {
         const resJson = await res.json();
         if (resJson.status !== 200) { // If api returns error
             console.log("Error: " + resJson.message);
-            return None;
+            return undefined;
         }
-        else { // If not tgen return data from response
+        else {
             if (resJson.data != undefined) {
                 for (let i = 0; i < resJson.data.length; i++) {
                     const refData = resJson.data[i];
                     const row = [refData.id.toString(), refData.reference.first_name, refData.reference.last_name, refData.reference.role, refData.reference.age, refData.reference.grade, refData.reference.homeaddress];
                     rows.push(row);
                 }
-                return rows;
             }
+            return rows;
         }
     };
     const app = new App({

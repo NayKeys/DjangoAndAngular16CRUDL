@@ -3,35 +3,42 @@
   import { onMount } from 'svelte';
   import type { DataRow } from './main'
   import { apiActionRequest } from './main';
+  /* Notes:
+  When update fails, the row is not updated in the backend, but the frontend is updated
+  No undo button yet
+
+  */
+  
   
 	function addRow() {
-    fetch('http://localhost:8000/api/csrf/', { method: 'GET'}).then(res => res.json()).then((res) => {
-      csrfToken = res.csrfToken
+    fetch('http://localhost:8000/api/csrf/', { method: 'GET'}).then(resCSRF=> resCSRF.json()).then((resCSRF) => {
+      csrfToken = resCSRF.csrfToken
       apiActionRequest(csrfToken, 'create', newRow).then((res) => {
-        if (res != None) {
+        if (res != undefined) {
           data = [...data, [...newRow]]
+          console.log("res :", res)
         }
-        data = res;
-        console.log("res :", res)
       })
     })
 	}
 	function deleteRow(rowToBeDeleted: DataRow) {
-		data = data.filter(row => row != rowToBeDeleted)
-    fetch('http://localhost:8000/api/csrf/', { method: 'GET'}).then(res => res.json()).then((res) => {
-      csrfToken = res.csrfToken
+    fetch('http://localhost:8000/api/csrf/', { method: 'GET'}).then(resCSRF=> resCSRF.json()).then((resCSRF) => {
+      csrfToken = resCSRF.csrfToken
       apiActionRequest(csrfToken, 'remove', rowToBeDeleted).then((res) => {
-        data = res;
-        console.log("res :", res)
+        if (res != undefined) {
+          data = data.filter(row => row != rowToBeDeleted)
+          console.log("res :", res)
+        }
       })
     })
 	}
   function updateRow(rowToBeEdited: DataRow) {
-    fetch('http://localhost:8000/api/csrf/', { method: 'GET'}).then(res => res.json()).then((res) => {
-      csrfToken = res.csrfToken
+    fetch('http://localhost:8000/api/csrf/', { method: 'GET'}).then(resCSRF=> resCSRF.json()).then((resCSRF) => {
+      csrfToken = resCSRF.csrfToken
       apiActionRequest(csrfToken, 'update', rowToBeEdited).then((res) => {
-        data = res;
-        console.log("res :", res)
+        if (res != undefined) {
+          console.log("res :", res)
+        }
       })
     })
   }
@@ -39,8 +46,8 @@
 
   let csrfToken: string = "fetching csrfToken...";
   onMount(async () => {
-    fetch('http://localhost:8000/api/csrf/', { method: 'GET'}).then(res => res.json()).then((res) => {
-      csrfToken = res.csrfToken
+    fetch('http://localhost:8000/api/csrf/', { method: 'GET'}).then(resCSRF=> resCSRF.json()).then((resCSRF) => {
+      csrfToken = resCSRF.csrfToken
       apiActionRequest(csrfToken, 'fetch_all', ["", "", "", "student", "", "", ""]).then((res) => {
         data = res;
         console.log("res :", res)
