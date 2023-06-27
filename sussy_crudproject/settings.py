@@ -39,7 +39,7 @@ APPEND_SLASH=False
 logging_level = (
   "INFO" if "LOGGING_LEVEL" not in os.environ else os.environ["LOGGING_LEVEL"]
 )
-CAS_SERVER_URL = 'https://cas.ensea.fr/'
+CAS_SERVER_URL = 'https://identites.ensea.fr/cas/login'
 AUTHENTICATION_BACKENDS = [
   # ...
   'django_cas_ng.backends.CASBackend',

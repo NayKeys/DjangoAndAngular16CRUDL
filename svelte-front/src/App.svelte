@@ -1,9 +1,10 @@
 <script lang="ts">
   // From https://svelte.dev/repl/36aaf2a1807a4fed81fe6212d20bca24?version=3.25.1
   import { onMount } from 'svelte';
-  import type { DataRow } from './main'
+  import type { DataRow } from './main'
   import { apiActionRequest } from './main';
   import Login from './Login.svelte';
+  import { getMeta } from './main'
   /* Notes:
   When update fails, the row is not updated in the backend, but the frontend is updated
   No undo button yet
@@ -11,17 +12,7 @@
   */
 
 
-  function getMeta(metaName) {
-    const metas = document.getElementsByTagName('meta');
-    for (let i = 0; i < metas.length; i++) {
-      if (metas[i].getAttribute('name') === metaName) {
-        return metas[i].getAttribute('content');
-      }
-    }
-    return '';
-  }
   const csrfToken = getMeta('csrf-token');
-  console.log("getMeta('csrf-token') :", getMeta('csrf-token'))
 	function addRow() {
     apiActionRequest(csrfToken, 'create', newRow).then((res) => {
       if (res != undefined) {
