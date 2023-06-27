@@ -1,7 +1,5 @@
-import sqlite3
 import petl as etl
 from django.http import JsonResponse
-import ldap
 import ldap.modlist as modlist
 
 class Reference:
@@ -71,7 +69,8 @@ def fetch_all(reference: ReferenceData):
     if (fetched_data):
       return ApiResponse(200, "Succesfuly retrieved elements", [ReferenceData(element) for element in fetched_data]).JsonResponse()
   except Exception as e:
-    return ApiResponse(404, "No data found with this query role = "+reference.get('role')+"\n error-message: "+str(e)).JsonResponse()
+    e.print_exc()
+    return ApiResponse(404, "No data found with this query role = "+reference.get('role')+"\n error-message: "+str(e), None).JsonResponse()
 
 def fetch(id: int, reference: ReferenceData):
   try: 
@@ -84,7 +83,8 @@ def fetch(id: int, reference: ReferenceData):
     if (fetched_data):
       return ApiResponse(200, "Succesfuly retrieved element with id = "+str(id), [ReferenceData(element) for element in fetched_data]).JsonResponse()
   except Exception as e:
-    return ApiResponse(404, "No data found with query id = "+str(id)+"\n error-message: "+str(e)).JsonResponse()
+    e.print_exc()
+    return ApiResponse(404, "No data found with query id = "+str(id)+"\n error-message: "+str(e), None).JsonResponse()
 
 def delete(id: int, reference: ReferenceData):
   try:
@@ -95,9 +95,10 @@ def delete(id: int, reference: ReferenceData):
     elif (reference.get('first_name') != ""):
       petl_response = ldap_pipeline.delete(id)
     if (petl_response):
-      return ApiResponse(200, "Succesfuly deleted element with id = "+str(id), [ReferenceData(element) for element in petl_response]).JsonResponse()
+      return ApiResponse(200, "Succesfuly deleted element with id = "+str(id), None).JsonResponse()
   except Exception as e:
-    return ApiResponse(500, "Couldnt delete element with id = "+str(id+"\n error-message: "+str(e)), None).JsonResponse()
+    e.print_exc()
+    return ApiResponse(500, "Couldnt delete element with id = "+str(id)+"\n error-message: "+str(e), None).JsonResponse()
 
 def update(id: int, reference: ReferenceData):
   try:
@@ -108,9 +109,10 @@ def update(id: int, reference: ReferenceData):
     elif (reference.get('first_name') != ""):
       petl_response = ldap_pipeline.update(id, reference)
     if (petl_response):
-      return ApiResponse(200, "Succesfuly updated element with id = "+str(id), [ReferenceData(element) for element in petl_response]).JsonResponse()
+      return ApiResponse(200, "Succesfuly updated element with id = "+str(id), None).JsonResponse()
   except Exception as e:
-    return ApiResponse(500, "Couldnt update element with id = "+str(id+"\n error-message: "+str(e)), None).JsonResponse()
+    e.print_exc()
+    return ApiResponse(500, "Couldnt update element with id = "+str(id)+"\n error-message: "+str(e), None).JsonResponse()
 
 def insert(reference: ReferenceData):
   try:
@@ -121,4 +123,5 @@ def insert(reference: ReferenceData):
     if (petl_response):
       return ApiResponse(200, "Succesfuly created element", None).JsonResponse()
   except Exception as e:
+    e.print_exc()
     return ApiResponse(500, "Couldnt create element"+" \n error-message: "+str(e), None).JsonResponse()

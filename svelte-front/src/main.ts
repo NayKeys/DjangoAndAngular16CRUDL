@@ -34,7 +34,7 @@ export type ApiResponse = {
 	data: ReferenceData[];
 };
 
-const apiActionRequest = async function(csrfToken:string, action: string, data: DataRow): Promise<DataRow[]> {
+const apiActionRequest = async function(csrfToken:string, action: string, data: DataRow): Promise<DataRow[] | None> {
   const request: ApiRequest = {
 		action: action,
 		jwt: "jwt",
@@ -62,9 +62,9 @@ const apiActionRequest = async function(csrfToken:string, action: string, data: 
   const resJson: ApiResponse = await res.json();
   if (resJson.status !== 200) {  // If api returns error
     console.log("Error: " + resJson.message);
-    return rows;
+    return None;
   } else {  // If not tgen return data from response
-    if (resJson.data == undefined) {
+    if (resJson.data != undefined) {
       for(let i = 0; i < resJson.data.length; i++) {
         const refData = resJson.data[i];
         const row: DataRow = [refData.id.toString(), refData.reference.first_name, refData.reference.last_name, refData.reference.role, refData.reference.age, refData.reference.grade, refData.reference.homeaddress];

@@ -5,10 +5,12 @@
   import { apiActionRequest } from './main';
   
 	function addRow() {
-		data = [...data, [...newRow]]
     fetch('http://localhost:8000/api/csrf/', { method: 'GET'}).then(res => res.json()).then((res) => {
       csrfToken = res.csrfToken
       apiActionRequest(csrfToken, 'create', newRow).then((res) => {
+        if (res != None) {
+          data = [...data, [...newRow]]
+        }
         data = res;
         console.log("res :", res)
       })
@@ -18,7 +20,7 @@
 		data = data.filter(row => row != rowToBeDeleted)
     fetch('http://localhost:8000/api/csrf/', { method: 'GET'}).then(res => res.json()).then((res) => {
       csrfToken = res.csrfToken
-      apiActionRequest(csrfToken, 'remove', newRow).then((res) => {
+      apiActionRequest(csrfToken, 'remove', rowToBeDeleted).then((res) => {
         data = res;
         console.log("res :", res)
       })

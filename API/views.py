@@ -1,5 +1,5 @@
 import json
-from django.http import JsonResponseimport API.datapipeline.PipelineHub as pipe
+import API.datapipeline.PipelineHub as pipe
 from API.datapipeline.PipelineHub import ApiRequest
 
 from django.middleware.csrf import get_token
@@ -25,7 +25,7 @@ def execute(request):
 
     elif action == 'fetch_all':
       if check_permission_read(req.data.get('reference'), req.jwt):
-        return pipe.fetch_all(req.data.get('id'), req.data.get('reference'))
+        return pipe.fetch_all(req.data.get('reference'))
       return JsonResponse({"error": "User not allowed"}, status=403)
       
     elif action == 'fetch':
@@ -33,7 +33,7 @@ def execute(request):
         return pipe.fetch(req.data.get('id'), req.data.get('reference'))
       return JsonResponse({"error": "User not allowed"}, status=403)
     
-    elif action == 'delete':
+    elif action == 'remove':
       if check_permission_delete(req.data.get('reference'), req.jwt):
         return pipe.delete(req.data.get('id'), req.data.get('reference'))
       return JsonResponse({"error": "User not allowed"}, status=403)
