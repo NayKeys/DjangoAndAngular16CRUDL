@@ -61,9 +61,9 @@ def update(id: int, updated_reference: ReferenceData):
   conn.commit()
   return True
 
-def insert(reference: ReferenceData):
+def insert(new_reference: ReferenceData):
   conn = sqlite3.connect(student_table.databaseUrl)
-  to_be_inserted = etl.fromdicts([reference], header=['first_name', 'last_name', 'role', 'age', 'grade'])  # Id is autoincremented
-  etl.todb(to_be_inserted, conn, student_table.tableName, create='True', commit=True)
+  cursor = conn.cursor()
+  output = cursor.execute('INSERT INTO students_app_student (first_name, last_name, role, age, grade, homeaddress) VALUES (?, ?, ?, ?, ?, ?)', (new_reference.get('first_name'), new_reference.get('last_name'), new_reference.get('role'), new_reference.get('age'), new_reference.get('grade'), new_reference.get('homeaddress')))
   conn.commit()
   return True
