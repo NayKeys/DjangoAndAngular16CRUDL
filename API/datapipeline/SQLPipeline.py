@@ -46,16 +46,6 @@ def delete(id: int):
 
 def update(id: int, updated_reference: ReferenceData):
   conn = sqlite3.connect(student_table.databaseUrl)
-  query = ''
-  for key in updated_reference.keys():  # Editing old row with new values
-    updated_value = updated_reference.get(key)
-    if updated_value == "":
-      continue
-    if re.match('^[0-9]+$', str(updated_value)):  # If contains only numbers (if digit)
-      query += key + ' = ' + str(updated_value) + ', '
-    else:  # If digit no quotes
-      query += key + ' = "' + str(updated_value) + '", '
-  query = query[:-2]  # Removing last comma
   cursor = conn.cursor()
   output = cursor.execute('UPDATE students_app_student SET first_name = ?, last_name = ?, role = ?, age = ?, grade = ?, homeaddress = ?WHERE id = ?', (updated_reference.get('first_name'), updated_reference.get('last_name'), updated_reference.get('role'), updated_reference.get('age'), updated_reference.get('grade'), updated_reference.get('homeaddress'), id))
   conn.commit()
