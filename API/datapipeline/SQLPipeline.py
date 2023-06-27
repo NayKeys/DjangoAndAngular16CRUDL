@@ -57,7 +57,7 @@ def update(id: int, updated_reference: ReferenceData):
       query += key + ' = "' + str(updated_value) + '", '
   query = query[:-2]  # Removing last comma
   cursor = conn.cursor()
-  output = cursor.execute('UPDATE students_app_student SET '+query+' WHERE id = ?', (id,))
+  output = cursor.execute('UPDATE students_app_student SET first_name = ?, last_name = ?, role = ?, age = ?, grade = ?, homeaddress = ?WHERE id = ?', (updated_reference.get('first_name'), updated_reference.get('last_name'), updated_reference.get('role'), updated_reference.get('age'), updated_reference.get('grade'), updated_reference.get('homeaddress'), id))
   conn.commit()
   return True
 

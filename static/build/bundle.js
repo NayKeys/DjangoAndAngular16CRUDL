@@ -466,7 +466,7 @@ var app = (function (exports) {
     	return child_ctx;
     }
 
-    // (62:0) {:else}
+    // (63:0) {:else}
     function create_else_block(ctx) {
     	let h1;
     	let t0;
@@ -477,7 +477,7 @@ var app = (function (exports) {
     			h1 = element("h1");
     			t0 = text("csrfToken: ");
     			t1 = text(/*csrfToken*/ ctx[0]);
-    			add_location(h1, file, 62, 2, 2458);
+    			add_location(h1, file, 63, 2, 2524);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -496,14 +496,14 @@ var app = (function (exports) {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(62:0) {:else}",
+    		source: "(63:0) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (60:0) {#if csrfToken == "fetching csrfToken..."}
+    // (61:0) {#if csrfToken == "fetching csrfToken..."}
     function create_if_block(ctx) {
     	let h1;
 
@@ -511,7 +511,7 @@ var app = (function (exports) {
     		c: function create() {
     			h1 = element("h1");
     			h1.textContent = "Fetching csrfToken...";
-    			add_location(h1, file, 60, 2, 2417);
+    			add_location(h1, file, 61, 2, 2483);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h1, anchor);
@@ -526,14 +526,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(60:0) {#if csrfToken == \\\"fetching csrfToken...\\\"}",
+    		source: "(61:0) {#if csrfToken == \\\"fetching csrfToken...\\\"}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (67:2) {#each columns as column}
+    // (68:2) {#each columns as column}
     function create_each_block_3(ctx) {
     	let th;
     	let t_value = /*column*/ ctx[11] + "";
@@ -543,7 +543,7 @@ var app = (function (exports) {
     		c: function create() {
     			th = element("th");
     			t = text(t_value);
-    			add_location(th, file, 67, 3, 2541);
+    			add_location(th, file, 68, 3, 2607);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, th, anchor);
@@ -559,14 +559,14 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_3.name,
     		type: "each",
-    		source: "(67:2) {#each columns as column}",
+    		source: "(68:2) {#each columns as column}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (74:3) {#each row as cell}
+    // (75:3) {#each row as cell}
     function create_each_block_2(ctx) {
     	let td;
     	let mounted;
@@ -582,7 +582,7 @@ var app = (function (exports) {
     			attr_dev(td, "contenteditable", "true");
     			attr_dev(td, "class", "svelte-o0qdmk");
     			if (/*cell*/ ctx[17] === void 0) add_render_callback(td_input_handler);
-    			add_location(td, file, 74, 8, 2637);
+    			add_location(td, file, 75, 8, 2703);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, td, anchor);
@@ -614,14 +614,14 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_2.name,
     		type: "each",
-    		source: "(74:3) {#each row as cell}",
+    		source: "(75:3) {#each row as cell}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (72:1) {#each data as row}
+    // (73:1) {#each data as row}
     function create_each_block_1(ctx) {
     	let tr;
     	let t0;
@@ -660,10 +660,10 @@ var app = (function (exports) {
     			t2 = space();
     			button1 = element("button");
     			button1.textContent = "X";
-    			add_location(button0, file, 76, 6, 2706);
-    			add_location(button1, file, 77, 3, 2771);
+    			add_location(button0, file, 77, 6, 2772);
+    			add_location(button1, file, 78, 3, 2837);
     			attr_dev(tr, "class", "svelte-o0qdmk");
-    			add_location(tr, file, 72, 2, 2601);
+    			add_location(tr, file, 73, 2, 2667);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, tr, anchor);
@@ -727,14 +727,14 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(72:1) {#each data as row}",
+    		source: "(73:1) {#each data as row}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (83:2) {#each newRow as column}
+    // (84:2) {#each newRow as column}
     function create_each_block(ctx) {
     	let td;
     	let mounted;
@@ -750,7 +750,7 @@ var app = (function (exports) {
     			attr_dev(td, "contenteditable", "true");
     			attr_dev(td, "class", "svelte-o0qdmk");
     			if (/*column*/ ctx[11] === void 0) add_render_callback(td_input_handler_1);
-    			add_location(td, file, 83, 3, 2896);
+    			add_location(td, file, 84, 3, 2962);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, td, anchor);
@@ -782,7 +782,7 @@ var app = (function (exports) {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(83:2) {#each newRow as column}",
+    		source: "(84:2) {#each newRow as column}",
     		ctx
     	});
 
@@ -866,14 +866,14 @@ var app = (function (exports) {
     			t5 = space();
     			pre = element("pre");
     			t6 = text(t6_value);
-    			add_location(tr0, file, 65, 1, 2505);
-    			add_location(button, file, 85, 2, 2962);
+    			add_location(tr0, file, 66, 1, 2571);
+    			add_location(button, file, 86, 2, 3028);
     			set_style(tr1, "color", "grey");
     			attr_dev(tr1, "class", "svelte-o0qdmk");
-    			add_location(tr1, file, 81, 1, 2841);
+    			add_location(tr1, file, 82, 1, 2907);
     			set_style(pre, "background", "#eee");
-    			add_location(pre, file, 89, 1, 3011);
-    			add_location(table, file, 64, 0, 2496);
+    			add_location(pre, file, 90, 1, 3077);
+    			add_location(table, file, 65, 0, 2562);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");

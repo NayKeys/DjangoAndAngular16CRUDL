@@ -6,6 +6,7 @@
   /* Notes:
   When update fails, the row is not updated in the backend, but the frontend is updated
   No undo button yet
+  New CSRF token is fetched on every action, which is not necessary
 
   */
   
