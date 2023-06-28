@@ -29,9 +29,16 @@ def fetch_all(reference):
     conn.commit()
     return fetched_data
 
-def fetch(id: int):
+def fetchByID(id: int):
   conn = sqlite3.connect(student_table.databaseUrl)
   fetched_data = etl.fromdb(conn, 'SELECT * FROM students_app_student WHERE id = ?', (id,))
+  fetched_data = etl.dicts(etl.sort(fetched_data))
+  conn.commit()
+  return fetched_data
+
+def fetchByUsername(username: str):
+  conn = sqlite3.connect(student_table.databaseUrl)
+  fetched_data = etl.fromdb(conn, 'SELECT * FROM students_app_student WHERE username = ?', (username,))
   fetched_data = etl.dicts(etl.sort(fetched_data))
   conn.commit()
   return fetched_data

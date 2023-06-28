@@ -2,14 +2,15 @@
 	"status": "<status>",
   "message": "<message>",
 	"data": [{
-		"id": "<id>",
-		"reference": {
-			"first_name": "<first_name>",
-			"last_name": "<last_name>",
+    "id": "<id>",
+    "username": "<username>",
+    "reference": {
+      "first_name": "<first_name>",
+      "last_name": "<last_name>",
       "role": "<role>",
-			"age": "<age>",
-			"grade": "<grade>",
-			"homeaddress": "<homeaddress>"
-		}
-	}]
+      "age": "<age>",
+      "grade": "<grade>",
+      "homeaddress": "<homeaddress>"
+    }
+  }]
 }

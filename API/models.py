@@ -9,6 +9,7 @@ class Student(models.Model):
     ('admin', 'Administration'),
   ]
   id = models.AutoField(primary_key=True)  # ID is automatically generated
+  username = models.CharField(max_length=200)
   first_name = models.CharField(max_length=200)
   last_name = models.CharField(max_length=200)
   role = models.CharField(max_length=7, choices=ROLES, default='student')

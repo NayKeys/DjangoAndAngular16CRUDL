@@ -1,14 +1,15 @@
 import json
-import API.datapipeline.PipelineHub as pipe
-from API.datapipeline.PipelineHub import ApiRequest
-
 from django.middleware.csrf import get_token
 from django.http import JsonResponse
-from django_cas_ng.views import _service_url, _verify
 from rest_framework_jwt.settings import api_settings
+from cas import CASClient
 
-from decorators import jwt_role_required
-from models import Student
+import API.datapipeline.PipelineHub as pipe
+from API.datapipeline.PipelineHub import ApiRequest
+from API.decorators import jwt_role_required
+import sussy_crudproject.settings as settings
+import API.datapipeline.PipelineHub as pipe
+from API.datapipeline.PipelineHub import ReferenceData
 
 def csrfToken(request):
   return JsonResponse({'csrfToken': get_token(request)})
@@ -16,14 +17,17 @@ def csrfToken(request):
 
 def authenticate(request):
   ticket = request.GET.get('ticket')
-  service = _service_url(request)
-  id, attributes, pgtiou = _verify(ticket, service)
+  service = request.build_absolute_uri()
+  service = 'http://localhost:8000/api/auth/'
+  client = CASClient(server_url=settings.CAS_SERVER_URL, service_url=service, version=3)
+  username, attributes, pgtiou = client.verify_ticket(ticket)
 
-  if not id:
-      return JsonResponse({"error": "Invalid ticket"}, status=400)
+  if not username:
+    return JsonResponse({"error": "Invalid ticket"}, status=400)
 
   # User is authenticated, issue JWT
-  user = Student.objects.get(id=id)
+  pipe.fetch()
+  user = Student.objects.get(username=username)
   jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
   jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
   payload = jwt_payload_handler(user)
@@ -43,30 +47,31 @@ def execute(request):
   if request.method == 'POST':
     req: ApiRequest = ApiRequest(json.loads(request.body))
     action = req.action
+    reference = ReferenceData(req.data.get('reference'))
     
     if action == 'create':
-      if check_permission_create(req.data.get('reference'), req.jwt):
-        return pipe.insert(req.data.get('reference'))
+      if check_permission_create(reference, req.jwt):
+        return pipe.insert(reference)
       return JsonResponse({"error": "User not allowed"}, status=403)
 
     elif action == 'update':
-      if check_permission_update(req.data.get('reference'), req.jwt):
-        return pipe.update(req.data.get('id'), req.data.get('reference'))
+      if check_permission_update(reference, req.jwt):
+        return pipe.update(reference)
       return JsonResponse({"error": "User not allowed"}, status=403)
 
     elif action == 'fetch_all':
-      if check_permission_read(req.data.get('reference'), req.jwt):
-        return pipe.fetch_all(req.data.get('reference'))
+      if check_permission_read(reference, req.jwt):
+        return pipe.fetch_all(reference)
       return JsonResponse({"error": "User not allowed"}, status=403)
       
     elif action == 'fetch':
-      if check_permission_read(req.data.get('reference'), req.jwt):
-        return pipe.fetch(req.data.get('id'), req.data.get('reference'))
+      if check_permission_read(reference, req.jwt):
+        return pipe.fetch(reference)
       return JsonResponse({"error": "User not allowed"}, status=403)
     
     elif action == 'remove':
-      if check_permission_delete(req.data.get('reference'), req.jwt):
-        return pipe.delete(req.data.get('id'), req.data.get('reference'))
+      if check_permission_delete(reference, req.jwt):
+        return pipe.delete(reference)
       return JsonResponse({"error": "User not allowed"}, status=403)
     
     else:

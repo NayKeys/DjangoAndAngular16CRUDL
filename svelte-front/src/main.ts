@@ -2,6 +2,7 @@ import App from './App.svelte';
 
 export type ReferenceData = {
 	id: number;
+  username: string;
 	reference: {
 		first_name: string;
 		last_name: string;
@@ -20,6 +21,7 @@ export type ApiRequest = {
 
 export type DataRow = [
 	id: string,
+  username: string,
 	firstName: string,
 	lastName: string,
 	role: string,
@@ -40,13 +42,14 @@ const apiActionRequest = async function(csrfToken:string, action: string, data: 
 		jwt: "jwt",
 		data: {
 			id: parseInt(data[0]),
+      username: data[1],
 			reference: {
-				first_name: data[1],
-				last_name: data[2],
-				role: data[3],
-				age: data[4],
-				grade: data[5],
-				homeaddress: data[6],
+				first_name: data[2],
+				last_name: data[3],
+				role: data[4],
+				age: data[5],
+				grade: data[6],
+				homeaddress: data[7],
 			},
 		},
 	};
@@ -67,7 +70,7 @@ const apiActionRequest = async function(csrfToken:string, action: string, data: 
     if (resJson.data != undefined) {
       for(let i = 0; i < resJson.data.length; i++) {
         const refData = resJson.data[i];
-        const row: DataRow = [refData.id.toString(), refData.reference.first_name, refData.reference.last_name, refData.reference.role, refData.reference.age, refData.reference.grade, refData.reference.homeaddress];
+        const row: DataRow = [refData.id.toString(), refData.username, refData.reference.first_name, refData.reference.last_name, refData.reference.role, refData.reference.age, refData.reference.grade, refData.reference.homeaddress];
         rows.push(row);
       }
     }
@@ -84,6 +87,13 @@ export function getMeta(metaName: string) {
 	}
 	return "";
 }
+
+export function getCookie(name: string) {
+	const value = `; ${document.cookie}`;
+	const parts = value.split(`; ${name}=`);
+	if (parts.length === 2) return parts.pop().split(";").shift();
+}
+
 
 const app = new App({
 	target: document.body,
