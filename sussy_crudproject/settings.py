@@ -56,6 +56,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
     ),
 }
+TOKEN_LIFETIME_HOURS = 14
 SECRET_KEY = config('SECRET_KEY')  # Generated with from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())
 
 LOGGING = {

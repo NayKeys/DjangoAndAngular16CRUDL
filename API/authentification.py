@@ -30,7 +30,7 @@ def create_jwt(username, role):
   # Create the JWT payload
   payload = {
     'user_identifier': username,
-    'exp': int((datetime.now() + timedelta(hours=settings.JWT_CONF['TOKEN_LIFETIME_HOURS'])).timestamp()),
+    'exp': int((datetime.now() + timedelta(hours=settings.TOKEN_LIFETIME_HOURS)).timestamp()),
     # set the expiration time for 5 hour from now
     'iat': datetime.now().timestamp(),
     'username': username,
@@ -38,7 +38,7 @@ def create_jwt(username, role):
   }
   # Encode the JWT with your secret key
   jwt_token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
-  return jwt_token
+  return jwt_token.decode('utf-8')
 
 class JWTAuthentication(authentication.BaseAuthentication):
   def authenticate(self, request):

@@ -32,19 +32,19 @@ def authenticate(request):
     return JsonResponse({"error": "Invalid ticket"}, status=400)
 
   # User is authenticated, issue JWT
-  response = pipe.fetch(ReferenceData(username=username))
+  reference = pipe.fetch(ReferenceData(username=username))
   
-  if response.status_code != 200:
+  if reference is None:
     return ApiResponse(404, "Authentification failed", None)
-  reference = ReferenceData.fromDict(json.loads(response.content.decode('utf-8')).get('data')[0])
-  
-  token = create_jwt(username, reference.reference.role)
-  response = JsonResponse({"jwt": token})
-  
-  # Set JWT as a cookie, with a max age of 14 hours
-  max_age = 14 * 60 * 60
-  response.set_cookie('jwt', token, max_age=max_age, httponly=True)
-  return response
+  else:
+    reference = ReferenceData.fromDict(reference)
+    token = create_jwt(username, reference.reference.role)
+    response = JsonResponse({"jwt": token})
+    
+    # Set JWT as a cookie, with a max age of 14 hours
+    max_age = 14 * 60 * 60
+    response.set_cookie('jwt', token, max_age=max_age, httponly=True)
+    return response
 
 @jwt_role_required  # AMAZING PYTHON FEATURE
 def execute(request):
