@@ -489,7 +489,7 @@ var app = (function (exports) {
     		c: function create() {
     			button = element("button");
     			button.textContent = "Log in with CAS";
-    			add_location(button, file$1, 20, 0, 565);
+    			add_location(button, file$1, 29, 0, 942);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -526,21 +526,31 @@ var app = (function (exports) {
     function instance$1($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Login', slots, []);
+    	const returnUrl = window.location.origin + '/api/auth';
 
     	onMount(() => {
-    		const urlParams = new URLSearchParams(window.location.search);
-    		const ticket = urlParams.get('ticket');
+    		getMeta('csrf-token');
+    		const casUrl = getMeta('cas-url');
+    		const jwt = getCookie('jwt');
 
-    		if (ticket) {
-    			validateCASTicket(ticket);
+    		if (!jwt) {
+    			// User is not authenticated, redirect to CAS login
+    			let returnUrl = encodeURIComponent(window.location.origin + '/api/auth/');
+
+    			window.location.href = casUrl + `?service=${returnUrl}`;
+    		} else {
+    			const urlParams = new URLSearchParams(window.location.search);
+    			const ticket = urlParams.get('ticket');
+
+    			if (ticket) {
+    				validateCASTicket(ticket);
+    			}
     		}
     	});
 
-    	const csrfToken = getMeta('csrf-token');
-    	const casUrl = getMeta('cas-url');
     	const token = localStorage.getItem('jwt');
 
-    	fetch('/api/auth', {
+    	fetch('/api/auth/', {
     		headers: { 'Authorization': `Bearer ${token}` }
     	});
 
@@ -555,8 +565,8 @@ var app = (function (exports) {
     		validateCASTicket,
     		onMount,
     		getMeta,
-    		csrfToken,
-    		casUrl,
+    		getCookie,
+    		returnUrl,
     		token
     	});
 
@@ -620,7 +630,7 @@ var app = (function (exports) {
     		c: function create() {
     			th = element("th");
     			t = text(t_value);
-    			add_location(th, file, 53, 3, 1761);
+    			add_location(th, file, 53, 3, 1823);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, th, anchor);
@@ -659,7 +669,7 @@ var app = (function (exports) {
     			attr_dev(td, "contenteditable", "true");
     			attr_dev(td, "class", "svelte-o0qdmk");
     			if (/*cell*/ ctx[17] === void 0) add_render_callback(td_input_handler);
-    			add_location(td, file, 60, 8, 1857);
+    			add_location(td, file, 60, 8, 1919);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, td, anchor);
@@ -737,10 +747,10 @@ var app = (function (exports) {
     			t2 = space();
     			button1 = element("button");
     			button1.textContent = "X";
-    			add_location(button0, file, 62, 6, 1926);
-    			add_location(button1, file, 63, 3, 1991);
+    			add_location(button0, file, 62, 6, 1988);
+    			add_location(button1, file, 63, 3, 2053);
     			attr_dev(tr, "class", "svelte-o0qdmk");
-    			add_location(tr, file, 58, 2, 1821);
+    			add_location(tr, file, 58, 2, 1883);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, tr, anchor);
@@ -827,7 +837,7 @@ var app = (function (exports) {
     			attr_dev(td, "contenteditable", "true");
     			attr_dev(td, "class", "svelte-o0qdmk");
     			if (/*column*/ ctx[11] === void 0) add_render_callback(td_input_handler_1);
-    			add_location(td, file, 69, 3, 2116);
+    			add_location(td, file, 69, 3, 2178);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, td, anchor);
@@ -938,14 +948,14 @@ var app = (function (exports) {
     			t5 = space();
     			pre = element("pre");
     			t6 = text(t6_value);
-    			add_location(tr0, file, 51, 1, 1725);
-    			add_location(button, file, 71, 2, 2182);
+    			add_location(tr0, file, 51, 1, 1787);
+    			add_location(button, file, 71, 2, 2244);
     			set_style(tr1, "color", "grey");
     			attr_dev(tr1, "class", "svelte-o0qdmk");
-    			add_location(tr1, file, 67, 1, 2061);
+    			add_location(tr1, file, 67, 1, 2123);
     			set_style(pre, "background", "#eee");
-    			add_location(pre, file, 75, 1, 2231);
-    			add_location(table, file, 50, 0, 1716);
+    			add_location(pre, file, 75, 1, 2293);
+    			add_location(table, file, 50, 0, 1778);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1129,22 +1139,49 @@ var app = (function (exports) {
     		});
     	}
 
-    	let columns = ["ID", "First Name", "Last Name", "Role", "Age", "Grade", "Address"]; // i dea: make this a prop sent from the backend
+    	let columns = ["ID", "username", "First Name", "Last Name", "Role", "Age", "Grade", "Address"]; // i dea: make this a prop sent from the backend
 
     	onMount(async () => {
-    		apiActionRequest(csrfToken, 'fetch_all', ["", "", "", "student", "", "", ""]).then(res => {
+    		apiActionRequest(csrfToken, 'fetch_all', ["", "", "", "", "student", "", "", ""]).then(res => {
     			$$invalidate(0, data = res);
     			console.log("res :", res);
     		});
     	});
 
     	let data = [
-    		['1', "John", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
-    		['2', "Sarah", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
-    		['3', "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"]
+    		[
+    			'1',
+    			"johnfish22",
+    			"John",
+    			"Fisher",
+    			"student",
+    			'22',
+    			'1',
+    			"21 uwu sur uwu plage"
+    		],
+    		[
+    			'2',
+    			"sarahfis24",
+    			"Sarah",
+    			"Fisher",
+    			"student",
+    			'22',
+    			'1',
+    			"21 uwu sur uwu plage"
+    		],
+    		[
+    			'3',
+    			"afshinfi54",
+    			"Afshin",
+    			"Fisher",
+    			"student",
+    			'22',
+    			'1',
+    			"21 uwu sur uwu plage"
+    		]
     	];
 
-    	let newRow = ['', "", "", "", '', '', ""];
+    	let newRow = ['', "", "", "", "", '', '', ""];
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
@@ -1222,13 +1259,14 @@ var app = (function (exports) {
             jwt: "jwt",
             data: {
                 id: parseInt(data[0]),
+                username: data[1],
                 reference: {
-                    first_name: data[1],
-                    last_name: data[2],
-                    role: data[3],
-                    age: data[4],
-                    grade: data[5],
-                    homeaddress: data[6],
+                    first_name: data[2],
+                    last_name: data[3],
+                    role: data[4],
+                    age: data[5],
+                    grade: data[6],
+                    homeaddress: data[7],
                 },
             },
         };
@@ -1250,7 +1288,7 @@ var app = (function (exports) {
             if (resJson.data != undefined) {
                 for (let i = 0; i < resJson.data.length; i++) {
                     const refData = resJson.data[i];
-                    const row = [refData.id.toString(), refData.reference.first_name, refData.reference.last_name, refData.reference.role, refData.reference.age, refData.reference.grade, refData.reference.homeaddress];
+                    const row = [refData.id.toString(), refData.username, refData.reference.first_name, refData.reference.last_name, refData.reference.role, refData.reference.age, refData.reference.grade, refData.reference.homeaddress];
                     rows.push(row);
                 }
             }
@@ -1266,6 +1304,12 @@ var app = (function (exports) {
         }
         return "";
     }
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2)
+            return parts.pop().split(";").shift();
+    }
     const app = new App({
         target: document.body,
         props: {},
@@ -1273,6 +1317,7 @@ var app = (function (exports) {
 
     exports.apiActionRequest = apiActionRequest;
     exports.default = app;
+    exports.getCookie = getCookie;
     exports.getMeta = getMeta;
 
     Object.defineProperty(exports, '__esModule', { value: true });

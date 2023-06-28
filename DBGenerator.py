@@ -35,10 +35,16 @@ first_name = fake.first_name()
 last_name = fake.last_name()
 username = (first_name + last_name)[:7] + str(random.randint(10, 100))
 for _ in range(100):  # Adjust this number to create as many fake students as you need.
-    cursor.execute('''
-        INSERT INTO students_app_student (username, first_name, last_name, role, age, grade, homeaddress)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-    ''', (username, first_name, last_name, random.choice(role), fake.random_int(min=18, max=25), fake.random_int(min=1, max=3), fake.address()))
+  cursor.execute('''
+      INSERT INTO students_app_student (username, first_name, last_name, role, age, grade, homeaddress)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+  ''', (username, first_name, last_name, random.choice(role), fake.random_int(min=18, max=25), fake.random_int(min=1, max=3), fake.address()))
+
+# Adding real life example for cas testing purposes
+cursor.execute('''
+    INSERT INTO students_app_student (username, first_name, last_name, role, age, grade, homeaddress)
+    VALUES ("yanregoj64", "yan", "regojo", "student", 21, 1, "1 rue de la paix")
+  ''')
 
 connection.commit()
 connection.close()

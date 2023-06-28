@@ -27,7 +27,6 @@
   },
   "dependencies": {
     "sirv-cli": "^2.0.0",
-    "svelte-cookie": "^1.0.1",
     "typescript": "^5.1.3"
   }
 }
