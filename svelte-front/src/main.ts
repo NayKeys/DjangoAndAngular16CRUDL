@@ -94,6 +94,17 @@ export function getCookie(name: string) {
 	if (parts.length === 2) return parts.pop().split(";").shift();
 }
 
+export function setCookie(name: string, value:string, hours:number) {
+	let expires = "";
+	if (hours) {
+		const date = new Date();
+		date.setTime(date.getTime() + hours * 60 * 60 * 1000);
+		expires = `; expires=${date.toUTCString()}`;
+	}
+	document.cookie = `${name}=${value || ""}${expires}; path=/`;
+}
+
+
 
 const app = new App({
 	target: document.body,

@@ -13,6 +13,7 @@ from API.datapipeline.PipelineHub import ReferenceData
 from API.datapipeline.PipelineHub import ApiResponse
 from API.authentification import verify_jwt
 from API.authentification import create_jwt
+import sussy_crudproject.settings as settings
 
 """NOTE:
   actions shouldnt implement a try catch block, that block should be specific to each different data pipelines
@@ -22,27 +23,24 @@ def csrfToken(request):
   return JsonResponse({'csrfToken': get_token(request)})
 
 def authenticate(request):
-  ticket = request.GET.get('ticket')
+  req = json.loads(request.body)
+  ticket = req.get('ticket')
   service = request.build_absolute_uri()
   service = 'http://localhost:8000/api/auth/'
   client = CASClient(server_url=settings.CAS_SERVER_URL, service_url=service, version=3)
   username, attributes, pgtiou = client.verify_ticket(ticket)
-
   if not username:
     return JsonResponse({"error": "Invalid ticket"}, status=400)
-
   # User is authenticated, issue JWT
   reference = pipe.fetch(ReferenceData(username=username))
-  
   if reference is None:
-    return ApiResponse(404, "Authentification failed", None)
+    return ApiResponse(401, "Authentification failed", None)
   else:
     reference = ReferenceData.fromDict(reference)
     token = create_jwt(username, reference.reference.role)
     response = JsonResponse({"jwt": token})
-    
     # Set JWT as a cookie, with a max age of 14 hours
-    max_age = 14 * 60 * 60
+    max_age = settings.TOKEN_LIFETIME_HOURS * 60 * 60
     response.set_cookie('jwt', token, max_age=max_age, httponly=True)
     return response
 
