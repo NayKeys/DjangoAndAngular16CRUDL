@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+from decouple import config
 from pathlib import Path
 import os
 
@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-i3l1vco0mv-*iefr%pd%(1jgh#k5400bjehr966ay=va1j9@vy'
+# SECRET_KEY = 'django-insecure-i3l1vco0mv-*iefr%pd%(1jgh#k5400bjehr966ay=va1j9@vy'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -52,12 +52,11 @@ REST_FRAMEWORK = {
     # ...
   ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),
 }
-
+SECRET_KEY = config('SECRET_KEY')  # Generated with from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())
 
 LOGGING = {
     "version": 1,

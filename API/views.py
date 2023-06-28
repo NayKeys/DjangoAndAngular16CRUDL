@@ -1,7 +1,7 @@
 import json
 from django.middleware.csrf import get_token
 from django.http import JsonResponse
-from rest_framework_jwt.settings import api_settings
+from rest_framework_simplejwt.settings import api_settings
 from cas import CASClient
 
 import API.datapipeline.PipelineHub as pipe
@@ -11,10 +11,15 @@ import sussy_crudproject.settings as settings
 import API.datapipeline.PipelineHub as pipe
 from API.datapipeline.PipelineHub import ReferenceData
 from API.datapipeline.PipelineHub import ApiResponse
+from API.authentification import verify_jwt
+from API.authentification import create_jwt
+
+"""NOTE:
+  actions shouldnt implement a try catch block, that block should be specific to each different data pipelines
+"""
 
 def csrfToken(request):
   return JsonResponse({'csrfToken': get_token(request)})
-
 
 def authenticate(request):
   ticket = request.GET.get('ticket')
@@ -31,19 +36,14 @@ def authenticate(request):
   
   if response.status_code != 200:
     return ApiResponse(404, "Authentification failed", None)
-  reference = ReferenceData(json.loads(response.content.decode('utf-8')).get('data'))
-  jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
-  jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
-  payload = jwt_payload_handler(user)
+  reference = ReferenceData.fromDict(json.loads(response.content.decode('utf-8')).get('data')[0])
   
-  # Add 'role' to JWT payload
-  payload['role'] = user.role  # Assuming 'role' is stored in 'user.role'
-  jwt_token = jwt_encode_handler(payload)
-  response = JsonResponse({"token": jwt_token})
-
+  token = create_jwt(username, reference.reference.role)
+  response = JsonResponse({"jwt": token})
+  
   # Set JWT as a cookie, with a max age of 14 hours
   max_age = 14 * 60 * 60
-  response.set_cookie('jwt', jwt_token, max_age=max_age, httponly=True)
+  response.set_cookie('jwt', token, max_age=max_age, httponly=True)
   return response
 
 @jwt_role_required  # AMAZING PYTHON FEATURE
@@ -51,33 +51,67 @@ def execute(request):
   if request.method == 'POST':
     req: ApiRequest = ApiRequest(json.loads(request.body))
     action = req.action
-    reference = ReferenceData(req.data.get('reference'))
+    reference = ReferenceData.fromDict(req.data.get('reference'))
     
     if action == 'create':
-      if check_permission_create(reference, req.jwt):
-        return pipe.insert(reference)
-      return JsonResponse({"error": "User not allowed"}, status=403)
+      try:
+        if check_permission_create(reference, req.jwt):
+          action_performed = pipe.insert(reference)
+          if (action_performed ):
+            return ApiResponse(200, "Succesfuly retrieved element with id = "+str(id), [ReferenceData.fromDict(fetched_data)]).JsonResponse()
+        else:
+          return ApiResponse(403, "Error: User is not allowed to perform this action", [ReferenceData.fromDict(element) for element in fetched_data]).JsonResponse()
+      except Exception as e:
+        e.print_exc()
+        return ApiResponse(500, "Could not create element\n error-message: "+str(e), None).JsonResponse()
 
     elif action == 'update':
-      if check_permission_update(reference, req.jwt):
-        return pipe.update(reference)
-      return JsonResponse({"error": "User not allowed"}, status=403)
-
+      try:
+        if check_permission_update(reference, req.jwt):
+          action_performed = pipe.update(reference)
+          if (action_performed):
+            return ApiResponse(200, "Succesfuly updated element with id = "+reference.id, [ReferenceData.fromDict(element) for element in fetched_data]).JsonResponse()
+        else:
+          return ApiResponse(403, "Error: User is not allowed to perform this action", [ReferenceData.fromDict(element) for element in fetched_data]).JsonResponse()
+      except Exception as e:
+        e.print_exc()
+        return ApiResponse(500, "Could not update element with id = "+reference.id+"\n error-message: "+str(e), None).JsonResponse()
+    
     elif action == 'fetch_all':
-      if check_permission_read(reference, req.jwt):
-        return pipe.fetch_all(reference)
-      return JsonResponse({"error": "User not allowed"}, status=403)
-      
+      try:
+        if check_permission_read(reference, req.jwt):
+          fetched_data = pipe.fetch_all(reference)
+          if (not fetched_data is None):
+            return ApiResponse(200, "Succesfuly retrieved elements", [ReferenceData.fromDict(element) for element in fetched_data]).JsonResponse()
+        else:
+          return ApiResponse(403, "Error: User is not allowed to perform this action", [ReferenceData.fromDict(element) for element in fetched_data]).JsonResponse()
+      except Exception as e:
+        e.print_exc()
+        return ApiResponse(404, "No data found with this query role = "+reference.role+"\n error-message: "+str(e), None).JsonResponse()
+    
     elif action == 'fetch':
-      if check_permission_read(reference, req.jwt):
-        return pipe.fetch(reference)
-      return JsonResponse({"error": "User not allowed"}, status=403)
+      try:
+        if check_permission_read(reference, req.jwt):
+          fetched_data = pipe.fetch(reference)
+          if (not fetched_data is None):
+            return ApiResponse(200, "Succesfuly retrieved element with id = "+str(id), [ReferenceData.fromDict(fetched_data)]).JsonResponse()
+        else:
+          return ApiResponse(403, "Error: User is not allowed to perform this action", [ReferenceData.fromDict(element) for element in fetched_data]).JsonResponse()
+      except Exception as e:
+        e.print_exc()
+        return ApiResponse(404, "No data found with this query id = "+reference.id+"\n error-message: "+str(e), None).JsonResponse()
     
     elif action == 'remove':
-      if check_permission_delete(reference, req.jwt):
-        return pipe.delete(reference)
-      return JsonResponse({"error": "User not allowed"}, status=403)
-    
+      try:
+        if check_permission_delete(reference, req.jwt):
+          action_performed = pipe.delete(reference)
+          if (action_performed):
+            return ApiResponse(200, "Succesfuly retrieved element with id = "+str(id), [ReferenceData.fromDict(fetched_data)]).JsonResponse()
+        else:
+          return ApiResponse(403, "Error: User is not allowed to perform this action", [ReferenceData.fromDict(element) for element in fetched_data]).JsonResponse()
+      except Exception as e:
+        e.print_exc()
+        return ApiResponse(500, "Could not delete element with id = "+reference.id+"\n error-message: "+str(e), None).JsonResponse()
     else:
       return JsonResponse({"error": "Invalid method"}, status=400)
 
@@ -104,9 +138,9 @@ def validate_cas_ticket(request):
         username = response.text.split()[1]
         User = get_user_model()
         try:
-            user = User.objects.get(username=username)
+          user = User.objects.get(username=username)
         except User.DoesNotExist:
-            return JsonResponse({"error": "User does not exist"}, status=400)
+          return JsonResponse({"error": "User does not exist"}, status=400)
 
         jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
         jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER

@@ -3,6 +3,7 @@ import sqlite3
 from API.datapipeline.PipelineHub import ApiResponse, ReferenceData
 import re
 import sqlite3
+import json
 
 class DBTable:
   def __init__(self, tableName, databaseUrl, dn=None, password=None):
@@ -27,21 +28,31 @@ def fetch_all(reference):
     fetched_data = etl.fromdb(conn, 'SELECT * FROM students_app_student WHERE role = ?', (reference.get('role'), ))
     fetched_data = etl.dicts(etl.sort(fetched_data))
     conn.commit()
-    return fetched_data
+    fetched_data = str(fetched_data)
+    if len(fetched_data) == 0:
+      return None
+    fetched_data = '['+fetched_data.replace("\n", ",")+']'  # Creates a valid json array
+    return json.loads(fetched_data.replace("\'", "\""))  # Return a python dict list
 
 def fetchByID(id: int):
   conn = sqlite3.connect(student_table.databaseUrl)
   fetched_data = etl.fromdb(conn, 'SELECT * FROM students_app_student WHERE id = ?', (id,))
   fetched_data = etl.dicts(etl.sort(fetched_data))
   conn.commit()
-  return fetched_data
+  fetched_data = str(fetched_data)  # Required to convert ptel table to python dictionnary
+  if len(fetched_data) == 0:  # This is unfortunate, it works but this must certainly not be the best way to do it
+    return None
+  return json.loads(fetched_data.replace("\'", "\""))  # Returns python dict
 
 def fetchByUsername(username: str):
   conn = sqlite3.connect(student_table.databaseUrl)
   fetched_data = etl.fromdb(conn, 'SELECT * FROM students_app_student WHERE username = ?', (username,))
   fetched_data = etl.dicts(etl.sort(fetched_data))
   conn.commit()
-  return fetched_data
+  fetched_data = str(fetched_data)  # Convert to string for json conversion
+  if len(fetched_data) == 0:
+    return None
+  return json.loads(fetched_data.replace("\'", "\""))  # Returns python dict
 
 def delete(id: int):
   conn = sqlite3.connect(student_table.databaseUrl)
