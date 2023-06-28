@@ -36,20 +36,20 @@
       }
     })
   }
-	let columns: string[] = ["ID", "First Name", "Last Name", "Role", "Age", "Grade", "Address"]  // i dea: make this a prop sent from the backend
+	let columns: string[] = ["ID", "username", "First Name", "Last Name", "Role", "Age", "Grade", "Address"]  // i dea: make this a prop sent from the backend
 
   onMount(async () => {
-    apiActionRequest(csrfToken, 'fetch_all', ["", "", "", "student", "", "", ""]).then((res) => {
+    apiActionRequest(csrfToken, 'fetch_all', ["", "", "", "", "student", "", "", ""]).then((res) => {
       data = res;
       console.log("res :", res)
     })
   });
   let data: DataRow[] = [
-    ['1', "John", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
-    ['2', "Sarah", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
-    ['3', "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"]
+    ['1', "johnfish22", "John", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['2', "sarahfis24", "Sarah", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"]
   ]
-	let newRow: DataRow = ['', "", "", "", '', '', ""];
+	let newRow: DataRow = ['', "", "", "", "", '', '', ""];
 </script>
 
 <Login />
