@@ -10,6 +10,7 @@ from API.decorators import jwt_role_required
 import sussy_crudproject.settings as settings
 import API.datapipeline.PipelineHub as pipe
 from API.datapipeline.PipelineHub import ReferenceData
+from API.datapipeline.PipelineHub import ApiResponse
 
 def csrfToken(request):
   return JsonResponse({'csrfToken': get_token(request)})
@@ -26,8 +27,11 @@ def authenticate(request):
     return JsonResponse({"error": "Invalid ticket"}, status=400)
 
   # User is authenticated, issue JWT
-  pipe.fetch()
-  user = Student.objects.get(username=username)
+  response = pipe.fetch(ReferenceData(username=username))
+  
+  if response.status_code != 200:
+    return ApiResponse(404, "Authentification failed", None)
+  reference = ReferenceData(json.loads(response.content.decode('utf-8')).get('data'))
   jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
   jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
   payload = jwt_payload_handler(user)

@@ -16,18 +16,23 @@ class ReferenceData:
     self.reference.age = dict['age']
     self.reference.grade = dict['grade']
     self.reference.homeaddress = dict['homeaddress']
-  # def __init__(self, id: int, first_name: str, last_name: str, role: str, age: str, grade: str, address: str):
-  #   self.id = id
-  #   self.reference.first_name = first_name
-  #   self.reference.first_name = first_name
-  #   self.reference.last_name = last_name
-  #   self.reference.role = role
-  #   self.reference.age = age
-  #   self.reference.grade = grade
-  #   self.reference.homeaddress = homeaddress
+  
+  def __init__(self, id: int = 0, username: str = "", first_name: str = "", last_name: str = "", role: str = "", age: str = 0, grade: str = 1, homeaddress: str = ""):
+    self.id = id
+    self.username = username
+    self.reference = Reference()
+    self.reference.first_name = first_name
+    self.reference.first_name = first_name
+    self.reference.last_name = last_name
+    self.reference.role = role
+    self.reference.age = age
+    self.reference.grade = grade
+    self.reference.homeaddress = homeaddress
+  
   def toJson(self):
     return {
       "id": self.id,
+      "username": self.username,
       "reference": {
         "first_name": self.reference.first_name, "last_name": self.reference.last_name, "role": self.reference.role, "age": self.reference.age, "grade": self.reference.grade, "homeaddress": self.reference.homeaddress
       }
@@ -44,7 +49,7 @@ class ApiRequest:
     self.data = json['data']
 
 class ApiResponse:
-  def __init__(self, status: str, message: str, data: ReferenceData):
+  def __init__(self, status: int, message: str, data: ReferenceData):
     self.status = status
     self.message = message
     self.data = data
@@ -127,4 +132,4 @@ def insert(reference: ReferenceData):
       return ApiResponse(200, "Succesfuly created element", None).JsonResponse()
   except Exception as e:
     e.print_exc()
-    return ApiResponse(500, "Couldnt create element"+" \n error-message: "+str(e), None).JsonResponse()sql_pipeline.fetch
+    return ApiResponse(500, "Couldnt create element"+" \n error-message: "+str(e), None).JsonResponse()
