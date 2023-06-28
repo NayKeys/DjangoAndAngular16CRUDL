@@ -29,17 +29,8 @@
       window.location.href = casUrl+`?service=${returnUrl}`;
     }
   });
-
-  const token = localStorage.getItem('jwt');
-  fetch('/api/auth/', {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  })
-
 </script>
 
-<button on:click={loginWithCAS}>Log in with CAS</button>
 {#if error}
   <p>{error}</p>
 {/if}

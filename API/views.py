@@ -22,7 +22,7 @@ import sussy_crudproject.settings as settings
 def csrfToken(request):
   return JsonResponse({'csrfToken': get_token(request)})
 
-def authenticate(request):
+def casValidation(request):
   req = json.loads(request.body)
   ticket = req.get('ticket')
   service = request.build_absolute_uri()
@@ -44,7 +44,13 @@ def authenticate(request):
     response.set_cookie('jwt', token, max_age=max_age, httponly=True)
     return response
 
-@jwt_role_required  # AMAZING PYTHON FEATURE
+def authenticate(request):
+  req = json.loads(request.body)
+  token = req.get('jwt')
+  verif = verify_jwt(token)
+  return True
+
+# @jwt_role_required  # AMAZING PYTHON FEATURE
 def execute(request):
   if request.method == 'POST':
     req: ApiRequest = ApiRequest(json.loads(request.body))
