@@ -1,6 +1,4 @@
-import petl as etl
 from django.http import JsonResponse
-import ldap.modlist as modlist
 import petl as etl
 
 """ NOTE:
