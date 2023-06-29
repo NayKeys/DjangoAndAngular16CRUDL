@@ -18,7 +18,7 @@ export async function auth() {
 		// If no jwt but ticket, verify ticket
 		const token = await validateCASTicket(csrfToken, ticket);
 		if (!token) {
-			error = "Authentification failed.";
+			return "Authentification failed.";
 		} else {
 			setCookie("jwt", token, tokenValidationDuration);
 			return jwt;

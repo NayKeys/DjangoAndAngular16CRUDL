@@ -14,7 +14,7 @@
 
 
   const csrfToken = getMeta('csrf-token');
-  const jwt = getCookie('jwt');
+  let jwt = getCookie('jwt');
 	function addRow() {
     apiActionRequest(csrfToken, jwt, 'create', newRow).then((res) => {
       if (res != undefined) {
@@ -42,6 +42,7 @@
 
   onMount(async () => {
     await auth()
+    jwt = getCookie('jwt')
     apiActionRequest(csrfToken, jwt, 'fetch_all', ["", "", "", "", "student", "", "", ""]).then((res) => {
       data = res;
       console.log("res :", res)

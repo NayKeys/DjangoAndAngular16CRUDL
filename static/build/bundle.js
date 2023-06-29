@@ -470,7 +470,7 @@ var app = (function (exports) {
             // If no jwt but ticket, verify ticket
             const token = await validateCASTicket(csrfToken, ticket);
             if (!token) {
-                error = "Authentification failed.";
+                return "Authentification failed.";
             }
             else {
                 setCookie("jwt", token, tokenValidationDuration);
@@ -685,7 +685,7 @@ var app = (function (exports) {
     	return child_ctx;
     }
 
-    // (56:2) {#each columns as column}
+    // (57:2) {#each columns as column}
     function create_each_block_3(ctx) {
     	let th;
     	let t_value = /*column*/ ctx[12] + "";
@@ -695,7 +695,7 @@ var app = (function (exports) {
     		c: function create() {
     			th = element("th");
     			t = text(t_value);
-    			add_location(th, file, 56, 3, 1945);
+    			add_location(th, file, 57, 3, 1971);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, th, anchor);
@@ -711,14 +711,14 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_3.name,
     		type: "each",
-    		source: "(56:2) {#each columns as column}",
+    		source: "(57:2) {#each columns as column}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (63:3) {#each row as cell}
+    // (64:3) {#each row as cell}
     function create_each_block_2(ctx) {
     	let td;
     	let mounted;
@@ -734,7 +734,7 @@ var app = (function (exports) {
     			attr_dev(td, "contenteditable", "true");
     			attr_dev(td, "class", "svelte-o0qdmk");
     			if (/*cell*/ ctx[18] === void 0) add_render_callback(td_input_handler);
-    			add_location(td, file, 63, 8, 2041);
+    			add_location(td, file, 64, 8, 2067);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, td, anchor);
@@ -766,14 +766,14 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_2.name,
     		type: "each",
-    		source: "(63:3) {#each row as cell}",
+    		source: "(64:3) {#each row as cell}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (61:1) {#each data as row}
+    // (62:1) {#each data as row}
     function create_each_block_1(ctx) {
     	let tr;
     	let t0;
@@ -812,10 +812,10 @@ var app = (function (exports) {
     			t2 = space();
     			button1 = element("button");
     			button1.textContent = "X";
-    			add_location(button0, file, 65, 6, 2110);
-    			add_location(button1, file, 66, 3, 2175);
+    			add_location(button0, file, 66, 6, 2136);
+    			add_location(button1, file, 67, 3, 2201);
     			attr_dev(tr, "class", "svelte-o0qdmk");
-    			add_location(tr, file, 61, 2, 2005);
+    			add_location(tr, file, 62, 2, 2031);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, tr, anchor);
@@ -879,14 +879,14 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(61:1) {#each data as row}",
+    		source: "(62:1) {#each data as row}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (72:2) {#each newRow as column}
+    // (73:2) {#each newRow as column}
     function create_each_block(ctx) {
     	let td;
     	let mounted;
@@ -902,7 +902,7 @@ var app = (function (exports) {
     			attr_dev(td, "contenteditable", "true");
     			attr_dev(td, "class", "svelte-o0qdmk");
     			if (/*column*/ ctx[12] === void 0) add_render_callback(td_input_handler_1);
-    			add_location(td, file, 72, 3, 2300);
+    			add_location(td, file, 73, 3, 2326);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, td, anchor);
@@ -934,7 +934,7 @@ var app = (function (exports) {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(72:2) {#each newRow as column}",
+    		source: "(73:2) {#each newRow as column}",
     		ctx
     	});
 
@@ -1013,14 +1013,14 @@ var app = (function (exports) {
     			t5 = space();
     			pre = element("pre");
     			t6 = text(t6_value);
-    			add_location(tr0, file, 54, 1, 1909);
-    			add_location(button, file, 74, 2, 2366);
+    			add_location(tr0, file, 55, 1, 1935);
+    			add_location(button, file, 75, 2, 2392);
     			set_style(tr1, "color", "grey");
     			attr_dev(tr1, "class", "svelte-o0qdmk");
-    			add_location(tr1, file, 70, 1, 2245);
+    			add_location(tr1, file, 71, 1, 2271);
     			set_style(pre, "background", "#eee");
-    			add_location(pre, file, 78, 1, 2415);
-    			add_location(table, file, 53, 0, 1900);
+    			add_location(pre, file, 79, 1, 2441);
+    			add_location(table, file, 54, 0, 1926);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1177,7 +1177,7 @@ var app = (function (exports) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('App', slots, []);
     	const csrfToken = getMeta('csrf-token');
-    	const jwt = getCookie('jwt');
+    	let jwt = getCookie('jwt');
 
     	function addRow() {
     		apiActionRequest(csrfToken, jwt, 'create', newRow).then(res => {
@@ -1209,6 +1209,7 @@ var app = (function (exports) {
 
     	onMount(async () => {
     		await auth();
+    		jwt = getCookie('jwt');
 
     		apiActionRequest(csrfToken, jwt, 'fetch_all', ["", "", "", "", "student", "", "", ""]).then(res => {
     			$$invalidate(0, data = res);
@@ -1287,6 +1288,7 @@ var app = (function (exports) {
     	});
 
     	$$self.$inject_state = $$props => {
+    		if ('jwt' in $$props) jwt = $$props.jwt;
     		if ('columns' in $$props) $$invalidate(5, columns = $$props.columns);
     		if ('data' in $$props) $$invalidate(0, data = $$props.data);
     		if ('newRow' in $$props) $$invalidate(1, newRow = $$props.newRow);
