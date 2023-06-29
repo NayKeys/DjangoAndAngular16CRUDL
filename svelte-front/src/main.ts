@@ -36,13 +36,13 @@ export type ApiResponse = {
 	data: ReferenceData[];
 };
 
-const apiActionRequest = async function(csrfToken:string, action: string, data: DataRow): Promise<DataRow[] | undefined> {
+const apiActionRequest = async function(csrfToken:string, jwt: string, action: string, data: DataRow): Promise<DataRow[] | undefined> {
   const request: ApiRequest = {
 		action: action,
-		jwt: "jwt",
+		jwt: jwt,
 		data: {
 			id: parseInt(data[0]),
-      username: data[1],
+			username: data[1],
 			reference: {
 				first_name: data[2],
 				last_name: data[3],

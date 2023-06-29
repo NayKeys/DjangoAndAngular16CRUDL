@@ -46,14 +46,14 @@ def authenticate(request):
   req = json.loads(request.body)
   token = req.get('jwt')
   try:
-    verif = verify_jwt(token)
+    payload = verify_jwt(token)
   except AuthenticationFailed:
-    return ApiResponse(401, "Authentification failed", None)
+    return ApiResponse(401, "Authentification failed", None).JsonResponse()
   except ParseError:
-    return ApiResponse(400, "Invalid JWT token", None)
-  return ApiResponse(200, "Authentification success!", None)
+    return ApiResponse(400, "Invalid JWT token", None).JsonResponse()
+  return ApiResponse(200, "Authentification success!", None).JsonResponse()
 
-# @jwt_role_required  # AMAZING PYTHON FEATURE
+@jwt_role_required  # AMAZING PYTHON FEATURE
 def execute(request):
   if request.method == 'POST':
     req: ApiRequest = ApiRequest(json.loads(request.body))

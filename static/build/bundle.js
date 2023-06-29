@@ -671,43 +671,43 @@ var app = (function (exports) {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[11] = list[i];
-    	child_ctx[12] = list;
-    	child_ctx[13] = i;
+    	child_ctx[12] = list[i];
+    	child_ctx[13] = list;
+    	child_ctx[14] = i;
     	return child_ctx;
     }
 
     function get_each_context_1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[14] = list[i];
+    	child_ctx[15] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[17] = list[i];
-    	child_ctx[18] = list;
-    	child_ctx[19] = i;
+    	child_ctx[18] = list[i];
+    	child_ctx[19] = list;
+    	child_ctx[20] = i;
     	return child_ctx;
     }
 
     function get_each_context_3(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[11] = list[i];
+    	child_ctx[12] = list[i];
     	return child_ctx;
     }
 
-    // (53:2) {#each columns as column}
+    // (54:2) {#each columns as column}
     function create_each_block_3(ctx) {
     	let th;
-    	let t_value = /*column*/ ctx[11] + "";
+    	let t_value = /*column*/ ctx[12] + "";
     	let t;
 
     	const block = {
     		c: function create() {
     			th = element("th");
     			t = text(t_value);
-    			add_location(th, file, 53, 3, 1823);
+    			add_location(th, file, 54, 3, 1884);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, th, anchor);
@@ -723,21 +723,21 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_3.name,
     		type: "each",
-    		source: "(53:2) {#each columns as column}",
+    		source: "(54:2) {#each columns as column}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (60:3) {#each row as cell}
+    // (61:3) {#each row as cell}
     function create_each_block_2(ctx) {
     	let td;
     	let mounted;
     	let dispose;
 
     	function td_input_handler() {
-    		/*td_input_handler*/ ctx[6].call(td, /*each_value_2*/ ctx[18], /*cell_index*/ ctx[19]);
+    		/*td_input_handler*/ ctx[6].call(td, /*each_value_2*/ ctx[19], /*cell_index*/ ctx[20]);
     	}
 
     	const block = {
@@ -745,14 +745,14 @@ var app = (function (exports) {
     			td = element("td");
     			attr_dev(td, "contenteditable", "true");
     			attr_dev(td, "class", "svelte-o0qdmk");
-    			if (/*cell*/ ctx[17] === void 0) add_render_callback(td_input_handler);
-    			add_location(td, file, 60, 8, 1919);
+    			if (/*cell*/ ctx[18] === void 0) add_render_callback(td_input_handler);
+    			add_location(td, file, 61, 8, 1980);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, td, anchor);
 
-    			if (/*cell*/ ctx[17] !== void 0) {
-    				td.innerHTML = /*cell*/ ctx[17];
+    			if (/*cell*/ ctx[18] !== void 0) {
+    				td.innerHTML = /*cell*/ ctx[18];
     			}
 
     			if (!mounted) {
@@ -763,8 +763,8 @@ var app = (function (exports) {
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
 
-    			if (dirty & /*data*/ 1 && /*cell*/ ctx[17] !== td.innerHTML) {
-    				td.innerHTML = /*cell*/ ctx[17];
+    			if (dirty & /*data*/ 1 && /*cell*/ ctx[18] !== td.innerHTML) {
+    				td.innerHTML = /*cell*/ ctx[18];
     			}
     		},
     		d: function destroy(detaching) {
@@ -778,14 +778,14 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_2.name,
     		type: "each",
-    		source: "(60:3) {#each row as cell}",
+    		source: "(61:3) {#each row as cell}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (58:1) {#each data as row}
+    // (59:1) {#each data as row}
     function create_each_block_1(ctx) {
     	let tr;
     	let t0;
@@ -794,7 +794,7 @@ var app = (function (exports) {
     	let button1;
     	let mounted;
     	let dispose;
-    	let each_value_2 = /*row*/ ctx[14];
+    	let each_value_2 = /*row*/ ctx[15];
     	validate_each_argument(each_value_2);
     	let each_blocks = [];
 
@@ -803,11 +803,11 @@ var app = (function (exports) {
     	}
 
     	function click_handler() {
-    		return /*click_handler*/ ctx[7](/*row*/ ctx[14]);
+    		return /*click_handler*/ ctx[7](/*row*/ ctx[15]);
     	}
 
     	function click_handler_1() {
-    		return /*click_handler_1*/ ctx[8](/*row*/ ctx[14]);
+    		return /*click_handler_1*/ ctx[8](/*row*/ ctx[15]);
     	}
 
     	const block = {
@@ -824,10 +824,10 @@ var app = (function (exports) {
     			t2 = space();
     			button1 = element("button");
     			button1.textContent = "X";
-    			add_location(button0, file, 62, 6, 1988);
-    			add_location(button1, file, 63, 3, 2053);
+    			add_location(button0, file, 63, 6, 2049);
+    			add_location(button1, file, 64, 3, 2114);
     			attr_dev(tr, "class", "svelte-o0qdmk");
-    			add_location(tr, file, 58, 2, 1883);
+    			add_location(tr, file, 59, 2, 1944);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, tr, anchor);
@@ -856,7 +856,7 @@ var app = (function (exports) {
     			ctx = new_ctx;
 
     			if (dirty & /*data*/ 1) {
-    				each_value_2 = /*row*/ ctx[14];
+    				each_value_2 = /*row*/ ctx[15];
     				validate_each_argument(each_value_2);
     				let i;
 
@@ -891,21 +891,21 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(58:1) {#each data as row}",
+    		source: "(59:1) {#each data as row}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (69:2) {#each newRow as column}
+    // (70:2) {#each newRow as column}
     function create_each_block(ctx) {
     	let td;
     	let mounted;
     	let dispose;
 
     	function td_input_handler_1() {
-    		/*td_input_handler_1*/ ctx[9].call(td, /*each_value*/ ctx[12], /*column_index*/ ctx[13]);
+    		/*td_input_handler_1*/ ctx[9].call(td, /*each_value*/ ctx[13], /*column_index*/ ctx[14]);
     	}
 
     	const block = {
@@ -913,14 +913,14 @@ var app = (function (exports) {
     			td = element("td");
     			attr_dev(td, "contenteditable", "true");
     			attr_dev(td, "class", "svelte-o0qdmk");
-    			if (/*column*/ ctx[11] === void 0) add_render_callback(td_input_handler_1);
-    			add_location(td, file, 69, 3, 2178);
+    			if (/*column*/ ctx[12] === void 0) add_render_callback(td_input_handler_1);
+    			add_location(td, file, 70, 3, 2239);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, td, anchor);
 
-    			if (/*column*/ ctx[11] !== void 0) {
-    				td.innerHTML = /*column*/ ctx[11];
+    			if (/*column*/ ctx[12] !== void 0) {
+    				td.innerHTML = /*column*/ ctx[12];
     			}
 
     			if (!mounted) {
@@ -931,8 +931,8 @@ var app = (function (exports) {
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
 
-    			if (dirty & /*newRow*/ 2 && /*column*/ ctx[11] !== td.innerHTML) {
-    				td.innerHTML = /*column*/ ctx[11];
+    			if (dirty & /*newRow*/ 2 && /*column*/ ctx[12] !== td.innerHTML) {
+    				td.innerHTML = /*column*/ ctx[12];
     			}
     		},
     		d: function destroy(detaching) {
@@ -946,7 +946,7 @@ var app = (function (exports) {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(69:2) {#each newRow as column}",
+    		source: "(70:2) {#each newRow as column}",
     		ctx
     	});
 
@@ -1025,14 +1025,14 @@ var app = (function (exports) {
     			t5 = space();
     			pre = element("pre");
     			t6 = text(t6_value);
-    			add_location(tr0, file, 51, 1, 1787);
-    			add_location(button, file, 71, 2, 2244);
+    			add_location(tr0, file, 52, 1, 1848);
+    			add_location(button, file, 72, 2, 2305);
     			set_style(tr1, "color", "grey");
     			attr_dev(tr1, "class", "svelte-o0qdmk");
-    			add_location(tr1, file, 67, 1, 2123);
+    			add_location(tr1, file, 68, 1, 2184);
     			set_style(pre, "background", "#eee");
-    			add_location(pre, file, 75, 1, 2293);
-    			add_location(table, file, 50, 0, 1778);
+    			add_location(pre, file, 76, 1, 2354);
+    			add_location(table, file, 51, 0, 1839);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1189,9 +1189,10 @@ var app = (function (exports) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('App', slots, []);
     	const csrfToken = getMeta('csrf-token');
+    	const jwt = getCookie('jwt');
 
     	function addRow() {
-    		apiActionRequest(csrfToken, 'create', newRow).then(res => {
+    		apiActionRequest(csrfToken, jwt, 'create', newRow).then(res => {
     			if (res != undefined) {
     				$$invalidate(0, data = [...data, [...newRow]]);
     				console.log("res :", res);
@@ -1200,7 +1201,7 @@ var app = (function (exports) {
     	}
 
     	function deleteRow(rowToBeDeleted) {
-    		apiActionRequest(csrfToken, 'remove', rowToBeDeleted).then(res => {
+    		apiActionRequest(csrfToken, jwt, 'remove', rowToBeDeleted).then(res => {
     			if (res != undefined) {
     				$$invalidate(0, data = data.filter(row => row != rowToBeDeleted));
     				console.log("res :", res);
@@ -1209,7 +1210,7 @@ var app = (function (exports) {
     	}
 
     	function updateRow(rowToBeEdited) {
-    		apiActionRequest(csrfToken, 'update', rowToBeEdited).then(res => {
+    		apiActionRequest(csrfToken, jwt, 'update', rowToBeEdited).then(res => {
     			if (res != undefined) {
     				console.log("res :", res);
     			}
@@ -1219,7 +1220,7 @@ var app = (function (exports) {
     	let columns = ["ID", "username", "First Name", "Last Name", "Role", "Age", "Grade", "Address"]; // i dea: make this a prop sent from the backend
 
     	onMount(async () => {
-    		apiActionRequest(csrfToken, 'fetch_all', ["", "", "", "", "student", "", "", ""]).then(res => {
+    		apiActionRequest(csrfToken, jwt, 'fetch_all', ["", "", "", "", "student", "", "", ""]).then(res => {
     			$$invalidate(0, data = res);
     			console.log("res :", res);
     		});
@@ -1283,7 +1284,9 @@ var app = (function (exports) {
     		apiActionRequest,
     		Login,
     		getMeta,
+    		getCookie,
     		csrfToken,
+    		jwt,
     		addRow,
     		deleteRow,
     		updateRow,
@@ -1330,10 +1333,10 @@ var app = (function (exports) {
     	}
     }
 
-    const apiActionRequest = async function (csrfToken, action, data) {
+    const apiActionRequest = async function (csrfToken, jwt, action, data) {
         const request = {
             action: action,
-            jwt: "jwt",
+            jwt: jwt,
             data: {
                 id: parseInt(data[0]),
                 username: data[1],

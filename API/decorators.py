@@ -3,8 +3,10 @@ from django.http import JsonResponse
 from functools import wraps
 import json
 import jwt
-from API.authentification import verify_jwt
 from rest_framework.exceptions import AuthenticationFailed, ParseError
+
+from API.datapipeline.PipelineHub import ApiResponse
+from API.authentification import verify_jwt
 
 def jwt_role_required(view_func):
   @wraps(view_func)
@@ -12,21 +14,11 @@ def jwt_role_required(view_func):
     req = json.loads(request.body)
     token = req.get('jwt')
     try:
-      verif = verify_jwt(token)
+      payload = verify_jwt(token)
+      request.role = payload.role  # Now the role is available as request.user.role
+      return view_func(request, *args, **kwargs)
     except AuthenticationFailed:
-      return ApiResponse(401, "Authentification failed", None)
+      return ApiResponse(401, "Authentification failed, user is not allowed to perform this action", None).JsonResponse()
     except ParseError:
-      return ApiResponse(400, "Invalid JWT token", None)
-    return ApiResponse(200, "Authentification success!", None)
-    if not jwt_token:
-      return JsonResponse({"error": "No JWT token provided"}, status=401)
-
-    try:
-        payload = jwt_decode_handler(jwt_token)
-    except:
-        return JsonResponse({"error": "Invalid JWT token"}, status=401)
-
-    request.role = payload.get('role')  # Now the role is available as request.role
-
-    return view_func(request, *args, **kwargs)
+      return ApiResponse(400, "Invalid JWT token, token is required to perform actions", None).JsonResponse()
   return _wrapped_view
