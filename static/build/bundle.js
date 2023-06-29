@@ -461,10 +461,11 @@ var app = (function (exports) {
         // replace this URL with the actual login endpoint
         window.location.href = casLoginUrl;
     }
-    async function validateCASTicket(ticket) {
-        const response = await fetch("/api/cas", {
+    async function validateCASTicket(csrfToken, ticket) {
+        const response = await fetch("/api/cas/", {
             method: "POST",
             headers: {
+                "X-CSRFToken": csrfToken,
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
@@ -480,10 +481,11 @@ var app = (function (exports) {
         }
         return res.token;
     }
-    async function validateJWTToken(token) {
-        const response = await fetch("/api/auth", {
+    async function validateJWTToken(csrfToken, token) {
+        const response = await fetch("/api/auth/", {
             method: "PUT",
             headers: {
+                "X-CSRFToken": csrfToken,
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
@@ -509,7 +511,7 @@ var app = (function (exports) {
     		c: function create() {
     			p = element("p");
     			t = text(/*error*/ ctx[0]);
-    			add_location(p, file$1, 35, 2, 1251);
+    			add_location(p, file$1, 35, 2, 1273);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -589,7 +591,7 @@ var app = (function (exports) {
     	let error = '';
 
     	onMount(async () => {
-    		getMeta('csrf-token');
+    		const csrfToken = getMeta('csrf-token');
     		const casUrl = getMeta('cas-url');
     		const tokenValidationDuration = parseInt(getMeta('token-lifetime-hours'));
     		const jwt = getCookie('jwt');
@@ -598,7 +600,7 @@ var app = (function (exports) {
 
     		if (!jwt && ticket) {
     			// If no jwt but ticket, verify ticket
-    			const token = await validateCASTicket(ticket);
+    			const token = await validateCASTicket(csrfToken, ticket);
 
     			if (!token) {
     				$$invalidate(0, error = "Authentification failed.");
@@ -607,7 +609,7 @@ var app = (function (exports) {
     			}
     		} else if (jwt) {
     			// If jwt, verify jwt
-    			validateJWTToken(jwt).then(res => {
+    			validateJWTToken(csrfToken, jwt).then(res => {
     				if (!res) {
     					$$invalidate(0, error = "Authentification failed.");
     				}
@@ -1392,7 +1394,7 @@ var app = (function (exports) {
             date.setTime(date.getTime() + hours * 60 * 60 * 1000);
             expires = `; expires=${date.toUTCString()}`;
         }
-        document.cookie = `${name}=${value || ""}${expires}; path=/`;
+        document.cookie = `${name}=${value || ""}${expires}; path=/; SameSite=None; Secure`;
     }
     const app = new App({
         target: document.body,

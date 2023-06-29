@@ -22,7 +22,7 @@ import sussy_crudproject.settings as settings
 def csrfToken(request):
   return JsonResponse({'csrfToken': get_token(request)})
 
-def casValidation(request):
+def cas_validation(request):
   req = json.loads(request.body)
   ticket = req.get('ticket')
   service = request.build_absolute_uri()

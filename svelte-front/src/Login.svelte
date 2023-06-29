@@ -12,14 +12,14 @@
     const urlParams = new URLSearchParams(window.location.search);
     const ticket = urlParams.get('ticket');
     if (!jwt && ticket) {  // If no jwt but ticket, verify ticket
-      const token = await validateCASTicket(ticket);
+      const token = await validateCASTicket(csrfToken, ticket);
       if (!token) {
         error = "Authentification failed."
       } else {
         setCookie('jwt', token, tokenValidationDuration);
       }
     } else if (jwt) {  // If jwt, verify jwt
-      validateJWTToken(jwt).then((res) => {
+      validateJWTToken(csrfToken, jwt).then((res) => {
         if (!res) {
           error = "Authentification failed."
         }
