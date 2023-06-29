@@ -107,3 +107,27 @@ def insert(reference: ReferenceData):
   elif (reference.reference.grade != ""):
     petl_response = csv_pipeline.insert(reference)
   return petl_response
+
+def check_permission_create(data, user):
+  print(user, data)
+  return True
+
+def check_permission_update(data, user):
+  print(user, data)
+  return True
+
+def check_permission_read(data, user):
+  print(user, data)
+  return True
+
+def check_permission_delete(data, user):
+  print(user, data)
+  return True
+
+def check_permission_fetch(data, user):
+  print(user, data)
+  return True
+
+def check_permission_fetch_all(data, user):
+  print(user, data)
+  return True

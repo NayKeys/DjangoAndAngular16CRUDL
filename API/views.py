@@ -15,6 +15,7 @@ from API.datapipeline.PipelineHub import ApiResponse
 from API.authentification import verify_jwt
 from API.authentification import create_jwt
 import sussy_crudproject.settings as settings
+from API.datapipeline.PipelineHub import check_permission_create, check_permission_update, check_permission_delete, check_permission_fetch, check_permission_fetch_all
 
 """NOTE:
   actions shouldnt implement a try catch block, that block should be specific to each different data pipelines
@@ -62,7 +63,7 @@ def execute(request):
     
     if action == 'create':
       try:
-        if check_permission_create(reference, req.jwt):
+        if check_permission_create(reference, request.user):
           action_performed = pipe.insert(reference)
           if (action_performed ):
             return ApiResponse(200, "Succesfuly retrieved element with id = "+str(id), [ReferenceData.fromDict(fetched_data)]).JsonResponse()
@@ -74,7 +75,7 @@ def execute(request):
 
     elif action == 'update':
       try:
-        if check_permission_update(reference, req.jwt):
+        if check_permission_update(reference, request.user):
           action_performed = pipe.update(reference)
           if (action_performed):
             return ApiResponse(200, "Succesfuly updated element with id = "+reference.id, None).JsonResponse()
@@ -86,7 +87,7 @@ def execute(request):
     
     elif action == 'fetch_all':
       try:
-        if check_permission_read(reference, req.jwt):
+        if check_permission_fetch_all(reference, request.user):
           fetched_data = pipe.fetch_all(reference)
           if (not fetched_data is None):
             return ApiResponse(200, "Succesfuly retrieved elements", fetched_data).JsonResponse()
@@ -98,7 +99,7 @@ def execute(request):
     
     elif action == 'fetch':
       try:
-        if check_permission_read(reference, req.jwt):
+        if check_permission_fetch(reference, request.user):
           fetched_data = pipe.fetch(reference)
           if (not fetched_data is None):
             return ApiResponse(200, "Succesfuly retrieved element with id = "+str(id), fetched_data).JsonResponse()
@@ -110,7 +111,7 @@ def execute(request):
     
     elif action == 'remove':
       try:
-        if check_permission_delete(reference, req.jwt):
+        if check_permission_delete(reference, request.user):
           action_performed = pipe.delete(reference)
           if (action_performed):
             return ApiResponse(200, "Succesfuly retrieved element with id = "+str(id), None).JsonResponse()
@@ -121,49 +122,3 @@ def execute(request):
         return ApiResponse(500, "Could not delete element with id = "+reference.id+"\n error-message: "+str(e), None).JsonResponse()
     else:
       return JsonResponse({"error": "Invalid method"}, status=400)
-
-from rest_framework_jwt.settings import api_settings
-from django.contrib.auth import get_user_model
-
-def validate_cas_ticket(request):
-  if request.method == 'POST':
-    data = json.loads(request.body)
-    ticket = data.get('ticket')
-    
-    # Replace this with the actual validation endpoint
-    casValidateUrl = 'https://cas.ensea.fr/validate'
-
-    params = {
-        'service': 'http://your-application-url.com',  # the URL of your application
-        'ticket': ticket
-    }
-    response = requests.get(casValidateUrl, params=params)
-    
-    if response.status_code == 200:
-      # CAS server will respond with 'yes' on success and 'no' on failure
-      if response.text.split()[0] == 'yes':
-        username = response.text.split()[1]
-        User = get_user_model()
-        try:
-          user = User.objects.get(username=username)
-        except User.DoesNotExist:
-          return JsonResponse({"error": "User does not exist"}, status=400)
-
-        jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
-        jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
-
-        payload = jwt_payload_handler(user)
-        token = jwt_encode_handler(payload)
-
-        return JsonResponse({"token": token})
-
-  return JsonResponse({"error": "Invalid request"}, status=400)
-
-def check_permission_create(data, jwt):
-  return True
-def check_permission_update(data, jwt):
-  return True
-def check_permission_read(data, jwt):
-  return True
-def check_permission_delete(data, jwt):
-  return True
