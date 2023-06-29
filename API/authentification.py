@@ -16,10 +16,10 @@ class TokenPayload:
     self.username = payload.get('username')
     self.role = payload.get('role')
 
-def verify_jwt(request):  # From : https://medium.com/codex/django-rest-framework-custom-jwt-authentication-backend-17bbd178b4fd
+def verify_jwt(token):  # From : https://medium.com/codex/django-rest-framework-custom-jwt-authentication-backend-17bbd178b4fd
   # Decode the JWT and verify its signature
   try:
-    payload = jwt.decode(request.jwt, settings.SECRET_KEY, algorithms=['HS256'])
+    payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
     return TokenPayload(payload)
   except jwt.exceptions.InvalidSignatureError:
     raise AuthenticationFailed('Invalid signature')

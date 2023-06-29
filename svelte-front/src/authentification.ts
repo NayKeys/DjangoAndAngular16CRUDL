@@ -21,10 +21,10 @@ export async function validateCASTicket(csrfToken: string, ticket: string): Prom
 	if (res.status != 200) {
 		return undefined;
 	}
-	if (res.token) {
-		localStorage.setItem("jwt", res.token); // Useless???
+	if (res.jwt) {
+		localStorage.setItem("jwt", res.jwt); // Useless???
 	}
-	return res.token;
+	return res.jwt;
 }
 
 export async function validateJWTToken(csrfToken: string, token: string): Promise<boolean> {

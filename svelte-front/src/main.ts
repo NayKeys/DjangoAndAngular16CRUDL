@@ -101,7 +101,7 @@ export function setCookie(name: string, value:string, hours:number) {
 		date.setTime(date.getTime() + hours * 60 * 60 * 1000);
 		expires = `; expires=${date.toUTCString()}`;
 	}
-	document.cookie = `${name}=${value || ""}${expires}; path=/; SameSite=None; Secure`;
+	document.cookie = `${name}=${value || ""}${expires}; path=/; SameSite=Lax;`;
 }
 
 

@@ -3,6 +3,7 @@ from django.middleware.csrf import get_token
 from django.http import JsonResponse
 from rest_framework_simplejwt.settings import api_settings
 from cas import CASClient
+from rest_framework.exceptions import AuthenticationFailed, ParseError
 
 import API.datapipeline.PipelineHub as pipe
 from API.datapipeline.PipelineHub import ApiRequest
@@ -38,17 +39,19 @@ def cas_validation(request):
     return ApiResponse(401, "Authentification failed", None)
   else:
     token = create_jwt(username, reference.reference.role)
-    response = JsonResponse({"jwt": token})
-    # Set JWT as a cookie, with a max age of 14 hours
-    max_age = settings.TOKEN_LIFETIME_HOURS * 60 * 60
-    response.set_cookie('jwt', token, max_age=max_age, httponly=True)
+    response = JsonResponse({"status": 200, "jwt": token}, status=200)
     return response
 
 def authenticate(request):
   req = json.loads(request.body)
   token = req.get('jwt')
-  verif = verify_jwt(token)
-  return True
+  try:
+    verif = verify_jwt(token)
+  except AuthenticationFailed:
+    return ApiResponse(401, "Authentification failed", None)
+  except ParseError:
+    return ApiResponse(400, "Invalid JWT token", None)
+  return ApiResponse(200, "Authentification success!", None)
 
 # @jwt_role_required  # AMAZING PYTHON FEATURE
 def execute(request):

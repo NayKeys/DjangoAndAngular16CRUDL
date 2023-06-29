@@ -476,10 +476,10 @@ var app = (function (exports) {
         if (res.status != 200) {
             return undefined;
         }
-        if (res.token) {
-            localStorage.setItem("jwt", res.token); // Useless???
+        if (res.jwt) {
+            localStorage.setItem("jwt", res.jwt); // Useless???
         }
-        return res.token;
+        return res.jwt;
     }
     async function validateJWTToken(csrfToken, token) {
         const response = await fetch("/api/auth/", {
@@ -1394,7 +1394,7 @@ var app = (function (exports) {
             date.setTime(date.getTime() + hours * 60 * 60 * 1000);
             expires = `; expires=${date.toUTCString()}`;
         }
-        document.cookie = `${name}=${value || ""}${expires}; path=/; SameSite=None; Secure`;
+        document.cookie = `${name}=${value || ""}${expires}; path=/; SameSite=Lax;`;
     }
     const app = new App({
         target: document.body,

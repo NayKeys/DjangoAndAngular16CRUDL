@@ -1,15 +1,25 @@
 from rest_framework_simplejwt.settings import api_settings
 from django.http import JsonResponse
 from functools import wraps
+import json
+import jwt
+from API.authentification import verify_jwt
+from rest_framework.exceptions import AuthenticationFailed, ParseError
 
 def jwt_role_required(view_func):
   @wraps(view_func)
   def _wrapped_view(request, *args, **kwargs):
-    jwt_decode_handler = api_settings.JWT_DECODE_HANDLER
-    jwt_token = request.COOKIES.get('jwt')
-    
+    req = json.loads(request.body)
+    token = req.get('jwt')
+    try:
+      verif = verify_jwt(token)
+    except AuthenticationFailed:
+      return ApiResponse(401, "Authentification failed", None)
+    except ParseError:
+      return ApiResponse(400, "Invalid JWT token", None)
+    return ApiResponse(200, "Authentification success!", None)
     if not jwt_token:
-        return JsonResponse({"error": "No JWT token provided"}, status=401)
+      return JsonResponse({"error": "No JWT token provided"}, status=401)
 
     try:
         payload = jwt_decode_handler(jwt_token)
