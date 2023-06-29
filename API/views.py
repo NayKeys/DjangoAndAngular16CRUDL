@@ -66,7 +66,7 @@ def execute(request):
         if check_permission_create(reference, request.user):
           action_performed = pipe.insert(reference)
           if (action_performed ):
-            return ApiResponse(200, "Succesfuly retrieved element with id = "+str(id), [ReferenceData.fromDict(fetched_data)]).JsonResponse()
+            return ApiResponse(200, "Succesfuly created element with", [ReferenceData.fromDict(fetched_data)]).JsonResponse()
         else:
           return ApiResponse(403, "Error: User is not allowed to perform this action", None).JsonResponse()
       except Exception as e:
@@ -78,12 +78,12 @@ def execute(request):
         if check_permission_update(reference, request.user):
           action_performed = pipe.update(reference)
           if (action_performed):
-            return ApiResponse(200, "Succesfuly updated element with id = "+reference.id, None).JsonResponse()
+            return ApiResponse(200, "Succesfuly updated element with id = "+str(reference.id), None).JsonResponse()
         else:
           return ApiResponse(403, "Error: User is not allowed to perform this action", None).JsonResponse()
       except Exception as e:
         e.print_exc()
-        return ApiResponse(500, "Could not update element with id = "+reference.id+"\n error-message: "+str(e), None).JsonResponse()
+        return ApiResponse(500, "Could not update element with id = "+str(reference.id)+"\n error-message: "+str(e), None).JsonResponse()
     
     elif action == 'fetch_all':
       try:
@@ -102,7 +102,7 @@ def execute(request):
         if check_permission_fetch(reference, request.user):
           fetched_data = pipe.fetch(reference)
           if (not fetched_data is None):
-            return ApiResponse(200, "Succesfuly retrieved element with id = "+str(id), fetched_data).JsonResponse()
+            return ApiResponse(200, "Succesfuly retrieved element with id = "+str(reference.id), fetched_data).JsonResponse()
         else:
           return ApiResponse(403, "Error: User is not allowed to perform this action", fetched_data).JsonResponse()
       except Exception as e:
@@ -114,7 +114,7 @@ def execute(request):
         if check_permission_delete(reference, request.user):
           action_performed = pipe.delete(reference)
           if (action_performed):
-            return ApiResponse(200, "Succesfuly retrieved element with id = "+str(id), None).JsonResponse()
+            return ApiResponse(200, "Succesfuly retrieved element with id = "+str(reference.id), None).JsonResponse()
         else:
           return ApiResponse(403, "Error: User is not allowed to perform this action", None).JsonResponse()
       except Exception as e:
