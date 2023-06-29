@@ -31,10 +31,10 @@ cursor.execute('''
 
 import random
 role = ('student', 'teacher', 'admin', 'parent')
-first_name = fake.first_name()
-last_name = fake.last_name()
-username = (first_name + last_name)[:7] + str(random.randint(10, 100))
 for _ in range(100):  # Adjust this number to create as many fake students as you need.
+  first_name = fake.first_name()
+  last_name = fake.last_name()
+  username = (first_name + last_name)[:7] + str(random.randint(10, 100))
   cursor.execute('''
       INSERT INTO students_app_student (username, first_name, last_name, role, age, grade, homeaddress)
       VALUES (?, ?, ?, ?, ?, ?, ?)

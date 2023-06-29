@@ -109,25 +109,21 @@ def insert(reference: ReferenceData):
   return petl_response
 
 def check_permission_create(data, user):
-  print(user, data)
+  print('user with username {} with role {} wants to create reference {} in the database'.format(user.username, user.reference.role, data.username))
   return True
 
 def check_permission_update(data, user):
-  print(user, data)
-  return True
-
-def check_permission_read(data, user):
-  print(user, data)
+  print('user with username {} with role {} wants to update reference {} in the database'.format(user.username, user.reference.role, data.username))
   return True
 
 def check_permission_delete(data, user):
-  print(user, data)
+  print('user with username {} with role {} wants to delete reference {} in the database'.format(user.username, user.reference.role, data.username))
   return True
 
 def check_permission_fetch(data, user):
-  print(user, data)
+  print('user with username {} with role {} wants to fetch reference {} in the database'.format(user.username, user.reference.role, data.username))
   return True
 
 def check_permission_fetch_all(data, user):
-  print(user, data)
+  print('user with username {} with role {} wants to fetch all references with role {} in the database'.format(user.username, user.reference.role, data.reference.role))
   return True
