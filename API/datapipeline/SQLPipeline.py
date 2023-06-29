@@ -17,42 +17,32 @@ class DBTable:
 student_table = DBTable('students_app_student', 'studentsDB.sqlite3')  # URL Complete with the authentification informations protocol://url:server@user:password
 
 def fetch_all(reference):
-  if (reference.get('role') == "all"):
+  if (reference.reference.role == "all"):
     conn = sqlite3.connect(student_table.databaseUrl)
     fetched_data = etl.fromdb(conn, 'SELECT * FROM students_app_student')
     fetched_data = etl.dicts(etl.sort(fetched_data))
     conn.commit()
-    return ApiResponse(200, "", [ReferenceData(element) for element in fetched_data]).JsonResponse()
-  elif (reference.get('role') != ""):
+    return [ReferenceData.from_flat_dicts(element) for element in fetched_data]
+  elif (reference.reference.role != ""):
     conn = sqlite3.connect(student_table.databaseUrl)
-    fetched_data = etl.fromdb(conn, 'SELECT * FROM students_app_student WHERE role = ?', (reference.get('role'), ))
+    fetched_data = etl.fromdb(conn, 'SELECT * FROM students_app_student WHERE role = ?', (reference.reference.role, ))
     fetched_data = etl.dicts(etl.sort(fetched_data))
     conn.commit()
-    fetched_data = str(fetched_data)
-    if len(fetched_data) == 0:
-      return None
-    fetched_data = '['+fetched_data.replace("\n", ",")+']'  # Creates a valid json array
-    return json.loads(fetched_data.replace("\'", "\""))  # Return a python dict list
+    return [ReferenceData.from_flat_dicts(element) for element in fetched_data]
 
 def fetchByID(id: int):
   conn = sqlite3.connect(student_table.databaseUrl)
   fetched_data = etl.fromdb(conn, 'SELECT * FROM students_app_student WHERE id = ?', (id,))
   fetched_data = etl.dicts(etl.sort(fetched_data))
   conn.commit()
-  fetched_data = str(fetched_data)  # Required to convert ptel table to python dictionnary
-  if len(fetched_data) == 0:  # This is unfortunate, it works but this must certainly not be the best way to do it
-    return None
-  return json.loads(fetched_data.replace("\'", "\""))  # Returns python dict
+  return ReferenceData.from_flat_dicts(fetched_data[0])
 
 def fetchByUsername(username: str):
   conn = sqlite3.connect(student_table.databaseUrl)
   fetched_data = etl.fromdb(conn, 'SELECT * FROM students_app_student WHERE username = ?', (username,))
   fetched_data = etl.dicts(etl.sort(fetched_data))
   conn.commit()
-  fetched_data = str(fetched_data)  # Convert to string for json conversion
-  if len(fetched_data) == 0:
-    return None
-  return json.loads(fetched_data.replace("\'", "\""))  # Returns python dict
+  return ReferenceData.from_flat_dicts(fetched_data[0])
 
 def delete(id: int):
   conn = sqlite3.connect(student_table.databaseUrl)
@@ -65,13 +55,13 @@ def delete(id: int):
 def update(id: int, updated_reference: ReferenceData):
   conn = sqlite3.connect(student_table.databaseUrl)
   cursor = conn.cursor()
-  output = cursor.execute('UPDATE students_app_student SET first_name = ?, last_name = ?, role = ?, age = ?, grade = ?, homeaddress = ?WHERE id = ?', (updated_reference.get('first_name'), updated_reference.get('last_name'), updated_reference.get('role'), updated_reference.get('age'), updated_reference.get('grade'), updated_reference.get('homeaddress'), id))
+  output = cursor.execute('UPDATE students_app_student SET first_name = ?, last_name = ?, role = ?, age = ?, grade = ?, homeaddress = ?WHERE id = ?', (updated_reference.reference.first_name, updated_reference.reference.last_name, updated_reference.reference.role, updated_reference.reference.age, updated_reference.reference.grade, updated_reference.reference.homeaddress, id))
   conn.commit()
   return True
 
 def insert(new_reference: ReferenceData):
   conn = sqlite3.connect(student_table.databaseUrl)
   cursor = conn.cursor()
-  output = cursor.execute('INSERT INTO students_app_student (first_name, last_name, role, age, grade, homeaddress) VALUES (?, ?, ?, ?, ?, ?)', (new_reference.get('first_name'), new_reference.get('last_name'), new_reference.get('role'), new_reference.get('age'), new_reference.get('grade'), new_reference.get('homeaddress')))
+  output = cursor.execute('INSERT INTO students_app_student (first_name, last_name, role, age, grade, homeaddress) VALUES (?, ?, ?, ?, ?, ?)', (new_reference.reference.first_name, new_reference.reference.last_name, new_reference.reference.role, new_reference.reference.age, new_reference.reference.grade, new_reference.reference.homeaddress))
   conn.commit()
   return True

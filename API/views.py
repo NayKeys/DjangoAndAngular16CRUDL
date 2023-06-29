@@ -55,7 +55,7 @@ def execute(request):
   if request.method == 'POST':
     req: ApiRequest = ApiRequest(json.loads(request.body))
     action = req.action
-    reference = ReferenceData.fromDict(req.data.get('reference'))
+    reference = ReferenceData.fromDict(req.data)
     
     if action == 'create':
       try:
@@ -64,7 +64,7 @@ def execute(request):
           if (action_performed ):
             return ApiResponse(200, "Succesfuly retrieved element with id = "+str(id), [ReferenceData.fromDict(fetched_data)]).JsonResponse()
         else:
-          return ApiResponse(403, "Error: User is not allowed to perform this action", [ReferenceData.fromDict(element) for element in fetched_data]).JsonResponse()
+          return ApiResponse(403, "Error: User is not allowed to perform this action", None).JsonResponse()
       except Exception as e:
         e.print_exc()
         return ApiResponse(500, "Could not create element\n error-message: "+str(e), None).JsonResponse()
@@ -74,9 +74,9 @@ def execute(request):
         if check_permission_update(reference, req.jwt):
           action_performed = pipe.update(reference)
           if (action_performed):
-            return ApiResponse(200, "Succesfuly updated element with id = "+reference.id, [ReferenceData.fromDict(element) for element in fetched_data]).JsonResponse()
+            return ApiResponse(200, "Succesfuly updated element with id = "+reference.id, None).JsonResponse()
         else:
-          return ApiResponse(403, "Error: User is not allowed to perform this action", [ReferenceData.fromDict(element) for element in fetched_data]).JsonResponse()
+          return ApiResponse(403, "Error: User is not allowed to perform this action", None).JsonResponse()
       except Exception as e:
         e.print_exc()
         return ApiResponse(500, "Could not update element with id = "+reference.id+"\n error-message: "+str(e), None).JsonResponse()
@@ -86,9 +86,9 @@ def execute(request):
         if check_permission_read(reference, req.jwt):
           fetched_data = pipe.fetch_all(reference)
           if (not fetched_data is None):
-            return ApiResponse(200, "Succesfuly retrieved elements", [ReferenceData.fromDict(element) for element in fetched_data]).JsonResponse()
+            return ApiResponse(200, "Succesfuly retrieved elements", fetched_data).JsonResponse()
         else:
-          return ApiResponse(403, "Error: User is not allowed to perform this action", [ReferenceData.fromDict(element) for element in fetched_data]).JsonResponse()
+          return ApiResponse(403, "Error: User is not allowed to perform this action", fetched_data).JsonResponse()
       except Exception as e:
         e.print_exc()
         return ApiResponse(404, "No data found with this query role = "+reference.role+"\n error-message: "+str(e), None).JsonResponse()
@@ -98,9 +98,9 @@ def execute(request):
         if check_permission_read(reference, req.jwt):
           fetched_data = pipe.fetch(reference)
           if (not fetched_data is None):
-            return ApiResponse(200, "Succesfuly retrieved element with id = "+str(id), [ReferenceData.fromDict(fetched_data)]).JsonResponse()
+            return ApiResponse(200, "Succesfuly retrieved element with id = "+str(id), fetched_data).JsonResponse()
         else:
-          return ApiResponse(403, "Error: User is not allowed to perform this action", [ReferenceData.fromDict(element) for element in fetched_data]).JsonResponse()
+          return ApiResponse(403, "Error: User is not allowed to perform this action", fetched_data).JsonResponse()
       except Exception as e:
         e.print_exc()
         return ApiResponse(404, "No data found with this query id = "+reference.id+"\n error-message: "+str(e), None).JsonResponse()
@@ -110,9 +110,9 @@ def execute(request):
         if check_permission_delete(reference, req.jwt):
           action_performed = pipe.delete(reference)
           if (action_performed):
-            return ApiResponse(200, "Succesfuly retrieved element with id = "+str(id), [ReferenceData.fromDict(fetched_data)]).JsonResponse()
+            return ApiResponse(200, "Succesfuly retrieved element with id = "+str(id), None).JsonResponse()
         else:
-          return ApiResponse(403, "Error: User is not allowed to perform this action", [ReferenceData.fromDict(element) for element in fetched_data]).JsonResponse()
+          return ApiResponse(403, "Error: User is not allowed to perform this action", None).JsonResponse()
       except Exception as e:
         e.print_exc()
         return ApiResponse(500, "Could not delete element with id = "+reference.id+"\n error-message: "+str(e), None).JsonResponse()

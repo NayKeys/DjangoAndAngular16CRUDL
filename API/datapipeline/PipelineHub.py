@@ -1,30 +1,33 @@
 import petl as etl
 from django.http import JsonResponse
 import ldap.modlist as modlist
+import petl as etl
 
 """ NOTE:
   Functions should returns a Dictionary instead of a JSON Api response directly (DONE)
 """
 
 class Reference:
-  pass
+  def from_dict(dict):
+    return Reference(dict['first_name'], dict['last_name'], dict['role'], dict['age'], dict['grade'], dict['homeaddress'])
+  def __init__(self, first_name: str = "", last_name: str = "", role: str = "", age: int = 0, grade: int = 1, homeaddress: str = ""):
+    self.first_name = first_name
+    self.first_name = first_name
+    self.last_name = last_name
+    self.role = role
+    self.age = age
+    self.grade = grade
+    self.homeaddress = homeaddress
 
 class ReferenceData:
+  def from_flat_dicts(element):
+    return ReferenceData(element['id'], element['username'], element['first_name'], element['last_name'], element['role'], element['age'], element['grade'], element['homeaddress'])
   def fromDict(dict):
-    return ReferenceData(dict['id'], dict['username'], dict['first_name'], dict['last_name'], dict['role'], dict['age'], dict['grade'], dict['homeaddress'])
-  
-  def __init__(self, id: int = 0, username: str = "", first_name: str = "", last_name: str = "", role: str = "", age: int = 0, grade: int = 1, homeaddress: str = ""):
-    self.id = id
+    return ReferenceData(dict['id'], dict['username'], dict['reference']['first_name'], dict['reference']['last_name'], dict['reference']['role'], dict['reference']['age'], dict['reference']['grade'], dict['reference']['homeaddress'])
+  def __init__(self, ID: int = 0, username: str = "", first_name: str = "", last_name: str = "", role: str = "", age: int = 0, grade: int = 1, homeaddress: str = ""):
+    self.id = ID
     self.username = username
-    self.reference = Reference()
-    self.reference.first_name = first_name
-    self.reference.first_name = first_name
-    self.reference.last_name = last_name
-    self.reference.role = role
-    self.reference.age = age
-    self.reference.grade = grade
-    self.reference.homeaddress = homeaddress
-  
+    self.reference = Reference(first_name, last_name, role, age, grade, homeaddress)
   def toDict(self):
     return {
       "id": self.id,
@@ -61,11 +64,11 @@ import API.datapipeline.LDAPPipeline as ldap_pipeline
 
 def fetch_all(reference: ReferenceData):
   fetched_data = []
-  if (reference.role != ""):
+  if (reference.reference.role != ""):
     fetched_data = sql_pipeline.fetch_all(reference)
-  elif (reference.grade != ""):
+  elif (reference.reference.grade != ""):
     fetched_data = csv_pipeline.fetch_all(reference)
-  elif (reference.first_name != ""):
+  elif (reference.reference.first_name != ""):
     fetched_data = ldap_pipeline.fetch_all(reference)
   return fetched_data
 
@@ -74,33 +77,33 @@ def fetch(reference: ReferenceData):
     fetched_data = sql_pipeline.fetchByID(reference.id)
   elif (reference.username):
     fetched_data = sql_pipeline.fetchByUsername(reference.username)
-  elif (reference.grade != ""):
+  elif (reference.reference.grade != ""):
     fetched_data = csv_pipeline.fetch(id)
-  elif (reference.first_name != ""):
+  elif (reference.reference.first_name != ""):
     fetched_data = ldap_pipeline.fetch(id)
   return fetched_data
 
 def delete(reference: ReferenceData):
   if (reference.id != ""):
     petl_response = sql_pipeline.delete(reference.id)
-  elif (reference.grade != ""):
+  elif (reference.reference.grade != ""):
     petl_response = csv_pipeline.delete(reference.id)
-  elif (reference.first_name != ""):
+  elif (reference.reference.first_name != ""):
     petl_response = ldap_pipeline.delete(reference.id)
   return petl_response
 
 def update(reference: ReferenceData):
   if (reference.id != ""):
     petl_response = sql_pipeline.update(reference.id, reference)
-  elif (reference.grade != ""):
+  elif (reference.reference.grade != ""):
     petl_response = csv_pipeline.update(reference.id, reference)
-  elif (reference.first_name != ""):
+  elif (reference.reference.first_name != ""):
     petl_response = ldap_pipeline.update(reference.id, reference)
   return petl_response
 
 def insert(reference: ReferenceData):
-  if (reference.role != ""):
+  if (reference.reference.role != ""):
     petl_response = sql_pipeline.insert(reference)
-  elif (reference.grade != ""):
+  elif (reference.reference.grade != ""):
     petl_response = csv_pipeline.insert(reference)
   return petl_response
