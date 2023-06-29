@@ -5,6 +5,7 @@
   import { apiActionRequest } from './main';
   import Login from './Login.svelte';
   import { getMeta, getCookie } from './main'
+  import { auth } from './authentification'
   /* Notes:
   When update fails, the row is not updated in the backend, but the frontend is updated
   No undo button yet
@@ -40,6 +41,7 @@
 	let columns: string[] = ["ID", "username", "First Name", "Last Name", "Role", "Age", "Grade", "Address"]  // i dea: make this a prop sent from the backend
 
   onMount(async () => {
+    await auth()
     apiActionRequest(csrfToken, jwt, 'fetch_all', ["", "", "", "", "student", "", "", ""]).then((res) => {
       data = res;
       console.log("res :", res)
