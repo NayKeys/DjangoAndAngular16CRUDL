@@ -7,9 +7,9 @@ from django.http import JsonResponse
 from cas import CASClient
 from rest_framework.exceptions import AuthenticationFailed, ParseError
 
+from users.models import Profile
 import datahub.pipelines.hub as pipe
 import sussy_crudproject.settings as settings
-from datahub.pipelines.hub import Generic_Reference
 from datahub.pipelines.hub import ApiResponse
 from users.authentification import verify_jwt
 from users.authentification import create_jwt
@@ -37,11 +37,11 @@ def cas_validation(request):
   if not username:
     return JsonResponse({"error": "Invalid ticket"}, status=400)
   # User is authenticated, issue JWT
-  reference = pipe.fetch(Generic_Reference(username=username))
-  if reference is None:
+  user = Profile.objects.get(username=username)
+  if user is None:
     return ApiResponse(401, "Authentification failed", None)
   else:
-    token = create_jwt(username, reference.reference.role)
+    token = create_jwt(username, user.role)
     response = JsonResponse({"status": 200, "jwt": token}, status=200)
     return response
 

@@ -1,6 +1,6 @@
 import petl as etl
 import sqlite3
-from datahub.pipelines.hub import ApiResponse, Generic_Reference
+from datahub.pipelines.hub import ApiResponse
 import re
 import sqlite3
 import json

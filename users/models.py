@@ -3,7 +3,6 @@ from django.db import models
 # Create your models here.
 from django.contrib.auth.models import User
 from users.config import ROLE_PERMISSIONS, USERS
-from datahub.pipelines.hub import fetch, Generic_Reference
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models

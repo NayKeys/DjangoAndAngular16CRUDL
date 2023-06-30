@@ -4,8 +4,9 @@ from functools import wraps
 import json
 import jwt
 from rest_framework.exceptions import AuthenticationFailed, ParseError
+from users.models import Profile
 
-from datahub.pipelines.hub import ApiResponse, Generic_Reference, fetch
+from datahub.pipelines.hub import ApiResponse, fetch
 from users.authentification import verify_jwt
 
 def jwt_role_required(view_func):
@@ -15,7 +16,7 @@ def jwt_role_required(view_func):
     token = req.get('jwt')
     try:
       payload = verify_jwt(token)
-      user = fetch(Generic_Reference(username=payload.username))
+      user = Profile.objects.get(username=payload.username)
       request.user = user  # Now the role is available as request.user.role
       return view_func(request, *args, **kwargs)
     except AuthenticationFailed:
