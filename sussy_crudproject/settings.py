@@ -58,6 +58,7 @@ REST_FRAMEWORK = {
 }
 TOKEN_LIFETIME_HOURS = 14
 SECRET_KEY = config('SECRET_KEY')  # Generated with from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())
+# AUTH_USER_MODEL = 'users.Profile'
 
 LOGGING = {
     "version": 1,
@@ -100,9 +101,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
+    'users',
+    'datahub',
     'django_cas_ng',
     'corsheaders',
-    'API',
 ]
 
 MIDDLEWARE = [

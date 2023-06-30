@@ -53,7 +53,7 @@ const apiActionRequest = async function(csrfToken:string, jwt: string, action: s
 			},
 		},
 	};
-  const res = await fetch("http://localhost:8000/api/execute/", {
+  const res = await fetch("http://localhost:8000/app/execute/", {
 		method: "POST",
 		headers: {
       "Content-Type": "application/json",

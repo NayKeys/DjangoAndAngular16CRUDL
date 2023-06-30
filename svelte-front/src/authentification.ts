@@ -40,7 +40,7 @@ export async function auth() {
 }
 
 export async function validateCASTicket(csrfToken: string, ticket: string): Promise<string | undefined> {
-	const response = await fetch("/api/cas/", {
+	const response = await fetch("/user/cas/", {
 		method: "POST",
 		headers: {
 			"X-CSRFToken": csrfToken,
@@ -61,7 +61,7 @@ export async function validateCASTicket(csrfToken: string, ticket: string): Prom
 }
 
 export async function validateJWTToken(csrfToken: string, token: string): Promise<boolean> {
-	const response = await fetch("/api/auth/", {
+	const response = await fetch("/user/auth/", {
 		method: "PUT",
 		headers: {
 			"X-CSRFToken": csrfToken,
@@ -79,15 +79,15 @@ export async function validateJWTToken(csrfToken: string, token: string): Promis
 }
 
 export async function logout() {  // Copilot generated
-  const response = await fetch("/api/auth/", {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      token: localStorage.getItem("jwt"),
-    }),
-  });
+  const response = await fetch("/user/auth/", {
+		method: "DELETE",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			token: localStorage.getItem("jwt"),
+		}),
+	});
   const res = await response.json();
   if (res.status == 200) {
     localStorage.removeItem("jwt");

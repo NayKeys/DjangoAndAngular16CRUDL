@@ -495,7 +495,7 @@ var app = (function (exports) {
         }
     }
     async function validateCASTicket(csrfToken, ticket) {
-        const response = await fetch("/api/cas/", {
+        const response = await fetch("/user/cas/", {
             method: "POST",
             headers: {
                 "X-CSRFToken": csrfToken,
@@ -515,7 +515,7 @@ var app = (function (exports) {
         return res.jwt;
     }
     async function validateJWTToken(csrfToken, token) {
-        const response = await fetch("/api/auth/", {
+        const response = await fetch("/user/auth/", {
             method: "PUT",
             headers: {
                 "X-CSRFToken": csrfToken,
@@ -1343,7 +1343,7 @@ var app = (function (exports) {
                 },
             },
         };
-        const res = await fetch("http://localhost:8000/api/execute/", {
+        const res = await fetch("http://localhost:8000/app/execute/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
