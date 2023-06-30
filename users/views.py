@@ -10,7 +10,7 @@ from rest_framework.exceptions import AuthenticationFailed, ParseError
 import datahub.pipelines.hub as pipe
 import sussy_crudproject.settings as settings
 from datahub.pipelines.hub import Generic_Reference
-from datahub.pipelines.hub import Api_Response
+from datahub.pipelines.hub import ApiResponse
 from users.authentification import verify_jwt
 from users.authentification import create_jwt
 import sussy_crudproject.settings as settings
@@ -39,7 +39,7 @@ def cas_validation(request):
   # User is authenticated, issue JWT
   reference = pipe.fetch(Generic_Reference(username=username))
   if reference is None:
-    return Api_Response(401, "Authentification failed", None)
+    return ApiResponse(401, "Authentification failed", None)
   else:
     token = create_jwt(username, reference.reference.role)
     response = JsonResponse({"status": 200, "jwt": token}, status=200)
@@ -56,7 +56,7 @@ def authenticate(request):
   try:
     payload = verify_jwt(token)
   except AuthenticationFailed:
-    return Api_Response(401, "Authentification failed", None).JsonResponse()
+    return ApiResponse(401, "Authentification failed", None).json_response()
   except ParseError:
-    return Api_Response(400, "Invalid JWT token", None).JsonResponse()
-  return Api_Response(200, "Authentification success!", None).JsonResponse()
+    return ApiResponse(400, "Invalid JWT token", None).json_response()
+  return ApiResponse(200, "Authentification success!", None).json_response()
