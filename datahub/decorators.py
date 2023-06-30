@@ -5,7 +5,7 @@ import json
 import jwt
 from rest_framework.exceptions import AuthenticationFailed, ParseError
 
-from datahub.pipelines.hub import ApiResponse, ReferenceData, fetch
+from datahub.pipelines.hub import Api_Response, Generic_Reference, fetch
 from users.authentification import verify_jwt
 
 def jwt_role_required(view_func):
@@ -15,11 +15,11 @@ def jwt_role_required(view_func):
     token = req.get('jwt')
     try:
       payload = verify_jwt(token)
-      user = fetch(ReferenceData(username=payload.username))
+      user = fetch(Generic_Reference(username=payload.username))
       request.user = user  # Now the role is available as request.user.role
       return view_func(request, *args, **kwargs)
     except AuthenticationFailed:
-      return ApiResponse(401, "Authentification failed, user is not allowed to perform this action", None).JsonResponse()
+      return Api_Response(401, "Authentification failed, user is not allowed to perform this action", None).JsonResponse()
     except ParseError:
-      return ApiResponse(400, "Invalid JWT token, token is required to perform actions", None).JsonResponse()
+      return Api_Response(400, "Invalid JWT token, token is required to perform actions", None).JsonResponse()
   return _wrapped_view

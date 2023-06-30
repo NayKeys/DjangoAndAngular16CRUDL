@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 from django.contrib.auth.models import User
 from users.config import ROLE_PERMISSIONS, USERS
-from datahub.pipelines.hub import fetch, ReferenceData
+from datahub.pipelines.hub import fetch, Generic_Reference
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -26,14 +26,14 @@ class Profile(AbstractUser):
     ('female', 'Female'),
     ('other', 'Non binary/Other'),
   ]
-  gender = models.CharField(max_length=6, choices=GENDER_IN_CHOICES, null=True, blank=True)
-  id = models.AutoField(primary_key=True)  # ID is automatically generated
-  username = models.CharField(max_length=200)
-  first_name = models.CharField(max_length=200)
-  last_name = models.CharField(max_length=200)
-  age = models.IntegerField()
-  grade = models.IntegerField()
-  homeaddress = models.CharField(max_length=200)
+  # gender = models.CharField(max_length=6, choices=GENDER_IN_CHOICES, null=True, blank=True)
+  # ID = models.AutoField(primary_key=True)  # ID is automatically generated
+  # username = models.CharField(max_length=200)
+  # first_name = models.CharField(max_length=200)
+  # last_name = models.CharField(max_length=200)
+  # age = models.IntegerField()
+  # grade = models.IntegerField()
+  # homeaddress = models.CharField(max_length=200)
   # Adding related_name options
   groups = models.ManyToManyField(
       'auth.Group',
@@ -58,43 +58,41 @@ class Profile(AbstractUser):
 def generate_users():
   # Delete any users not in the config file
   for user in Profile.objects.all():
-      if user.username not in [user_config['username'] for role_users in USERS.values() for user_config in role_users]:
-          user.delete()
-
+    if user.username not in [user_config['username'] for user_in_role in USERS.values() for user_config in user_in_role]:  # Listing every username for every users by role in USERS list of roles
+      user.delete()
   # Update or create each user from the config file
-  for role, users_config in USERS.items():
-    if role not in ROLE_PERMISSIONS:
-      print(f"Error: Role '{role}' in USERS_CONFIG is not defined in ROLE_CONFIG")
+  for role_name, users_in_role in USERS.items():
+    if role_name not in ROLE_PERMISSIONS:
+      print(f"Error: Role '{role_name}' in USERS is not defined in ROLE_PERMISSIONS")
       continue
-
-    permissions = ROLE_PERMISSIONS[role]
-
-    for user_config in users_config:
+    view_permissions_of_role = ROLE_PERMISSIONS[role_name]
+    # Updating users in ORM
+    for user_config in users_in_role:  # User are listed by role
       username = user_config['username']
-      data = fetch(ReferenceData(username=username))
-      user, created = Profile.objects.update_or_create(
+      user2, created = Profile.objects.update_or_create(
         username=username,
         defaults={
-          'first_name': data.reference['first_name'],
-          'last_name': data.reference['last_name'],
-          'email': data.reference['email'],
-          'role': role,
-          'can_create': {k: v == 'c' for k, v in permissions.items()},
-          'can_read': {k: v == 'r' or v == 'id' for k, v in permissions.items()},
-          'can_update': {k: v == 'u' for k, v in permissions.items()},
-          'can_delete': {k: v == 'd' for k, v in permissions.items()},
+          'role': role_name,
+          'can_create': {view_name: ('c' in view_rights) for view_name, view_rights in view_permissions_of_role.items()},  # Creates a dictionnary of booleans for creation rights of the different views, key: view name (each key of view_permissions_of_role), value: boolean (True if the user has the right to create, False otherwise)
+          'can_read': {view_name: ('r' in view_rights) for view_name, view_rights in view_permissions_of_role.items()},
+          'can_update': {view_name: ('u' in view_rights) for view_name, view_rights in view_permissions_of_role.items()},
+          'can_delete': {view_name: ('d' in view_rights) for view_name, view_rights in view_permissions_of_role.items()},
           # add other fields as needed
         }
       )
 
-      # Update relationships for 'id' permissions
-      for other_role, permission in permissions.items():
-        if permission == 'id':
-          other_usernames = user_config.get(other_role, [])
-          for other_username in other_usernames:
-            try:
-              other_user = Profile.objects.get(username=other_username)
-              # Update the relationship between 'user' and 'other_user'
-              # You'll need to adjust this based on how you're modeling relationships
-            except Profile.DoesNotExist:
-              print(f"Error: User '{other_username}' does not exist")
+      # Update relationships for '<spe>' permissions
+      # for view_name, view_rights in view_permissions_of_role.items():
+      #   if view_rights == '<spe>':
+      #     ids = user_config.get(view_name, [])
+      #     if len(ids) == 0:
+      #       print(f"Role '{role_name}' has right '<spe>' on view '{view_name}' but user '{user_config['username']}' doesn't list any specific element ids with that view name")
+      #     else:
+      #       user, created = Profile.objects.update(
+      #         username=username,
+      #         defaults={
+      #           view_name: [element_id for element_id in ids]
+      #         }
+      #       )
+            # Update the relationship between 'user' and 'other_user'
+            # You'll need to adjust this based on how you're modeling relationships

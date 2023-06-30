@@ -1,33 +1,33 @@
 ROLE_PERMISSIONS = {
   'student': {
-    'student': '_r__',
-    'teacher': '_r__',
-    'admin': '_r__',
-    'parent': 'id',
+    'view1': '_r__',
+    'view2': '_r__',
+    'view3': '_r__',
+    'view4': '<spe>',
   },
   'teacher': {
-    'student': '_ru_',
-    'teacher': '_r__',
-    'admin': '_r__',
-    'parent': '_r__',
+    'view1': '_ru_',
+    'view2': '_r__',
+    'view3': '_r__',
+    'view4': '_r__',
   },
   'parent': {
-    'student': 'id',
-    'teacher': '____',
-    'admin': '____',
-    'parent': '____',
+    'view1': '<spe>',
+    'view2': '____',
+    'view3': '____',
+    'view4': '____',
   },
   'schooladmin': {
-    'student': 'crud',
-    'teacher': '_ru_',
-    'admin': '_r__',
-    'parent': 'crud',
+    'view1': 'crud',
+    'view2': '_ru_',
+    'view3': '_r__',
+    'view4': 'crud',
   },
   'admin': {
-    'student': 'crud',
-    'teacher': 'crud',
-    'admin': 'crud',
-    'parent': 'crud',
+    'view1': 'crud',
+    'view2': 'crud',
+    'view3': 'crud',
+    'view4': 'crud',
   },
 }
 
@@ -35,45 +35,45 @@ USERS = {
   'student': [
     {
       'username': 'student1',
-      'parent': ['parent1'],
+      'view4': ['element1'],
     },
     {
       'username': 'student2',
-      'parent': ['parent2'],
+      'view4': ['element2'],
     },
     {
       'username': 'student3',
-      'parent': ['parent3'],
+      'view4': ['element3'],
     },
     {
       'username': 'student4',
-      'parent': ['parent4'],
+      'view4': ['element4'],
     },
     {
-      'username': 'student4',
-      'parent': ['parent4'],
+      'username': 'student5',
+      'view4': ['element5'],
     },
   ],
   'parent': [
     {
       'username': 'teacher1',
-      'student': ['student1'],
+      'view1': ['element1'],
     },
     {
       'username': 'teacher2',
-      'student': ['student2'],
+      'view1': ['element2'],
     },
     {
       'username': 'teacher3',
-      'student': ['student3'],
+      'view1': ['element3'],
     },
     {
       'username': 'teacher4',
-      'student': ['student4'],
+      'view1': ['element4'],
     },
     {
       'username': 'teacher5',
-      'student': ['student5'],
+      'view1': ['element5'],
     },
   ],
   'teacher': [

@@ -1,6 +1,6 @@
 import petl as etl
 import sqlite3
-from datahub.pipelines.hub import ApiResponse, ReferenceData
+from datahub.pipelines.hub import Api_Response, Generic_Reference
 import re
 import sqlite3
 import json
@@ -22,27 +22,35 @@ def fetch_all(reference):
     fetched_data = etl.fromdb(conn, 'SELECT * FROM students_app_student')
     fetched_data = etl.dicts(etl.sort(fetched_data))
     conn.commit()
-    return [ReferenceData.from_flat_dicts(element) for element in fetched_data]
+    if (len(fetched_data) == 0):
+      return None
+    return [Generic_Reference.from_flat_dicts(element) for element in fetched_data]
   elif (reference.reference.role != ""):
     conn = sqlite3.connect(student_table.databaseUrl)
     fetched_data = etl.fromdb(conn, 'SELECT * FROM students_app_student WHERE role = ?', (reference.reference.role, ))
     fetched_data = etl.dicts(etl.sort(fetched_data))
     conn.commit()
-    return [ReferenceData.from_flat_dicts(element) for element in fetched_data]
+    if (len(fetched_data) == 0):
+      return None
+    return [Generic_Reference.from_flat_dicts(element) for element in fetched_data]
 
 def fetchByID(id: int):
   conn = sqlite3.connect(student_table.databaseUrl)
   fetched_data = etl.fromdb(conn, 'SELECT * FROM students_app_student WHERE id = ?', (id,))
   fetched_data = etl.dicts(etl.sort(fetched_data))
   conn.commit()
-  return ReferenceData.from_flat_dicts(fetched_data[0])
+  if (len(fetched_data) == 0):
+    return None
+  return Generic_Reference.from_flat_dicts(fetched_data[0])
 
 def fetchByUsername(username: str):
   conn = sqlite3.connect(student_table.databaseUrl)
   fetched_data = etl.fromdb(conn, 'SELECT * FROM students_app_student WHERE username = ?', (username,))
   fetched_data = etl.dicts(etl.sort(fetched_data))
   conn.commit()
-  return ReferenceData.from_flat_dicts(fetched_data[0])
+  if (len(fetched_data) == 0):
+    return None
+  return Generic_Reference.from_flat_dicts(fetched_data[0])
 
 def delete(id: int):
   conn = sqlite3.connect(student_table.databaseUrl)
@@ -52,14 +60,14 @@ def delete(id: int):
   conn.commit()
   return True
 
-def update(id: int, updated_reference: ReferenceData):
+def update(id: int, updated_reference: Generic_Reference):
   conn = sqlite3.connect(student_table.databaseUrl)
   cursor = conn.cursor()
   output = cursor.execute('UPDATE students_app_student SET first_name = ?, last_name = ?, role = ?, age = ?, grade = ?, homeaddress = ?WHERE id = ?', (updated_reference.reference.first_name, updated_reference.reference.last_name, updated_reference.reference.role, updated_reference.reference.age, updated_reference.reference.grade, updated_reference.reference.homeaddress, id))
   conn.commit()
   return True
 
-def insert(new_reference: ReferenceData):
+def insert(new_reference: Generic_Reference):
   conn = sqlite3.connect(student_table.databaseUrl)
   cursor = conn.cursor()
   output = cursor.execute('INSERT INTO students_app_student (first_name, last_name, role, age, grade, homeaddress) VALUES (?, ?, ?, ?, ?, ?)', (new_reference.reference.first_name, new_reference.reference.last_name, new_reference.reference.role, new_reference.reference.age, new_reference.reference.grade, new_reference.reference.homeaddress))
