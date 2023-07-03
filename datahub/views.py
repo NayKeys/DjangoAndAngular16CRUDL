@@ -1,5 +1,7 @@
 import json
 from django.http import JsonResponse
+import traceback
+import sys
 
 import datahub.pipelines.hub as pipe
 from datahub.pipelines.hub import ApiRequest
@@ -30,8 +32,9 @@ def execute(request):
             return ApiResponse(200, "Succesfuly created element with", fetched_data).json_response()
         else:
           return ApiResponse(403, "Error: User is not allowed to perform this action", None).json_response()
-      except Exception as e:
-        return ApiResponse(500, "Could not create element\n error-message: "+str(e), None).json_response()
+      except:
+        traceback.print_exception(*sys.exc_info())
+        return ApiResponse(500, "Could not create element\n error-message: "+one).json_response()
 
     elif action == 'update':
       try:
@@ -41,8 +44,9 @@ def execute(request):
             return ApiResponse(200, "Succesfuly updated element with id ", None).json_response()
         else:
           return ApiResponse(403, "Error: User is not allowed to perform this action", None).json_response()
-      except Exception as e:
-        return ApiResponse(500, "Could not update element with \n error-message: "+str(e), None).json_response()
+      except:
+        traceback.print_exception(*sys.exc_info())
+        return ApiResponse(500, "Could not update element with \n error-message: ", None).json_response()
     
     elif action == 'fetch_all':
       try:
@@ -52,8 +56,9 @@ def execute(request):
             return ApiResponse(200, "Succesfuly retrieved elements", fetched_data).json_response()
         else:
           return ApiResponse(403, "Error: User is not allowed to perform this action", fetched_data).json_response()
-      except Exception as e:
-        return ApiResponse(404, "No data found with this query \n error-message: "+str(e), None).json_response()
+      except:
+        traceback.print_exception(*sys.exc_info())
+        return ApiResponse(400, "No data found with this query \n error-message: ", None).json_response()
     
     elif action == 'fetch':
       try:
@@ -63,8 +68,9 @@ def execute(request):
             return ApiResponse(200, "Succesfuly retrieved element with ", fetched_data).json_response()
         else:
           return ApiResponse(403, "Error: User is not allowed to perform this action", fetched_data).json_response()
-      except Exception as e:
-        return ApiResponse(404, "No data found with this query \n error-message: "+str(e), None).json_response()
+      except:
+        traceback.print_exception(*sys.exc_info())
+        return ApiResponse(400, "No data found with this query \n error-message: ", None).json_response()
     
     elif action == 'remove':
       try:
@@ -74,7 +80,8 @@ def execute(request):
             return ApiResponse(200, "Succesfuly retrieved element with id ", None).json_response()
         else:
           return ApiResponse(403, "Error: User is not allowed to perform this action", None).json_response()
-      except Exception as e:
-        return ApiResponse(500, "Could not delete element with "+"\n error-message: "+str(e), None).json_response()
+      except:
+        traceback.print_exception(*sys.exc_info())
+        return ApiResponse(500, "Could not delete element with "+"\n error-message: ", None).json_response()
     else:
       return JsonResponse({"error": "Invalid method"}, status=400)
