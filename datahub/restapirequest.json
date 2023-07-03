@@ -1,16 +1,8 @@
 {
 	"action": "<action>",
   "jwt": "<jwt>",
-	"data": {
-		"id": "<id>",
-    "username": "<username>",
-		"reference": {
-			"first_name": "<first_name>",
-			"last_name": "<last_name>",
-      "role": "<role>",
-			"age": "<age>",
-			"grade": "<grade>",
-			"homeaddress": "<homeaddress>"
-		}
-	}
+  "view_name": "<view_name>",
+  "data": {
+    "<dict>...": "<value>..."
+  }
 }
