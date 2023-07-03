@@ -10,11 +10,11 @@ petl = "*"
 faker = "*"
 django-cors-headers = "*"
 rando = "*"
-django-cas-ng = "*"
 djangorestframework-jwt = "*"
 sqlalchemy = "*"
 python-decouple = "*"
 djangorestframework-simplejwt = "*"
+decouple = "*"
 
 [dev-packages]
 

@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-from decouple import config
 from pathlib import Path
 import os
 
@@ -57,7 +56,8 @@ REST_FRAMEWORK = {
     ),
 }
 TOKEN_LIFETIME_HOURS = 14
-SECRET_KEY = config('SECRET_KEY')  # Generated with from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())
+import os
+SECRET_KEY = os.environ['SECRET_KEY']  # Generated with from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())
 # AUTH_USER_MODEL = 'users.Profile'
 
 LOGGING = {
@@ -103,8 +103,6 @@ INSTALLED_APPS = [
     
     'users',
     'datahub',
-    'django_cas_ng',
-    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -116,9 +114,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     
-    'django_cas_ng.middleware.CASMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 ]
 
