@@ -2,7 +2,7 @@
 	"action": "<action>",
   "jwt": "<jwt>",
   "view_name": "<view_name>",
-  "data": {
+  "row": {
     "<dict>...": "<value>..."
   }
 }

@@ -14,7 +14,7 @@ class DBTable:
     self.password = password
 
 def fetch_all(table: dict):
-  conn = sqlite3.connect(table['database_url'].databaseUrl)
+  conn = sqlite3.connect(table['database_url'])
   fetched_data = etl.fromdb(conn, f'SELECT * FROM {table["table_name"]}')
   fetched_data = etl.dicts(etl.sort(fetched_data))
   conn.commit()
@@ -23,7 +23,7 @@ def fetch_all(table: dict):
   return fetched_data
 
 def fetch(table: dict, identifier: str):
-  conn = sqlite3.connect(table['database_url'].databaseUrl)
+  conn = sqlite3.connect(table['database_url'])
   fetched_data = etl.fromdb(conn, f'SELECT 1 FROM {table["table_name"]} WHERE {table["identifier_name"]} = ?', (identifier,))
   fetched_data = etl.dicts(etl.sort(fetched_data))
   conn.commit()
@@ -32,7 +32,7 @@ def fetch(table: dict, identifier: str):
   return fetched_data
 
 def delete(table: dict, identifier: str):
-  conn = sqlite3.connect(table['database_url'].databaseUrl)
+  conn = sqlite3.connect(table['database_url'])
   cursor = conn.cursor()
   cursor.execute(f'DELETE FROM {table["table_name"]} WHERE {table["identifier_name"]} = ?', (identifier,))
   cursor.fetchall()
@@ -40,14 +40,14 @@ def delete(table: dict, identifier: str):
   return True
 
 def update(table: dict, identifier: str, updated_element: dict):
-  conn = sqlite3.connect(table['database_url'].databaseUrl)
+  conn = sqlite3.connect(table['database_url'])
   cursor = conn.cursor()
   output = cursor.execute(f'UPDATE {table["table_name"]} SET {", ".join([f"{key} = ?" for key in updated_element.keys()])} WHERE {table["identifier_name"]} = ?', tuple(updated_element.values()) + (identifier,))
   conn.commit()
   return True
 
 def insert(table: dict, new_element: dict):
-  conn = sqlite3.connect(table['database_url'].databaseUrl)
+  conn = sqlite3.connect(table['database_url'])
   cursor = conn.cursor()
   columns = [element[1] for element in cursor.execute(f'PRAGMA table_info({table["table_name"]})')]
   for key in new_element.keys():

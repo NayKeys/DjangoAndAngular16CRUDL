@@ -9,115 +9,134 @@ class ApiRequest:
   def __init__(self, json):
     self.action = json['action']
     self.jwt = json['jwt']
-    self.data = json['data']
+    self.view_name = json['view_name']
+    self.row = json['row']
 
 class ApiResponse:
-  def __init__(self, status: int, message: str, data: dict = None):
+  def __init__(self, status: int, message: str, rows: dict = None):
     self.status = status
     self.message = message
-    self.data = data
+    if rows is None:
+      self.row_keys = None
+      self.rows = None
+    else:
+      self.row_keys = list(rows[0].keys())
+      self.rows = [list(row.values()) for row in rows]
   def json_response(self):
-    if self.data is None:
+    if self.rows is None:
       return JsonResponse({"status": self.status, "message": self.message}, status=self.status)
-    return JsonResponse({"status": self.status, "message": self.message, "data": self.data}, status=self.status)
+    return JsonResponse({"status": self.status, "message": self.message, "row_keys": self.row_keys, "rows": self.rows}, status=self.status)
 
 import datahub.pipelines.SQLPipeline as sql_pipeline
 import datahub.pipelines.CSVPipeline as csv_pipeline
 import datahub.pipelines.LDAPPipeline as ldap_pipeline
 import datahub.config as config
 
-SQL_VIEWS = []
-CSV_VIEWS = []
-LDAP_VIEWS = []
-for view in config.VIEW_LIST:
-  if view['method'] == 'sql':
-    SQL_VIEWS.append(view)
-  elif view['method'] == 'csv':
-    CSV_VIEWS.append(view)
-  elif view['method'] == 'ldap':
-    LDAP_VIEWS.append(view)
-
 def fetch_all(view_name: str):
-  if (view_name == "sql_view_1"):
-    dict_list = sql_pipeline.fetch_all(SQL_VIEWS[0])  # Passing table name as parameter
-  elif (view_name == "csv_view_1"):
-    dict_list = csv_pipeline.fetch_all(CSV_VIEWS[0])  # Choosing which csv file to fetch
-  elif (view_name == "csv_view_2"):
-    dict_list = csv_pipeline.fetch_all(CSV_VIEWS[1])
-  elif (view_name == "ldap_view_1"):
-    dict_list = ldap_pipeline.fetch_all(LDAP_VIEWS[0])
-  elif (view_name == "ldap_view_1"):
-    dict_list = ldap_pipeline.fetch_all(LDAP_VIEWS[1])
-  return dict_list
+  if not view_name in config.VIEW_LIST.keys():
+    print('Error: View does not exists: '+view_name)
+    return None
+  view = config.VIEW_LIST[view_name]
+  match view["method"]:
+    case "sql":
+      dict_list = sql_pipeline.fetch_all(view)
+      return dict_list
+    case "csv":
+      dict_list = csv_pipeline.fetch_all(view)
+      return dict_list
+    case "ldap":
+      dict_list = ldap_pipeline.fetch_all(view)
+      return dict_list
 
-def fetch(view_name: str, identifier: str):
-  if (view_name == "sql_view_1"):
-    dict_list = sql_pipeline.fetch(SQL_VIEWS[0], identifier)
-  elif (view_name == "csv_view_1"):
-    dict_list = csv_pipeline.fetch(CSV_VIEWS[0], identifier)
-  elif (view_name == "csv_view_2"):
-    dict_list = csv_pipeline.fetch(CSV_VIEWS[1], identifier)
-  elif (view_name == "ldap_view_1"):
-    dict_list = ldap_pipeline.fetch(LDAP_VIEWS[0], identifier)
-  elif (view_name == "ldap_view_1"):
-    dict_list = ldap_pipeline.fetch(LDAP_VIEWS[1], identifier)
-  return dict_list
+def fetch(view_name: str, row: dict):
+  if not view_name in config.VIEW_LIST.keys():
+    print('Error: View does not exists: '+view_name)
+    return None
+  view = config.VIEW_LIST[view_name]
+  match view["method"]:
+    case "sql":
+      identifier = row[view['identifier_name']]
+      dict_list = sql_pipeline.fetch(view, identifier)
+      return dict_list
+    case "csv":
+      identifier = row[0]  # Indice of line in csv file is expected to be first column of row
+      dict_list = csv_pipeline.fetch(view, identifier)
+      return dict_list
+    case "ldap":
+      identifier = row[view['identifier_name']]
+      dict_list = ldap_pipeline.fetch(view, identifier)
+      return dict_list
 
-def delete(view_name: str, identifier: str):
-  if (view_name == "sql_view_1"):
-    response = sql_pipeline.delete(SQL_VIEWS[0], identifier)
-  elif (view_name == "csv_view_1"):
-    response = csv_pipeline.delete(CSV_VIEWS[0], identifier)
-  elif (view_name == "csv_view_2"):
-    response = csv_pipeline.delete(CSV_VIEWS[1], identifier)
-  elif (view_name == "ldap_view_1"):
-    response = ldap_pipeline.delete(LDAP_VIEWS[0], identifier)
-  elif (view_name == "ldap_view_1"):
-    response = ldap_pipeline.delete(LDAP_VIEWS[1], identifier)
-  return response
+def delete(view_name: str, row: dict):
+  if not view_name in config.VIEW_LIST.keys():
+    print('Error: View does not exists: '+view_name)
+    return None
+  view = config.VIEW_LIST[view_name]
+  match view["method"]:
+    case "sql":
+      identifier = row[view['identifier_name']]
+      dict_list = sql_pipeline.delete(view, identifier)
+      return dict_list
+    case "csv":
+      identifier = row[0]  # Indice of line in csv file is expected to be first column of row
+      dict_list = csv_pipeline.delete(view, identifier)
+      return dict_list
+    case "ldap":
+      identifier = row[view['identifier_name']]
+      dict_list = ldap_pipeline.delete(view, identifier)
+      return dict_list
 
-def insert(view_name: str, data: dict):
-  if (view_name == "sql_view_1"):
-    response = sql_pipeline.insert(SQL_VIEWS[0], data)
-  elif (view_name == "csv_view_1"):
-    response = csv_pipeline.insert(CSV_VIEWS[0], data)
-  elif (view_name == "csv_view_2"):
-    response = csv_pipeline.insert(CSV_VIEWS[1], data)
-  elif (view_name == "ldap_view_1"):
-    response = ldap_pipeline.insert(LDAP_VIEWS[0], data)
-  elif (view_name == "ldap_view_1"):
-    response = ldap_pipeline.insert(LDAP_VIEWS[1], data)
-  return response
+def insert(view_name: str, row: dict):
+  if not view_name in config.VIEW_LIST.keys():
+    print('Error: View does not exists: '+view_name)
+    return None
+  view = config.VIEW_LIST[view_name]
+  match view["method"]:
+    case "sql":
+      dict_list = sql_pipeline.delete(view, row)
+      return dict_list
+    case "csv":
+      dict_list = csv_pipeline.delete(view, row)
+      return dict_list
+    case "ldap":
+      dict_list = ldap_pipeline.delete(view, row)
+      return dict_list
 
-def update(view_name: str, identifier: str, data: dict):
-  if (view_name == "sql_view_1"):
-    response = sql_pipeline.update(SQL_VIEWS[0], identifier, data)
-  elif (view_name == "csv_view_1"):
-    response = csv_pipeline.update(CSV_VIEWS[0], identifier, data)
-  elif (view_name == "csv_view_2"):
-    response = csv_pipeline.update(CSV_VIEWS[1], identifier, data)
-  elif (view_name == "ldap_view_1"):
-    response = ldap_pipeline.update(LDAP_VIEWS[0], identifier, data)
-  elif (view_name == "ldap_view_1"):
-    response = ldap_pipeline.update(LDAP_VIEWS[1], identifier, data)
-  return response
+def update(view_name: str, row: dict):
+  if not view_name in config.VIEW_LIST.keys():
+    print('Error: View does not exists: '+view_name)
+    return None
+  view = config.VIEW_LIST[view_name]
+  match view["method"]:
+    case "sql":
+      identifier = row[view['identifier_name']]
+      dict_list = sql_pipeline.update(view, identifier, row)
+      return dict_list
+    case "csv":
+      identifier = row[0]  # Indice of line in csv file is expected to be first column of row
+      dict_list = csv_pipeline.update(view, identifier, row)
+      return dict_list
+    case "ldap":
+      identifier = row[view['identifier_name']]
+      dict_list = ldap_pipeline.update(view, identifier, row)
+      return dict_list
 
-def check_permission_create(data, user):
-  print('user with username {} with role {} wants to create reference {} in the database'.format(user.username, user.role, data))
+def check_permission_create(user, view_name, data):
+  print(f'user with username {user.username} with role {user.role} wants to create element {data} in the view {view_name}')
   return True
 
-def check_permission_update(data, user):
-  print('user with username {} with role {} wants to update reference {} in the database'.format(user.username, user.role, data))
+def check_permission_update(user, view_name, data):
+  print(f'user with username {user.username} with role {user.role} wants to update element {data} in the view {view_name}')
   return True
 
-def check_permission_delete(data, user):
-  print('user with username {} with role {} wants to delete reference {} in the database'.format(user.username, user.role, data))
+def check_permission_delete(user, view_name, data):
+  print(f'user with username {user.username} with role {user.role} wants to delete element {data} in the view {view_name}')
   return True
 
-def check_permission_fetch(data, user):
-  print('user with username {} with role {} wants to fetch reference {} in the database'.format(user.username, user.role, data))
+def check_permission_fetch(user, view_name, data):
+  print(f'user with username {user.username} with role {user.role} wants to fetch element {data} in the view {view_name}')
   return True
 
-def check_permission_fetch_all(data, user):
-  print('user with username {} with role {} wants to fetch all references with role {} in the database'.format(user.username, user.role, data))
+def check_permission_fetch_all(user, view_name, data):
+  print(f'user with username {user.username} with role {user.role} wants to fetch all elements of the view {view_name}')
   return True

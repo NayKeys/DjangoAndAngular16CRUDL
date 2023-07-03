@@ -1,82 +1,50 @@
 import App from './App.svelte';
 
-export type ReferenceData = {
-	id: number;
-  username: string;
-	reference: {
-		first_name: string;
-		last_name: string;
-		role: string;
-		age: string;
-		grade: string;
-		homeaddress: string;
-	};
-};
+export type RowKeys = string[];
+export type RowValues = string[];
 
 export type ApiRequest = {
 	action: string;
 	jwt: string;
-	data: ReferenceData;
+	view_name: string;
+	row: { [key: string]: string };
 };
-
-export type DataRow = [
-	id: string,
-  username: string,
-	firstName: string,
-	lastName: string,
-	role: string,
-	age: string,
-	grade: string,
-	homeaddress: string
-];
-
 export type ApiResponse = {
 	status: number;
 	message: string;
-	data: ReferenceData[];
+  row_keys: RowKeys;
+  rows: RowValues[];
 };
 
-const apiActionRequest = async function(csrfToken:string, jwt: string, action: string, data: DataRow): Promise<DataRow[] | undefined> {
-  const request: ApiRequest = {
+const apiActionRequest = async function (csrfToken: string, jwt: string, action: string, viewName: string = "", keys: RowKeys, values: RowValues): Promise<{names: RowKeys, table: RowValues[]} | undefined> {
+	const data = keys.reduce((obj, key, index) => {  // Converts key values to object
+		obj[key] = values[index];
+		return obj;
+	}, {} as { [key: string]: string });
+	const request: ApiRequest = {
 		action: action,
 		jwt: jwt,
-		data: {
-			id: parseInt(data[0]),
-			username: data[1],
-			reference: {
-				first_name: data[2],
-				last_name: data[3],
-				role: data[4],
-				age: data[5],
-				grade: data[6],
-				homeaddress: data[7],
-			},
-		},
+		view_name: viewName,
+		row: data,
 	};
-  const res = await fetch("http://localhost:8000/app/execute/", {
+	const res = await fetch("http://localhost:8000/app/execute/", {
 		method: "POST",
 		headers: {
-      "Content-Type": "application/json",
-      "X-CSRFToken": csrfToken,
+			"Content-Type": "application/json",
+			"X-CSRFToken": csrfToken,
 		},
 		body: JSON.stringify(request),
 	});
-  const rows: DataRow[] = [];
-  const resJson: ApiResponse = await res.json();
-  if (resJson.status !== 200) {  // If api returns error
-    console.log("Error: " + resJson.message);
-    return undefined;
-  } else {
-    if (resJson.data != undefined) {
-      for(let i = 0; i < resJson.data.length; i++) {
-        const refData = resJson.data[i];
-        const row: DataRow = [refData.id.toString(), refData.username, refData.reference.first_name, refData.reference.last_name, refData.reference.role, refData.reference.age, refData.reference.grade, refData.reference.homeaddress];
-        rows.push(row);
-      }
-    }
-    return rows;
-  }
-}
+	const rows: RowValues[] = [];
+	const resJson: ApiResponse = await res.json();
+	if (resJson.status !== 200) {
+		// If api returns error
+		console.log("Error: " + resJson.message);
+		return undefined;
+	} else {
+		return {names: resJson.row_keys, table: resJson.rows};
+	}
+};
 
 export function getMeta(metaName: string) {
 	const metas = document.getElementsByTagName("meta");
