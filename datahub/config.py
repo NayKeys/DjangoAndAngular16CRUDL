@@ -9,13 +9,13 @@ VIEW_LIST = {
     "method": "sql",
     "table_name": "students_app_student",
     "database_url": "studentsDB.sqlite3",
-    "identifier_name": "id",
+    "identifier_name": "username",
   },
   "view_2": {
     "method": "sql",
-    "table_name": "students_app_student",
+    "table_name": "teachers",
     "database_url": "studentsDB.sqlite3",
-    "identifier_name": "id",
+    "identifier_name": "username",
   },
   "view_3":{
     "method": "csv",

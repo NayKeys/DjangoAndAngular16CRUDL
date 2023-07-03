@@ -42,6 +42,9 @@ def delete(table: dict, identifier: str):
 def update(table: dict, identifier: str, updated_element: dict):
   conn = sqlite3.connect(table['database_url'])
   cursor = conn.cursor()
+  # Delete eventual un-updatable columns
+  # del updated_element[updated_element['identifier_name']]
+  del updated_element['id']
   output = cursor.execute(f'UPDATE {table["table_name"]} SET {", ".join([f"{key} = ?" for key in updated_element.keys()])} WHERE {table["identifier_name"]} = ?', tuple(updated_element.values()) + (identifier,))
   conn.commit()
   return True
