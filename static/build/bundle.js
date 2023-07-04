@@ -687,7 +687,7 @@ var app = (function (exports) {
     		c: function create() {
     			th = element("th");
     			t = text(t_value);
-    			add_location(th, file, 54, 3, 1761);
+    			add_location(th, file, 54, 3, 1763);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, th, anchor);
@@ -728,7 +728,7 @@ var app = (function (exports) {
     			attr_dev(td, "contenteditable", "true");
     			attr_dev(td, "class", "svelte-o0qdmk");
     			if (/*cell*/ ctx[18] === void 0) add_render_callback(td_input_handler);
-    			add_location(td, file, 61, 8, 1858);
+    			add_location(td, file, 61, 8, 1860);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, td, anchor);
@@ -806,10 +806,10 @@ var app = (function (exports) {
     			t2 = space();
     			button1 = element("button");
     			button1.textContent = "X";
-    			add_location(button0, file, 63, 6, 1927);
-    			add_location(button1, file, 64, 3, 1992);
+    			add_location(button0, file, 63, 6, 1929);
+    			add_location(button1, file, 64, 3, 1994);
     			attr_dev(tr, "class", "svelte-o0qdmk");
-    			add_location(tr, file, 59, 2, 1822);
+    			add_location(tr, file, 59, 2, 1824);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, tr, anchor);
@@ -896,7 +896,7 @@ var app = (function (exports) {
     			attr_dev(td, "contenteditable", "true");
     			attr_dev(td, "class", "svelte-o0qdmk");
     			if (/*column*/ ctx[12] === void 0) add_render_callback(td_input_handler_1);
-    			add_location(td, file, 70, 3, 2117);
+    			add_location(td, file, 70, 3, 2119);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, td, anchor);
@@ -1007,14 +1007,14 @@ var app = (function (exports) {
     			t5 = space();
     			pre = element("pre");
     			t6 = text(t6_value);
-    			add_location(tr0, file, 52, 1, 1721);
-    			add_location(button, file, 72, 2, 2183);
+    			add_location(tr0, file, 52, 1, 1723);
+    			add_location(button, file, 72, 2, 2185);
     			set_style(tr1, "color", "grey");
     			attr_dev(tr1, "class", "svelte-o0qdmk");
-    			add_location(tr1, file, 68, 1, 2062);
+    			add_location(tr1, file, 68, 1, 2064);
     			set_style(pre, "background", "#eee");
-    			add_location(pre, file, 76, 1, 2232);
-    			add_location(table_1, file, 51, 0, 1712);
+    			add_location(pre, file, 76, 1, 2234);
+    			add_location(table_1, file, 51, 0, 1714);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1231,7 +1231,7 @@ var app = (function (exports) {
     	}
 
     	onMount(async () => {
-    		await auth();
+    		// await auth()
     		jwt = getCookie('jwt');
 
     		apiActionRequest(csrfToken, jwt, 'fetch_all', 'view_1', [], []).then(res => {

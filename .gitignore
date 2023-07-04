@@ -4,3 +4,5 @@ svelte-front/node_modules/*
 svelte-front/node_modules
 .venv
 .env
+animatohtml/*
+animatohtml

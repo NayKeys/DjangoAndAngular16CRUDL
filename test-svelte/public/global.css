@@ -1,0 +1,107 @@
+@import url("https://fonts.googleapis.com/css?family=Lexend+Deca:400,600");
+
+/* Variables */
+:root {
+  --black: rgba(0, 0, 0, 1);
+  --eerie-black: rgba(20, 24, 27, 1);
+  --shark: rgba(30, 36, 41, 1);
+  --bright-gray: rgba(54, 64, 73, 1);
+  --masala: rgba(66, 59, 59, 1);
+  --oslo-gray: rgba(138, 144, 151, 1);
+  --silver: rgba(210, 197, 198, 1);
+  --geyser: rgba(215, 221, 231, 1);
+  --dawn-pink: rgba(241, 232, 232, 1);
+  --white: rgba(255, 255, 255, 1);
+  --font-size-xs: 40px;
+  --font-size-m3: 20px;
+  --font-size-l3: 24px;
+  --font-size-s2: 48px;
+  --font-size-m2: 64px;
+  --font-size-l2: 80px;
+  --font-size-xl2: 110px;
+  --font-family-inter: "Inter";
+  --font-family-lexend_deca: "Lexend Deca";
+  --font-family-lexend_deca-medium: "Lexend Deca-Medium";
+  --font-family-nats-regular: "NATS-Regular";
+}
+
+/* Classes */
+.lexenddeca-normal-geyser-24px {
+  color: var(--geyser);
+  font-family: var(--font-family-lexend_deca);
+  font-size: var(--font-size-l3);
+  font-weight: 400;
+  font-style: normal;
+}
+.lexenddeca-semi-bold-oslo-gray-20px {
+  color: var(--oslo-gray);
+  font-family: var(--font-family-lexend_deca);
+  font-size: var(--font-size-m3);
+  font-weight: 600;
+  font-style: normal;
+}
+
+html, body {
+	position: relative;
+  font-family: 'Lexend Deca', sans-serif;
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	color: #333;
+	margin: 0;
+	padding: 8px;
+	box-sizing: border-box;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+a {
+	color: rgb(0,100,200);
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:visited {
+	color: rgb(0,80,160);
+}
+
+label {
+	display: block;
+}
+
+input, button, select, textarea {
+	font-family: inherit;
+	font-size: inherit;
+	-webkit-padding: 0.4em 0;
+	padding: 0.4em;
+	margin: 0 0 0.5em 0;
+	box-sizing: border-box;
+	border: 1px solid #ccc;
+	border-radius: 2px;
+}
+
+input:disabled {
+	color: #ccc;
+}
+
+button {
+	color: #333;
+	background-color: #f4f4f4;
+	outline: none;
+}
+
+button:disabled {
+	color: #999;
+}
+
+button:not(:disabled):active {
+	background-color: #ddd;
+}
+
+button:focus {
+	border-color: #666;
+}

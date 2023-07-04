@@ -42,7 +42,7 @@
   }
 
   onMount(async () => {
-    await auth()
+    // await auth()
     jwt = getCookie('jwt')
     apiActionRequest(csrfToken, jwt, 'fetch_all', 'view_1', [], []).then((res) => {
       columnNames = res.names
