@@ -14,15 +14,85 @@
   import 'datatables.net-searchbuilder-dt';
   import 'datatables.net-select-dt';
 
-  
+  import { getMeta, getCookie } from './main'
   import type { RowKeys, RowValues } from './main'
-  export let columnNames:RowKeys  // Prop
-  export let tableData: RowValues[] // Prop
-  export let newRow: RowValues // Prop
-  export let addRow: RowValues // Prop
-  export let updateRow: RowValues // Prop
-  export let deleteRow: RowValues // Prop
+  import { apiActionRequest } from './main';
   
+  let columnNames = ['ID', 'Username', 'First Name', 'Last Name', 'Role', 'Age', 'Grade', 'Address']
+  let tableData: RowValues[] = [
+    ['1', "johnfish22", "John", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['2', "sarahfis24", "Sarah", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['1', "johnfish22", "John", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['2', "sarahfis24", "Sarah", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['1', "johnfish22", "John", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['2', "sarahfis24", "Sarah", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['1', "johnfish22", "John", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['2', "sarahfis24", "Sarah", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['1', "johnfish22", "John", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['2', "sarahfis24", "Sarah", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
+  ]
+  let newRow: RowValues = [];
+  const csrfToken = getMeta('csrf-token');
+  let jwt = getCookie('jwt');
+	function addRow() {
+    apiActionRequest(csrfToken, jwt, 'create', 'view_1', columnNames, newRow).then((res) => {
+      if (res != undefined) {
+        table = [...table, [...newRow]]
+      }
+    })
+	}
+	function deleteRow(rowToBeDeleted: RowValues) {
+    apiActionRequest(csrfToken, jwt, 'remove', 'view_1', columnNames, rowToBeDeleted).then((res) => {
+      if (res != undefined) {
+        table = table.filter(row => row != rowToBeDeleted)
+      }
+    })
+	}
+  function updateRow(rowToBeEdited: RowValues) {
+    apiActionRequest(csrfToken, jwt, 'update', 'view_1', columnNames, rowToBeEdited).then((res) => {
+      if (res != undefined) {
+      }
+    })
+  }
+
+  onMount(async () => {
+    jwt = getCookie('jwt')
+    // apiActionRequest(csrfToken, jwt, 'fetch_all', 'view_1', [], []).then((res) => {
+    //   columnNames = res.names
+    //   table = res.table;
+    // })
+  });
+
   onMount(async () => {
     let table = new DataTable('#table', {
       responsive: true,

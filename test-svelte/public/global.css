@@ -2,6 +2,34 @@
 
 /* Variables */
 :root {
+	--black: rgba(0, 0, 0, 1);
+	--eerie-black: rgba(20, 24, 27, 1);
+	--shark: rgba(30, 36, 41, 1);
+	--sea-green: rgba(42, 148, 71, 1);
+	--bright-gray: rgba(54, 64, 73, 1);
+	--masala: rgba(66, 59, 59, 1);
+	--oslo-gray: rgba(138, 144, 151, 1);
+	--silver: rgba(210, 197, 198, 1);
+	--geyser-2: rgba(215, 221, 230, 1);
+	--geyser: rgba(215, 221, 231, 1);
+	--dawn-pink: rgba(241, 232, 232, 1);
+	--white: rgba(255, 255, 255, 1);
+	--font-size-xs: 40px;
+	--font-size-m3: 20px;
+	--font-size-l3: 24px;
+	--font-size-s2: 48px;
+	--font-size-m2: 64px;
+	--font-size-l2: 80px;
+	--font-size-xl2: 110px;
+	--font-family-inter: "Inter";
+	--font-family-lexend_deca: "Lexend Deca";
+	--font-family-lexend_deca-medium: "Lexend Deca-Medium";
+	--font-family-lexend_deca-semibold: "Lexend Deca-SemiBold";
+	--font-family-nats-regular: "NATS-Regular";
+}
+
+/* Variables */
+:root {
   --lightbackground: #1e2429;
   --lightselected: #1e2429;
   --lightseperation: #374149 ;
@@ -13,7 +41,7 @@
   --darkseperation: #374149;
   --specialcolor: #2A9548;
   --whitetext: #D7DDE7;
-
+  
   --black: rgba(0, 0, 0, 1);
   --eerie-black: rgba(20, 24, 27, 1);
   --shark: rgba(30, 36, 41, 1);
@@ -24,6 +52,13 @@
   --geyser: rgba(215, 221, 231, 1);
   --dawn-pink: rgba(241, 232, 232, 1);
   --white: rgba(255, 255, 255, 1);
+  --font-size-xs: 40px;
+  --font-size-s: 48px;
+  --font-size-m: 20px;
+  --font-size-l: 24px;
+  --font-size-m2: 64px;
+  --font-size-l2: 80px;
+  --font-size-xl2: 110px;
   --font-size-xs: 40px;
   --font-size-m3: 20px;
   --font-size-l3: 24px;
@@ -111,6 +146,118 @@
 }
 
 /* Classes */
+.lexenddeca-normal-black-64px {
+	color: var(--black);
+	font-family: var(--font-family-lexend_deca);
+	font-size: var(--font-size-m2);
+	font-weight: 400;
+	font-style: normal;
+}
+.lexenddeca-normal-white-48px {
+	color: var(--white);
+	font-family: var(--font-family-lexend_deca);
+	font-size: var(--font-size-s2);
+	font-weight: 400;
+	font-style: normal;
+}
+.lexenddeca-medium-white-64px {
+	color: var(--white);
+	font-family: var(--font-family-lexend_deca);
+	font-size: var(--font-size-m2);
+	font-weight: 500;
+	font-style: normal;
+}
+.inter-normal-geyser-24px {
+	color: var(--geyser);
+	font-family: var(--font-family-inter);
+	font-size: var(--font-size-l3);
+	font-weight: 400;
+	font-style: normal;
+}
+.lexenddeca-normal-oslo-gray-24px {
+	color: var(--oslo-gray);
+	font-family: var(--font-family-lexend_deca);
+	font-size: var(--font-size-l3);
+	font-weight: 400;
+	font-style: normal;
+}
+.lexenddeca-medium-white-64px {
+	color: var(--white);
+	font-family: var(--font-family-lexend_deca-medium);
+	font-size: var(--font-size-m2);
+	font-weight: 500;
+	font-style: normal;
+}
+.lexenddeca-semi-bold-oslo-gray-20px {
+	color: var(--oslo-gray);
+	font-family: var(--font-family-lexend_deca);
+	font-size: var(--font-size-m3);
+	font-weight: 600;
+	font-style: normal;
+}
+.lexenddeca-normal-geyser-24px {
+	color: var(--geyser);
+	font-family: var(--font-family-lexend_deca);
+	font-size: var(--font-size-l3);
+	font-weight: 400;
+	font-style: normal;
+}
+.lexenddeca-normal-black-64px {
+	color: var(--black);
+	font-family: var(--font-family-lexend_deca);
+	font-size: var(--font-size-m2);
+	font-weight: 400;
+	font-style: normal;
+}
+.lexenddeca-semi-bold-oslo-gray-20px {
+	color: var(--oslo-gray);
+	font-family: var(--font-family-lexend_deca-semibold);
+	font-size: var(--font-size-m3);
+	font-weight: 600;
+	font-style: normal;
+}
+.lexenddeca-normal-oslo-gray-20px {
+	color: var(--oslo-gray);
+	font-family: var(--font-family-lexend_deca);
+	font-size: var(--font-size-m3);
+	font-weight: 400;
+	font-style: normal;
+}
+.lexenddeca-normal-white-48px {
+	color: var(--white);
+	font-family: var(--font-family-lexend_deca);
+	font-size: var(--font-size-s2);
+	font-weight: 400;
+	font-style: normal;
+}
+.inter-semi-bold-oslo-gray-20px {
+	color: var(--oslo-gray);
+	font-family: var(--font-family-inter);
+	font-size: var(--font-size-m3);
+	font-weight: 600;
+	font-style: normal;
+}
+.lexenddeca-normal-geyser-24px-2 {
+	color: var(--geyser-2);
+	font-family: var(--font-family-lexend_deca);
+	font-size: var(--font-size-l3);
+	font-weight: 400;
+	font-style: normal;
+}
+.lexenddeca-normal-geyser-24px {
+  color: var(--geyser);
+  font-family: var(--font-family-lexend_deca);
+  font-size: var(--font-size-l);
+  font-weight: 400;
+  font-style: normal;
+}
+.lexenddeca-normal-oslo-gray-20px {
+  color: var(--oslo-gray);
+  font-family: var(--font-family-lexend_deca);
+  font-size: var(--font-size-m);
+  font-weight: 400;
+  font-style: normal;
+}
 .lexenddeca-normal-geyser-24px {
   color: var(--geyser);
   font-family: var(--font-family-lexend_deca);
@@ -129,6 +276,7 @@
 html, body {
 	position: relative;
   font-family: 'Lexend Deca', sans-serif;
+  padding: 0 !important;
 	width: 100%;
 	height: 100%;
 }

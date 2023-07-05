@@ -3,43 +3,6 @@
 </script>
 
 <style>
-  /* Variables */
-  :root {
-    --black: rgba(0, 0, 0, 1);
-    --shark: rgba(30, 36, 41, 1);
-    --bright-gray: rgba(54, 64, 73, 1);
-    --masala: rgba(66, 59, 59, 1);
-    --oslo-gray: rgba(138, 144, 151, 1);
-    --silver: rgba(210, 197, 198, 1);
-    --geyser: rgba(215, 221, 231, 1);
-    --dawn-pink: rgba(241, 232, 232, 1);
-    --white: rgba(255, 255, 255, 1);
-    --font-size-xs: 40px;
-    --font-size-s: 48px;
-    --font-size-m: 20px;
-    --font-size-l: 24px;
-    --font-size-m2: 64px;
-    --font-size-l2: 80px;
-    --font-size-xl2: 110px;
-    --font-family-lexend_deca: "Lexend Deca";
-    --font-family-lexend_deca-medium: "Lexend Deca-Medium";
-    --font-family-nats-regular: "NATS-Regular";
-  } /* Classes */
-  .lexenddeca-normal-geyser-24px {
-    color: var(--geyser);
-    font-family: var(--font-family-lexend_deca);
-    font-size: var(--font-size-l);
-    font-weight: 400;
-    font-style: normal;
-  }
-  .lexenddeca-normal-oslo-gray-20px {
-    color: var(--oslo-gray);
-    font-family: var(--font-family-lexend_deca);
-    font-size: var(--font-size-m);
-    font-weight: 400;
-    font-style: normal;
-  }
-  @import url("https://fonts.googleapis.com/css?family=Lexend+Deca:400");
   .edit-frame {
     align-items: center;
     background-color: #14181b;
