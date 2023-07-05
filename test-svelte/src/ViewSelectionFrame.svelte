@@ -2,45 +2,43 @@
 
 </script>
 
-<div class="view-selection-frame screen">
+<div class="view-selection-frame">
   <div class="app-title">
     <h1 class="title valign-text-middle  lexenddeca-normal-geyser-24px-2">ENSEA Trendy Tables</h1>
-    <div class="rectangle-20"></div>
+    <div class="view-selection-separator"></div>
   </div>
   <div class="search-bar">
     <img class="vector-2" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector.svg" alt="Vector" />
     <div class="search valign-text-middle  lexenddeca-normal-oslo-gray-24px">Search</div>
   </div>
   <div class="view-tree-selector">
-    <div class="overlap-group">
-      <div class="left-buttons">
-        <div class="view-sets">
-          <div class="view-set-1 view-set">
-            <img class="vector-3" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-1.svg" alt="Vector" />
-            <div class="view-set-1-1 valign-text-middle  ">View Set 1</div>
-          </div>
-          <div class="view-set-2 view-set">
-            <img class="vector-4" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-2.svg" alt="Vector" />
-            <div class="view-set-2-1 valign-text-middle  lexenddeca-normal-oslo-gray-24px">View Set 2</div>
-          </div>
-          <div class="view-set-3 view-set">
-            <img class="vector" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-3.svg" alt="Vector" />
-            <div class="view-set-3-1 valign-text-middle  lexenddeca-normal-oslo-gray-24px">View Set 3</div>
-          </div>
-          <div class="view-set-4 view-set">
-            <img class="vector" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-3.svg" alt="Vector" />
-            <div class="view-set-4-1 valign-text-middle  lexenddeca-normal-oslo-gray-24px">View Set 4</div>
-          </div>
+    <div class="left-buttons">
+      <div class="view-sets">
+        <div class="view-set-1 view-set">
+          <img class="vector-3" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-1.svg" alt="Vector" />
+          <div class="view-set-1-1 valign-text-middle  ">View Set 1</div>
         </div>
-        <div class="settings">
-          <div class="profile">
-            <img class="vector-5" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-5.svg" alt="Vector" />
-            <div class="profile-1 valign-text-middle  lexenddeca-normal-oslo-gray-24px">Profile</div>
-          </div>
-          <div class="settings-1 settings-3">
-            <img class="vector-6" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-6.svg" alt="Vector" />
-            <div class="settings-2 valign-text-middle  settings-3lexenddeca-normal-oslo-gray-24px">Settings</div>
-          </div>
+        <div class="view-set-2 view-set">
+          <img class="vector-4" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-2.svg" alt="Vector" />
+          <div class="view-set-2-1 valign-text-middle  lexenddeca-normal-oslo-gray-24px">View Set 2</div>
+        </div>
+        <div class="view-set-3 view-set">
+          <img class="vector" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-3.svg" alt="Vector" />
+          <div class="view-set-3-1 valign-text-middle  lexenddeca-normal-oslo-gray-24px">View Set 3</div>
+        </div>
+        <div class="view-set-4 view-set">
+          <img class="vector" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-3.svg" alt="Vector" />
+          <div class="view-set-4-1 valign-text-middle  lexenddeca-normal-oslo-gray-24px">View Set 4</div>
+        </div>
+      </div>
+      <div class="settings">
+        <div class="profile">
+          <img class="vector-5" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-5.svg" alt="Vector" />
+          <div class="profile-1 valign-text-middle  lexenddeca-normal-oslo-gray-24px">Profile</div>
+        </div>
+        <div class="settings-1 settings-3">
+          <img class="vector-6" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-6.svg" alt="Vector" />
+          <div class="settings-2 valign-text-middle  settings-3lexenddeca-normal-oslo-gray-24px">Settings</div>
         </div>
       </div>
       <div class="separator"></div>
@@ -71,6 +69,26 @@
 </div>
 
 <style>
+  .view-tree-selector {
+    height: 940px;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    width: 1000px;
+  }
+  .view-sets > *{
+    width:100%;
+    gap: 25px;
+  }
+  .view-sets {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+    width: 500px;
+  }
   .view-selection-frame {
     align-items: center;
     background-color: var(--eerie-black);
@@ -78,8 +96,15 @@
     display: flex;
     flex-direction: column;
     gap: 21px;
-    min-width: 937.58px;
     padding: 25px;
+    position: relative;
+    width: fit-content;
+  }
+  .view-selection-separator {
+    background-color: var(--bright-gray);
+    border-radius: 10px;
+    height: 4px;
+    width: 100%;
     position: relative;
   }
   .search-bar {
@@ -111,12 +136,12 @@
     position: relative;
   }
   .app-title {
-    align-items: center;
+    align-items: start;
     display: flex;
     flex-direction: column;
     gap: 5px;
+    width: 100%;
     position: relative;
-    width: fit-content;
   }
   .title {
     height: 31px;
@@ -124,54 +149,22 @@
     line-height: normal;
     margin-top: -1px;
     position: relative;
-    width: 868px;
-  }
-  .rectangle-20 {
-    background-color: var(--bright-gray);
-    border-radius: 10px;
-    height: 4px;
-    min-width: 877px;
-    position: relative;
-  }
-  .view-tree-selector {
-    height: 940px;
-    min-width: 887.58px;
-    position: relative;
-  }
-  .overlap-group {
-    height: 940px;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 209px;
   }
   .left-buttons {
     align-items: flex-start;
     display: flex;
     flex-direction: column;
-    gap: 650px;
+    gap: 600px;
     justify-content: center;
     left: 0;
     position: absolute;
     top: 0;
     width: fit-content;
   }
-  .view-sets {
-    align-items: flex-start;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    position: relative;
-    width: fit-content;
-  }
   .view-selection-frame .view-set {
     align-items: center;
     display: flex;
     position: relative;
-  }
-  .view-set-4 {
-    gap: 25px;
-    width: 177px;
   }
   .vector {
     height: 25px;
@@ -184,10 +177,6 @@
     line-height: normal;
     margin-top: -1px;
     position: relative;
-    width: fit-content;
-  }
-  .view-set-1 {
-    gap: 17px;
     width: fit-content;
   }
   .vector-3 {
@@ -205,10 +194,6 @@
     position: relative;
     width: fit-content;
   }
-  .view-set-2 {
-    gap: 27px;
-    width: 174px;
-  }
   .view-set-2-1 {
     letter-spacing: 0;
     line-height: normal;
@@ -221,10 +206,6 @@
     margin-left: -1.5px;
     min-width: 28px;
     position: relative;
-  }
-  .view-set-3 {
-    gap: 25px;
-    width: 175px;
   }
   .view-set-3-1 {
     letter-spacing: 0;

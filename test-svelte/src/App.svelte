@@ -27,6 +27,7 @@
 
 <style>
   .app-container {
+    width: fit-content;
     display: flex;
     flex-direction: row;
     align-items: start;
