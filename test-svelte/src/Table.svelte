@@ -29,13 +29,37 @@
       search: {
         return: false
       },
+      scrollX: true,
       paging: true,
       ordering: true,
-      scrollY: "400",
+      scrollY: "720px",
       select: true,
       pageLength: 50,
     });
+    //Editing the datatable
+    j('#table_length')[0].remove()  // Not using that
     j('#table_wrapper')[0].prepend(j('.table-buttons')[0]);
+    j('#table_filter')[0].prepend(j('#search-vector')[0]); 
+    
+    //Editing table filter (the searchbar)
+    j('#table_wrapper .table-buttons')[0].prepend(j('#table_filter')[0]);
+    j('#table_filter')[0].classList.add('lexenddeca-normal-oslo-gray-24px');  // Changing fonts (unnecessary)
+    j('#table_filter')[0].appendChild(j('#table_filter label input')[0]);  // Moving input out of label
+    j('#table_filter label')[0].remove()  // Cringe useless label
+    j('#table_filter input')[0].classList.add('lexenddeca-normal-oslo-gray-24px');  // Unnecessary again
+    j('#table_filter input')[0].attributes.placeholder.value = 'Search'  // Ignore TS error
+    
+
+    j(document).on('keyup', function (event) {
+      const target = event.target as HTMLElement|Document;
+      console.log(target)
+      if (target instanceof HTMLElement)
+      if (target.tagName === 'INPUT')
+      return;
+      console.log("J'ai les cramptés")
+      table.search(event.key).draw();
+      j('#table_filter input').trigger('focus')
+    });
   });
   // bind:this={table}
 </script>
@@ -44,16 +68,13 @@
 	<!-- <link rel="stylesheet" href="//cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" /> -->
 </svelte:head>
 
-<div class="table-frame screen">
+<div id="table-frame" class="table-frame screen">
   <div class="frame-31">
     <h1 class="vue-tudiants-1re-anne valign-text-middle">Vue étudiants 1ère année</h1>
     <div class="top-seperator"></div>
   </div>
+  <img id="search-vector" class="vector" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a3f5479ef0ce55861f0160/img/vector.svg" alt="Vector" />
   <div class="table-buttons">
-    <div class="search">
-      <img class="vector" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a3f5479ef0ce55861f0160/img/vector.svg" alt="Vector" />
-      <div class="search-1 valign-text-middle lexenddeca-normal-oslo-gray-24px">Search</div>
-    </div>
     <div class="filter">
       <img class="vector-1" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a3f5479ef0ce55861f0160/img/vector-1.svg" alt="Vector" />
       <div class="filter-1 valign-text-middle lexenddeca-normal-oslo-gray-24px">Filter</div>
@@ -64,44 +85,56 @@
       <div class="sort-1 valign-text-middle lexenddeca-normal-oslo-gray-24px">Sort</div>
     </div>
   </div>
-  <table id="table" class="dataTable display table hover order-column row-border stripe">
-    <thead>
-      <tr class="row-1">
-        {#each columnNames as column}
-        <th class="cell">
-          <div class="content">
-            <div class="text lexenddeca-semi-bold-oslo-gray-20px  ">
-              {column}
+  <div class="table-container">
+    <table id="table" class="dataTable table hover order-column row-border">
+      <thead>
+        <tr class="row-1">
+          {#each columnNames as column}
+          <th class="">
+            <div class="content-title">
+              <div class="text lexenddeca-semi-bold-oslo-gray-20px  ">
+                {column}
+              </div>
             </div>
-          </div>
-        </th>
-        {/each}
-      </tr>
-    </thead>
-    <tbody>
-      {#each tableData as row}
-      <tr class="row">
-        {#each row as cell}
-        <th class="cell">
-          <div class="content">
-            <div class="text  lexenddeca-normal-geyser-24px">
-              {cell}
+          </th>
+          {/each}
+        </tr>
+      </thead>
+      <tbody>
+        {#each tableData as row}
+        <tr class="row">
+          {#each row as cell}
+          <th class="">
+            <div class="content">
+              <div class="text  lexenddeca-normal-geyser-24px">
+                {cell}
+              </div>
             </div>
-          </div>
-        </th>
+          </th>
+          {/each}
+        </tr>
         {/each}
-      </tr>
-      {/each}
-    </tbody>
-  </table>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <style>
+  .table-buttons {
+    margin-bottom: 12px;
+  }
+  .table-container {
+    height: 900px;
+  }
   .table {
+    height: 100%;
     overflow: hidden;
   }
+  .content-title {
+  }
   .content {
-    padding: 3px 12px;
+    padding-bottom: 4px;
+    padding-top: 4px;
   }
   .text {
     text-align: start;
@@ -117,12 +150,6 @@
   }
   .row {
     height: 46px;
-  }
-  .cell {
-    /* border-top-style: solid;
-    border-top-width: 1px;
-    border-right-style: solid;
-    border-right-width: 1px; */
   }
   .table-frame {
     align-items: flex-start;
