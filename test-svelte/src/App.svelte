@@ -29,11 +29,22 @@
 <div class="app-container">
   <Login />
   <ViewSelectionFrame />
-  <Table />
-  <EditFrame />
+  <div class="side-container">
+    <Table />
+    <EditFrame />
+  </div>
 </div>
 
 <style>
+  .side-container {
+    display: flex;
+    transform: translateX(-500px);
+    flex-direction: row;
+    align-items: start;
+    justify-content: start;
+    overflow: hidden;
+    width: fit-content;
+  }
   .app-container {
     width: fit-content;
     display: flex;

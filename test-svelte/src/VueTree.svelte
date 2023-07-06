@@ -1,8 +1,10 @@
 <script lang="ts">
   import { TreeView } from "carbon-components-svelte";
 
+  let treeview: TreeView;
   let activeId = "";
   let selectedIds = [];
+  let expandedIds = [1, 2, 14];
   let children = [
     { id: 0, text: "AI / Machine learning" },
     {
@@ -43,17 +45,39 @@
       children: [{ id: 15, text: "IBM API Connect", disabled: true }],
     },
   ];
+  const selectItem = (detail) => {
+    const id = detail.id
+    if (id >= 100) {
+      if (expandedIds.includes(id)) {
+        expandedIds = expandedIds.filter((i) => i !== id);
+      } else {
+        expandedIds.push(id);
+      }
+      console.log(expandedIds)
+      treeview?.expandNodes((node) => {
+        return expandedIds.includes(node.id as number);
+      })
+    }
+  };
+  import j from "jquery" ;
+	import { onMount } from "svelte";
+  onMount(() => {
+    console.log(j('#tree-view')[0].children[1].classList.add('lexenddeca-normal-oslo-gray-20px'))
+    for (let key in j('#tree-view')[0].children) {
+      console.log(key)
+    }
+  })
+    
 </script>
 
 <div id="tree-view">
   <TreeView
-    labelText="Table Selection"
+    labelText=""
     {children}
+    bind:this={treeview}
     bind:activeId
     bind:selectedIds
-    on:select={({ detail }) => console.log("select", detail)}
-    on:toggle={({ detail }) => console.log("toggle", detail)}
-    on:focus={({ detail }) => console.log("focus", detail)}
+    on:select={({ detail }) => selectItem(detail)}
   />
 </div>
 

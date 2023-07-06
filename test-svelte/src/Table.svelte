@@ -161,8 +161,8 @@
         <tr class="row-1">
           {#each columnNames as column}
           <th class="">
-            <div class="content-title">
-              <div class="text lexenddeca-semi-bold-oslo-gray-20px  ">
+            <div class="">
+              <div class="text">
                 {column}
               </div>
             </div>
@@ -176,7 +176,7 @@
           {#each row as cell}
           <th class="">
             <div class="content">
-              <div class="text  lexenddeca-normal-geyser-24px">
+              <div class="text">
                 {cell}
               </div>
             </div>
@@ -200,8 +200,6 @@
     height: 100%;
     overflow: hidden;
   }
-  .content-title {
-  }
   .content {
     padding-bottom: 4px;
     padding-top: 4px;
@@ -217,9 +215,17 @@
   }
   .row-1 {
     height: 51px;
+    font-size: 1rem;
+    color: var(--darkcontroltext);
+    font-family: var(--font-family-lexend_deca);
+    font-weight: 400;
   }
   .row {
     height: 46px;
+    font-size: 1.2rem;
+    color: var(--whitetext);
+    font-family: var(--font-family-lexend_deca);
+    font-weight: 400;
   }
   .table-frame {
     align-items: flex-start;
@@ -272,30 +278,10 @@
     position: relative;
     width: 53px;
   }
-  .search {
-    align-items: center;
-    background-color: var(--eerie-black);
-    border: 2px solid;
-    border-color: var(--bright-gray);
-    border-radius: 5px;
-    display: flex;
-    gap: 12px;
-    padding: 12px 15px;
-    position: relative;
-    width: 748px;
-  }
   .vector {
     height: 31px;
     min-width: 31px;
     position: relative;
-  }
-  .search-1 {
-    height: 30.61px;
-    letter-spacing: 0;
-    line-height: normal;
-    margin-top: -1.8px;
-    position: relative;
-    width: 89.27px;
   }
   .filter {
     align-items: center;

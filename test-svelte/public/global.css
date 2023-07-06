@@ -70,6 +70,30 @@
   --font-family-lexend_deca-medium: "Lexend Deca-Medium";
   --font-family-nats-regular: "NATS-Regular";
 }
+
+#edit-inputs .bx--form-item {
+  width: 100%;
+}
+#edit-inputs .bx--label {
+  font-family: var(--font-family-lexend_deca);
+  font-size: 16px;
+  color: var(--darkcontroltext);
+}
+#edit-inputs .bx--text-input:focus {
+  outline: 2px solid var(--specialcolor);
+  outline-offset: -2px;
+}
+#edit-inputs .bx--text-input {
+  width: 100%;
+  font-family: var(--font-family-lexend_deca);
+  font-size: 18px;
+  color: var(--whitetext);
+  background-color: var(--lightbackground);
+}
+
+#tree-view .bx--tree-node__label {
+  padding: 16px;
+}
 #tree-view .bx--tree .bx--tree-node:focus > .bx--tree-node__label {
   outline: 2px solid var(--specialcolor);
   outline-offset: -2px;
@@ -165,6 +189,13 @@ table.dataTable tbody tr.selected > * {
 #table_next:hover, #table_previous:active {
   color: var(--whitetext);
   background: var(--darkselected);
+}
+.lexenddeca-normal-oslo-gray-18px {
+  color: var(--oslo-gray);
+  font-family: var(--font-family-lexend_deca);
+  font-weight: 400;
+  font-size: 18px;
+  font-style: normal;
 }
 .lexenddeca-normal-oslo-gray-24px {
   color: var(--oslo-gray);

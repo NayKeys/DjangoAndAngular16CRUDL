@@ -1,6 +1,78 @@
 <script lang="ts">
-
+  import { TextInput, TextInputSkeleton } from "carbon-components-svelte";
 </script>
+
+
+<div class="edit-frame screen">
+  <div class="flex-row flex">
+    <div class="flex-col flex">
+      <img class="vector" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a3e2f85b10cc482f4aa8c8/img/vector.svg" alt="Vector" />
+      <h1 class="title valign-text-middle">yanregoj64</h1>
+    </div>
+    <div class="save-button">
+      <img class="vector-1 vector-3" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a3e2f85b10cc482f4aa8c8/img/vector-1.svg" alt="Vector" />
+      <div class="frame-2 frame"><div class="save valign-text-middle">Save</div></div>
+    </div>
+  </div>
+  <div id="edit-inputs" class="frame-31 frame">
+    <TextInput
+      warn
+      warnText="Your user name is different from your log in ID."
+      labelText="User name"
+      placeholder="Enter user name..."
+    />
+    <TextInput disabled labelText="User name" placeholder="Enter user name..." />
+    <TextInputSkeleton hideLabel />
+    <div class="value-field1">
+      <div class=" frame-1  frame"><div class="st-name  valign-text-middle  lexenddeca-normal-oslo-gray-20px">First Name</div></div>
+      <div class="text-field1"><div class="yan valign-text-middle  lexenddeca-normal-geyser-24px">Yan</div></div>
+    </div>
+    <div class="value-field1">
+      <div class=" frame-1  frame"><div class="st-name  valign-text-middle  lexenddeca-normal-oslo-gray-20px">Last Name</div></div>
+      <div class="text-field1"><div class="regojo valign-text-middle  lexenddeca-normal-geyser-24px">Regojo</div></div>
+    </div>
+    <div class="value-field1">
+      <div class=" frame-1  frame"><div class="st-name  valign-text-middle  lexenddeca-normal-oslo-gray-20px">First Name</div></div>
+      <div class="text-field1"><div class="yan-10  valign-text-middle  lexenddeca-normal-geyser-24px">Yan</div></div>
+    </div>
+    <div class="value-field1">
+      <div class=" frame-1  frame"><div class="st-name  valign-text-middle  lexenddeca-normal-oslo-gray-20px">First Name</div></div>
+      <div class="text-field1"><div class="yan-10  valign-text-middle  lexenddeca-normal-geyser-24px">Yan</div></div>
+    </div>
+    <div class="value-field1">
+      <div class=" frame-1 frame"><div class="st-name  valign-text-middle  lexenddeca-normal-oslo-gray-20px">First Name</div></div>
+      <div class="text-field1"><div class="yan-10  valign-text-middle  lexenddeca-normal-geyser-24px">Yan</div></div>
+    </div>
+    <div class="value-field1">
+      <div class=" frame-1  frame"><div class="st-name  valign-text-middle  lexenddeca-normal-oslo-gray-20px">First Name</div></div>
+      <div class="text-field1"><div class="yan-10  valign-text-middle  lexenddeca-normal-geyser-24px">Yan</div></div>
+    </div>
+    <div class="value-field1">
+      <div class=" frame-1  frame"><div class="st-name  valign-text-middle  lexenddeca-normal-oslo-gray-20px">First Name</div></div>
+      <div class="text-field1"><div class="yan-10  valign-text-middle  lexenddeca-normal-geyser-24px">Yan</div></div>
+    </div>
+    <div class="value-field1">
+      <div class=" frame-1 frame"><div class="st-name valign-text-middle lexenddeca-normal-oslo-gray-20px">First Name</div></div>
+      <div class="text-field1"><div class="yan-10 valign-text-middle lexenddeca-normal-geyser-24px">Yan</div></div>
+    </div>
+    <div class="value-field1">
+      <div class=" frame-1 frame"><div class="st-name valign-text-middle lexenddeca-normal-oslo-gray-20px">First Name</div></div>
+      <div class="text-field1"><div class="yan-10 valign-text-middle lexenddeca-normal-geyser-24px">Yan</div></div>
+    </div>
+    <div class="value-field1">
+      <div class=" frame-1 frame"><div class="st-name valign-text-middle lexenddeca-normal-oslo-gray-20px">First Name</div></div>
+      <div class="text-field1"><div class="yan-10 valign-text-middle lexenddeca-normal-geyser-24px">Yan</div></div>
+    </div>
+    <div class="value-field1">
+      <div class=" frame-1 frame"><div class="st-name valign-text-middle lexenddeca-normal-oslo-gray-20px">First Name</div></div>
+      <div class="text-field1"><div class="yan-10 valign-text-middle lexenddeca-normal-geyser-24px">Yan</div></div>
+    </div>
+    <div class="delete-button">
+      <img class=" vector-2 vector-3" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a3e2f85b10cc482f4aa8c8/img/vector-2.svg" alt="Vector" />
+      <div class="delete-text-container"><div class="delete valign-text-middle">Delete</div></div>
+    </div>
+  </div>
+</div>
 
 <style>
   .edit-frame {
@@ -178,66 +250,3 @@
     width: 41px;
   }
 </style>
-
-<div class="edit-frame screen">
-  <div class="flex-row flex">
-    <div class="flex-col flex">
-      <img class="vector" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a3e2f85b10cc482f4aa8c8/img/vector.svg" alt="Vector" />
-      <h1 class="title valign-text-middle">yanregoj64</h1>
-    </div>
-    <div class="save-button">
-      <img class="vector-1 vector-3" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a3e2f85b10cc482f4aa8c8/img/vector-1.svg" alt="Vector" />
-      <div class="frame-2 frame"><div class="save valign-text-middle">Save</div></div>
-    </div>
-  </div>
-  <div class="frame-31 frame">
-    <div class="value-field1">
-      <div class=" frame-1  frame"><div class="st-name  valign-text-middle  lexenddeca-normal-oslo-gray-20px">First Name</div></div>
-      <div class="text-field1"><div class="yan valign-text-middle  lexenddeca-normal-geyser-24px">Yan</div></div>
-    </div>
-    <div class="value-field1">
-      <div class=" frame-1  frame"><div class="st-name  valign-text-middle  lexenddeca-normal-oslo-gray-20px">Last Name</div></div>
-      <div class="text-field1"><div class="regojo valign-text-middle  lexenddeca-normal-geyser-24px">Regojo</div></div>
-    </div>
-    <div class="value-field1">
-      <div class=" frame-1  frame"><div class="st-name  valign-text-middle  lexenddeca-normal-oslo-gray-20px">First Name</div></div>
-      <div class="text-field1"><div class="yan-10  valign-text-middle  lexenddeca-normal-geyser-24px">Yan</div></div>
-    </div>
-    <div class="value-field1">
-      <div class=" frame-1  frame"><div class="st-name  valign-text-middle  lexenddeca-normal-oslo-gray-20px">First Name</div></div>
-      <div class="text-field1"><div class="yan-10  valign-text-middle  lexenddeca-normal-geyser-24px">Yan</div></div>
-    </div>
-    <div class="value-field1">
-      <div class=" frame-1 frame"><div class="st-name  valign-text-middle  lexenddeca-normal-oslo-gray-20px">First Name</div></div>
-      <div class="text-field1"><div class="yan-10  valign-text-middle  lexenddeca-normal-geyser-24px">Yan</div></div>
-    </div>
-    <div class="value-field1">
-      <div class=" frame-1  frame"><div class="st-name  valign-text-middle  lexenddeca-normal-oslo-gray-20px">First Name</div></div>
-      <div class="text-field1"><div class="yan-10  valign-text-middle  lexenddeca-normal-geyser-24px">Yan</div></div>
-    </div>
-    <div class="value-field1">
-      <div class=" frame-1  frame"><div class="st-name  valign-text-middle  lexenddeca-normal-oslo-gray-20px">First Name</div></div>
-      <div class="text-field1"><div class="yan-10  valign-text-middle  lexenddeca-normal-geyser-24px">Yan</div></div>
-    </div>
-    <div class="value-field1">
-      <div class=" frame-1 frame"><div class="st-name valign-text-middle lexenddeca-normal-oslo-gray-20px">First Name</div></div>
-      <div class="text-field1"><div class="yan-10 valign-text-middle lexenddeca-normal-geyser-24px">Yan</div></div>
-    </div>
-    <div class="value-field1">
-      <div class=" frame-1 frame"><div class="st-name valign-text-middle lexenddeca-normal-oslo-gray-20px">First Name</div></div>
-      <div class="text-field1"><div class="yan-10 valign-text-middle lexenddeca-normal-geyser-24px">Yan</div></div>
-    </div>
-    <div class="value-field1">
-      <div class=" frame-1 frame"><div class="st-name valign-text-middle lexenddeca-normal-oslo-gray-20px">First Name</div></div>
-      <div class="text-field1"><div class="yan-10 valign-text-middle lexenddeca-normal-geyser-24px">Yan</div></div>
-    </div>
-    <div class="value-field1">
-      <div class=" frame-1 frame"><div class="st-name valign-text-middle lexenddeca-normal-oslo-gray-20px">First Name</div></div>
-      <div class="text-field1"><div class="yan-10 valign-text-middle lexenddeca-normal-geyser-24px">Yan</div></div>
-    </div>
-    <div class="delete-button">
-      <img class=" vector-2 vector-3" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a3e2f85b10cc482f4aa8c8/img/vector-2.svg" alt="Vector" />
-      <div class="delete-text-container"><div class="delete valign-text-middle">Delete</div></div>
-    </div>
-  </div>
-</div>
