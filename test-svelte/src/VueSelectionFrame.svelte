@@ -1,5 +1,5 @@
 <script lang="ts">
-
+  import Tree from './VueTree.svelte';
 </script>
 
 <div class="view-selection-frame">
@@ -46,15 +46,7 @@
     </div>
     <div class="separator"></div>
     <div class="tree-container">
-      <div class="tree">
-        <div class="tree-item">
-          <img class="vector-1" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-7.svg" alt="Vector" />
-        </div>
-        <div class="tree-item">
-          <img class="vector-7" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-8.svg" alt="Vector" />
-          <div class="notes-tudiants valign-text-middle lexenddeca-normal-oslo-gray-24px">Notes étudiants</div>
-        </div>
-      </div>
+      <Tree />
     </div>
   </div>
 </div>
@@ -72,13 +64,13 @@
   }
   .tree-container {
     position: relative;
-    width: 100px;
+    width: 500px;
     display: block;
     overflow: hidden;
   }
   .left-buttons-container {
     position: relative;
-    width: 500px;
+    width: 50px;
     overflow: hidden;
   }
   .tree {
@@ -92,7 +84,7 @@
     overflow: hidden;
     width: 100%;
   }
-  .view-tree-selector >*, .view-tree-selector >*>*, .view-tree-selector >*>*>*, .view-tree-selector >*>*>*>*, .view-tree-selector >*>*>*>*>*, .view-tree-selector >*>*>*>*>*>* {
+  .view-tree-selector >*, .view-tree-selector >*>*, .view-tree-selector >*>*>*, .view-tree-selector >*>*>*>*, .view-tree-selector >*>*>*>*>* {
     overflow: hidden;
     white-space: nowrap;
   }

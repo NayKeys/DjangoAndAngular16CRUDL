@@ -18,6 +18,7 @@
     "@tsconfig/svelte": "^5.0.0",
     "@types/datatables.net": "^1.10.24",
     "@types/jquery": "^3.5.16",
+    "carbon-components-svelte": "^0.76.0",
     "rollup": "^3.15.0",
     "rollup-plugin-css-only": "^4.3.0",
     "rollup-plugin-livereload": "^2.0.0",

@@ -2,12 +2,13 @@
   // From https://svelte.dev/repl/36aaf2a1807a4fed81fe6212d20bca24?version=3.25.1
   import { onMount } from 'svelte';
   
+  import ViewSelectionFrame from './VueSelectionFrame.svelte';
+  import EditFrame from './EditFrame.svelte';
   import Login from './Login.svelte';
   import Table from './Table.svelte';
-  import ViewSelectionFrame from './ViewSelectionFrame.svelte';
-  import EditFrame from './EditFrame.svelte';
-  
   import { auth } from './authentification'
+
+  import "carbon-components-svelte/css/g100.css";
   /* Notes:
   When update fails, the row is not updated in the backend, but the frontend is updated
   No undo button yet
@@ -16,7 +17,14 @@
   onMount(async () => {
     // await auth();
   });
+  let theme = "g100"; // "white" | "g10" | "g80" | "g90" | "g100"
+  $: document.documentElement.setAttribute("theme", theme);
 </script>
+
+<svelte:head>
+	<!-- <link rel="stylesheet" href="//cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" /> -->
+  
+</svelte:head>
 
 <div class="app-container">
   <Login />
