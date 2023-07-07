@@ -19,8 +19,10 @@ import sussy_crudproject.settings as settings
   actions shouldnt implement a try catch block, that block should be specific to each different data pipelines
 """
 
-def csrfToken(request):
-  return JsonResponse({'csrfToken': get_token(request)})
+"""_summary_
+"""
+def permissions(request):
+  return JsonResponse({"permissions": request.user.default})
 
 """_summary_
 @params request: django request object containing a cas ticket

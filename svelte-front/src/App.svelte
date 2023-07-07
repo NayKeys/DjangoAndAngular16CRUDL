@@ -1,87 +1,68 @@
 <script lang="ts">
   // From https://svelte.dev/repl/36aaf2a1807a4fed81fe6212d20bca24?version=3.25.1
   import { onMount } from 'svelte';
-  import type { RowKeys, RowValues } from './main'
-  import { apiActionRequest } from './main';
+  
+  import ViewSelectionFrame from './VueSelectionFrame.svelte';
+  import EditFrame from './EditFrame.svelte';
   import Login from './Login.svelte';
-  import { getMeta, getCookie } from './main'
+  import Table from './Table.svelte';
   import { auth } from './authentification'
+  import { apiActionRequest, getCookie, getMeta } from './main'
+
+  import "carbon-components-svelte/css/g100.css";
   /* Notes:
   When update fails, the row is not updated in the backend, but the frontend is updated
   No undo button yet
   
   */
-  let columnNames = []
-  let table: RowValues[] = [
-    ['1', "johnfish22", "John", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
-    ['2', "sarahfis24", "Sarah", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"],
-    ['3', "afshinfi54", "Afshin", "Fisher", "student", '22', '1', "21 uwu sur uwu plage"]
-  ]
-  let newRow: RowValues = [];
-  const csrfToken = getMeta('csrf-token');
-  let jwt = getCookie('jwt');
-	function addRow() {
-    apiActionRequest(csrfToken, jwt, 'create', 'view_1', columnNames, newRow).then((res) => {
-      if (res != undefined) {
-        table = [...table, [...newRow]]
-      }
-    })
-	}
-	function deleteRow(rowToBeDeleted: RowValues) {
-    apiActionRequest(csrfToken, jwt, 'remove', 'view_1', columnNames, rowToBeDeleted).then((res) => {
-      if (res != undefined) {
-        table = table.filter(row => row != rowToBeDeleted)
-      }
-    })
-	}
-  function updateRow(rowToBeEdited: RowValues) {
-    apiActionRequest(csrfToken, jwt, 'update', 'view_1', columnNames, rowToBeEdited).then((res) => {
-      if (res != undefined) {
-      }
-    })
-  }
 
+  let columnNames = ['11111111111111111111', '11111111111111111111', '11111111111111111111'];
+  let tableData = [];
+  const csrfToken = getMeta('csrf-token');
+ 
   onMount(async () => {
-    // await auth()
-    jwt = getCookie('jwt')
+    await auth();
+    let jwt = getCookie('jwt')
     apiActionRequest(csrfToken, jwt, 'fetch_all', 'view_1', [], []).then((res) => {
       columnNames = res.names
-      table = res.table;
+      tableData = res.table;
     })
   });
+  let theme = "g100"; // "white" | "g10" | "g80" | "g90" | "g100"
+  $: document.documentElement.setAttribute("theme", theme);
 </script>
 
-<Login />
-<table>
-	<tr>
-		{#each columnNames as column}
-			<th>{column}</th>
-		{/each}
-	</tr>
-	
-	{#each table as row}
-		<tr>
-			{#each row as cell}
-        <td contenteditable="true" bind:innerHTML={cell} />
-			{/each}
-      <button on:click={() => updateRow(row)}>save changes</button>
-			<button on:click={() => deleteRow(row)}>X</button>
-		</tr>
-	{/each}
+<svelte:head>
+	<!-- <link rel="stylesheet" href="//cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" /> -->
+  
+</svelte:head>
 
-	<tr style="color: grey">
-		{#each newRow as column}
-			<td contenteditable="true" bind:innerHTML={column} />
-		{/each}
-		<button on:click={addRow}>add</button>
-	</tr>
-
-
-	<pre style="background: #eee">{JSON.stringify(table, null, 2)}</pre>
-</table>
+<div class="app-container">
+  <Login />
+  <ViewSelectionFrame />
+  <div class="side-container">
+    <Table tableData={tableData} columnNames={columnNames}/>
+    <EditFrame />
+  </div>
+</div>
 
 <style>
-	tr td:focus {
-		background: #eee;
-	}
+  .side-container {
+    display: flex;
+    transform: translateX(-500px);
+    flex-direction: row;
+    align-items: start;
+    justify-content: start;
+    overflow: hidden;
+    width: fit-content;
+  }
+  .app-container {
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    justify-content: start;
+    overflow: hidden;
+    height: 100vh;
+  }
 </style>

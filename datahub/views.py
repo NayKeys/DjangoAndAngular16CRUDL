@@ -29,7 +29,9 @@ def execute(request):
         if check_permission_create(request.user, view_name, row):
           action_performed = pipe.insert(view_name, row)
           if (action_performed):
-            return ApiResponse(200, "Succesfuly created element with", fetched_data).json_response()
+            return ApiResponse(200, "Succesfuly created element with", None).json_response()
+          else:
+            return ApiResponse(400, "Unable to perform action", None).json_response()
         else:
           return ApiResponse(403, "Error: User is not allowed to perform this action", None).json_response()
       except:
@@ -42,6 +44,8 @@ def execute(request):
           action_performed = pipe.update(view_name, row)
           if (action_performed):
             return ApiResponse(200, "Succesfuly updated element with id ", None).json_response()
+          else:
+            return ApiResponse(400, "Unable to perform action", None).json_response()
         else:
           return ApiResponse(403, "Error: User is not allowed to perform this action", None).json_response()
       except:
@@ -54,6 +58,8 @@ def execute(request):
           fetched_data = pipe.fetch_all(view_name)
           if (not fetched_data is None):
             return ApiResponse(200, "Succesfuly retrieved elements", fetched_data).json_response()
+          else:
+            return ApiResponse(400, "No data found with this query", None).json_response()
         else:
           return ApiResponse(403, "Error: User is not allowed to perform this action", fetched_data).json_response()
       except:
@@ -66,6 +72,8 @@ def execute(request):
           fetched_data = pipe.fetch(view_name, row)
           if (not fetched_data is None):
             return ApiResponse(200, "Succesfuly retrieved element", fetched_data).json_response()
+          else:
+            return ApiResponse(400, "No data found with this query", None).json_response()
         else:
           return ApiResponse(403, "Error: User is not allowed to perform this action", fetched_data).json_response()
       except:
@@ -78,6 +86,8 @@ def execute(request):
           action_performed = pipe.delete(view_name, row)
           if (action_performed):
             return ApiResponse(200, "Succesfuly retrieved element with id ", None).json_response()
+          else:
+            return ApiResponse(400, "Unable to perform action", None).json_response()
         else:
           return ApiResponse(403, "Error: User is not allowed to perform this action", None).json_response()
       except:

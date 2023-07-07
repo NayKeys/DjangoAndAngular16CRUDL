@@ -1,12 +1,17 @@
-import { spawn } from 'child_process';
-import svelte from 'rollup-plugin-svelte';
-import commonjs from '@rollup/plugin-commonjs';
-import terser from '@rollup/plugin-terser';
-import resolve from '@rollup/plugin-node-resolve';
-import livereload from 'rollup-plugin-livereload';
-import css from 'rollup-plugin-css-only';
-import sveltePreprocess from 'svelte-preprocess';
-import typescript from '@rollup/plugin-typescript';
+const { spawn } = require('child_process')
+const svelte = require('rollup-plugin-svelte')
+const commonjs = require('@rollup/plugin-commonjs')
+const terser = require('@rollup/plugin-terser')
+const resolve = require('@rollup/plugin-node-resolve')
+const livereload = require('rollup-plugin-livereload')
+const css = require('rollup-plugin-css-only')
+const autoPreprocess = require('svelte-preprocess')
+const typescript = require('@rollup/plugin-typescript')
+const alias = require("@rollup/plugin-alias")
+const path = require('path');
+const { fileURLToPath } = require("url")
+const { dirname } = require("path")
+
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -31,25 +36,32 @@ function serve() {
 	};
 }
 
-export default {
-	input: 'src/main.ts',
+module.exports = {
+	input: "src/main.ts",
 	output: {
 		sourcemap: true,
-		format: 'iife',
-		name: 'app',
-		file: '../static/build/bundle.js'
+		format: "iife",
+		name: "app",
+		file: "../static/build/bundle.js",
 	},
+
 	plugins: [
+		alias({
+			entries: {
+				"@smui": path.resolve(__dirname, "node_modules/svelte-material-ui/dist"),
+			},
+		}),
+		typescript({ sourceMap: !production }),
 		svelte({
-			preprocess: sveltePreprocess({ sourceMap: !production }),
+			preprocess: autoPreprocess(),
 			compilerOptions: {
 				// enable run-time checks when not in production
-				dev: !production
-			}
+				dev: !production,
+			},
 		}),
 		// we'll extract any component CSS out into
 		// a separate file - better for performance
-		css({ output: 'bundle.css' }),
+		css({ output: "bundle.css" }),
 
 		// If you have external dependencies installed from
 		// npm, you'll most likely need these plugins. In
@@ -58,14 +70,11 @@ export default {
 		// https://github.com/rollup/plugins/tree/master/packages/commonjs
 		resolve({
 			browser: true,
-			dedupe: ['svelte'],
-			exportConditions: ['svelte']
+			dedupe: ["svelte"],
+			preferBuiltins: true,
+			exportConditions: ["svelte"],
 		}),
 		commonjs(),
-		typescript({
-			sourceMap: !production,
-			inlineSources: !production
-		}),
 
 		// In dev mode, call `npm run start` once
 		// the bundle has been generated
@@ -73,13 +82,13 @@ export default {
 
 		// Watch the `public` directory and refresh the
 		// browser on changes when not in production
-		!production && livereload('public'),
+		!production && livereload("public"),
 
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify
-		production && terser()
+		production && terser(),
 	],
 	watch: {
-		clearScreen: false
-	}
+		clearScreen: false,
+	},
 };
