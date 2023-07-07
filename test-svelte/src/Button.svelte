@@ -1,0 +1,60 @@
+<script lang="ts">
+  export let width:number = 100;
+  export let text:string = "";
+  export let fill:boolean = true;
+</script>
+
+<div class="button">
+  <div class={fill ? 'button-vector-fill' : 'button-vector-stroke'} style="width: {width}px; height: {width}px;">
+    <slot class="button-vector"/>
+  </div>
+  <h4 class="button-label" style="line-height: {width/2}px; font-size: {width/1.5}px">{text}</h4>
+</div>
+
+<style>
+  .button:hover {
+    cursor: pointer;
+  }
+  /* .button:active {
+    background-color: var(--darkcontrol);
+  } */
+  .button:hover .button-label {
+    color: var(--whitetext);
+  }
+  .button:active .button-label {
+    color: var(--specialcolor);
+  }
+  .button-vector-stroke :global(.button-vector) {
+    stroke: var(--darkcontroltext);
+  }
+  .button:hover .button-vector-stroke :global(.button-vector) {
+    stroke: var(--whitetext);
+  }
+  .button:active .button-vector-stroke :global(.button-vector) {
+    stroke: var(--specialcolor);
+  }
+  .button-vector-fill :global(.button-vector) {
+    fill: var(--darkcontroltext);
+  }
+  .button:hover .button-vector-fill :global(.button-vector) {
+    fill: var(--whitetext);
+  }
+  .button:active .button-vector-fill :global(.button-vector) {
+    fill: var(--specialcolor);
+  }
+  .button {
+    display:flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: space-around;
+  }
+  .button-label {
+    margin: 0;
+    padding: 0;
+    font-family: 'Lexend Deca', sans-serif;
+    font-weight: 400;
+    color: var(--darkcontroltext);
+    text-align: center;
+  }
+</style>

@@ -190,6 +190,15 @@ table.dataTable tbody tr.selected > * {
   color: var(--whitetext);
   background: var(--darkselected);
 }
+::-moz-selection { /* Code for Firefox */
+  color: var(--whitetext);
+  background: var(--specialcolor);
+}
+
+::selection {
+  color: var(--whitetext);
+  background: var(--specialcolor);
+}
 .lexenddeca-normal-oslo-gray-18px {
   color: var(--oslo-gray);
   font-family: var(--font-family-lexend_deca);
