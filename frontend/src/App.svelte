@@ -4,9 +4,6 @@
   
   import ViewSelectionFrame from './VueSelectionFrame.svelte';
   import EditFrame from './EditFrame.svelte';
-  
-  import ViewSelectionFrame from './VueSelectionFrame.svelte';
-  import EditFrame from './EditFrame.svelte';
   import Login from './Login.svelte';
   import Table from './Table.svelte';
   import { auth } from './authentification'
