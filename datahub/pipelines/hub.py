@@ -32,11 +32,22 @@ import datahub.pipelines.CSVPipeline as csv_pipeline
 import datahub.pipelines.LDAPPipeline as ldap_pipeline
 import datahub.config as config
 
+VIEW_LIST = {}
+
+def visit_node(node, path: str):
+  if 'method' in node.keys():  # If node is a view (leaf)
+    VIEW_LIST[path] = node
+    node['path'] = path
+  else:
+    for key in node.keys():
+      visit_node(node[key], path+'>'+key)
+visit_node(config.VIEW_TREE['root'], '')
+
 def fetch_all(view_name: str):
-  if not view_name in config.VIEW_LIST.keys():
+  if not view_name in VIEW_LIST.keys():
     print('Error: View does not exists: '+view_name)
     return None
-  view = config.VIEW_LIST[view_name]
+  view = VIEW_LIST[view_name]
   match view["method"]:
     case "sql":
       dict_list = sql_pipeline.fetch_all(view)
@@ -49,10 +60,10 @@ def fetch_all(view_name: str):
       return dict_list
 
 def fetch(view_name: str, row: dict):
-  if not view_name in config.VIEW_LIST.keys():
+  if not view_name in VIEW_LIST.keys():
     print('Error: View does not exists: '+view_name)
     return None
-  view = config.VIEW_LIST[view_name]
+  view = VIEW_LIST[view_name]
   match view["method"]:
     case "sql":
       identifier = row[view['identifier_name']]
@@ -68,10 +79,10 @@ def fetch(view_name: str, row: dict):
       return dict_list
 
 def delete(view_name: str, row: dict):
-  if not view_name in config.VIEW_LIST.keys():
+  if not view_name in VIEW_LIST.keys():
     print('Error: View does not exists: '+view_name)
     return None
-  view = config.VIEW_LIST[view_name]
+  view = VIEW_LIST[view_name]
   match view["method"]:
     case "sql":
       identifier = row[view['identifier_name']]
@@ -87,10 +98,10 @@ def delete(view_name: str, row: dict):
       return dict_list
 
 def insert(view_name: str, row: dict):
-  if not view_name in config.VIEW_LIST.keys():
+  if not view_name in VIEW_LIST.keys():
     print('Error: View does not exists: '+view_name)
     return None
-  view = config.VIEW_LIST[view_name]
+  view = VIEW_LIST[view_name]
   match view["method"]:
     case "sql":
       dict_list = sql_pipeline.delete(view, row)
@@ -103,10 +114,10 @@ def insert(view_name: str, row: dict):
       return dict_list
 
 def update(view_name: str, row: dict):
-  if not view_name in config.VIEW_LIST.keys():
+  if not view_name in VIEW_LIST.keys():
     print('Error: View does not exists: '+view_name)
     return None
-  view = config.VIEW_LIST[view_name]
+  view = VIEW_LIST[view_name]
   match view["method"]:
     case "sql":
       identifier = row[view['identifier_name']]
