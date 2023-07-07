@@ -10,7 +10,15 @@ import datahub.pipelines.hub as pipe
 from datahub.pipelines.hub import ApiResponse
 from datahub.pipelines.hub import check_permission_create, check_permission_update, check_permission_delete, check_permission_fetch, check_permission_fetch_all
 
-# Create your views here.
+"""_summary_
+@params request: 
+@description 
+@returns 
+"""
+def view_tree(request):
+  if request.method == 'GET':
+    return JsonResponse(pipe.get_view_tree(), safe=False)
+
 """_summary_
 @params request: django request object whom body follows ./restapirequest.json pattern. The request should contain a jwt token and a non-empty reference
 @description API route api/execute/ that performs the requested actions on the data bases

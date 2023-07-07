@@ -5,7 +5,7 @@
 """
 
 VIEW_TREE = {
-  "has_view_sets": True,
+  "has_view_sets": False,
   "root": {
     "view set 1": {
       "uwu views": {

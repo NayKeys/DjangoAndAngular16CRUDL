@@ -32,8 +32,8 @@ import datahub.pipelines.CSVPipeline as csv_pipeline
 import datahub.pipelines.LDAPPipeline as ldap_pipeline
 import datahub.config as config
 
+# Generating viewt list
 VIEW_LIST = {}
-
 def visit_node(node, path: str):
   if 'method' in node.keys():  # If node is a view (leaf)
     VIEW_LIST[path] = node
@@ -42,6 +42,11 @@ def visit_node(node, path: str):
     for key in node.keys():
       visit_node(node[key], path+'>'+key)
 visit_node(config.VIEW_TREE['root'], '')
+
+def get_view_tree(safe: bool = False):
+  if not safe:
+    return config.VIEW_TREE
+
 
 def fetch_all(view_name: str):
   if not view_name in VIEW_LIST.keys():

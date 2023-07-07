@@ -14,9 +14,9 @@
   import 'datatables.net-select-dt';
   import { TextInputSkeleton } from "carbon-components-svelte";
 
-  import { getMeta, getCookie } from './main'
-  import type { RowKeys, RowValues } from './main'
-  import { apiActionRequest } from './main';
+  import { getMeta, getCookie } from './requests'
+  import type { RowKeys, RowValues } from './requests'
+  import { apiActionRequest } from './requests';
 
   export let columnNames: RowKeys = []
   export let tableData: RowValues[] = []
@@ -203,7 +203,6 @@
     flex-direction: column;
     gap: 50px;
     justify-content: center;
-    min-width: 1164.44px;
     padding: 25px;
     position: relative;
   }
@@ -313,7 +312,6 @@
     line-height: normal;
     margin-top: -1px;
     position: relative;
-    width: 394px;
   }
   .top-seperator {
     background-color: var(--bright-gray);

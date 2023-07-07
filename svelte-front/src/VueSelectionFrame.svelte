@@ -1,5 +1,12 @@
 <script lang="ts">
   import Tree from './VueTree.svelte';
+  import type { ViewTree } from './requests';
+  import { TextInputSkeleton } from "carbon-components-svelte";
+
+  export let viewPath: string;
+  export let viewTree: ViewTree;
+  export let fetchViewData;
+  
 </script>
 
 <div class="view-selection-frame">
@@ -15,22 +22,27 @@
     <div class="left-buttons-container">
       <div class="left-buttons">
         <div class="view-sets">
-          <div class="view-set-1 view-set">
-            <img class="vector-3" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-1.svg" alt="Vector" />
-            <div class="view-set-1-1 valign-text-middle">View Set 1</div>
-          </div>
-          <div class="view-set-2 view-set">
-            <img class="vector-4" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-2.svg" alt="Vector" />
-            <div class="view-set-2-1 valign-text-middle lexenddeca-normal-oslo-gray-24px">View Set 2</div>
-          </div>
-          <div class="view-set-3 view-set">
-            <img class="vector" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-3.svg" alt="Vector" />
-            <div class="view-set-3-1 valign-text-middle lexenddeca-normal-oslo-gray-24px">View Set 3</div>
-          </div>
-          <div class="view-set-4 view-set">
-            <img class="vector" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-3.svg" alt="Vector" />
-            <div class="view-set-4-1 valign-text-middle lexenddeca-normal-oslo-gray-24px">View Set 4</div>
-          </div>
+          {#if viewTree}
+            {#if viewTree.has_view_sets}
+              {#each Object.keys(viewTree.root) as view_set_key}
+                <div class="view-set">
+                  <img class="vector-3" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-2.svg" alt="Vector" />
+                  <div class="view-set-1-1 valign-text-middle">{view_set_key}</div>
+                </div>
+              {/each}
+            {:else}
+              <div class="view-set">
+                <img class="vector-3" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-2.svg" alt="Vector" />
+                <div class="view-set-1-1 valign-text-middle">Views</div>
+              </div>
+            {/if}
+          {:else}
+            {#each {length: 3} as _, i}
+              <div class="view-set">
+                <TextInputSkeleton hideLabel />
+              </div>
+            {/each}
+          {/if}
         </div>
         <div class="settings">
           <div class="profile">
@@ -46,7 +58,15 @@
     </div>
     <div class="separator"></div>
     <div class="tree-container">
-      <Tree />
+      {#if viewTree}
+        <Tree fetchViewData={fetchViewData} bind:viewPath={viewPath} nodes={viewTree.root}/>
+      {:else}
+        <div class="tree">
+          {#each {length: 10} as _, i}
+            <TextInputSkeleton hideLabel />
+          {/each}
+        </div>
+      {/if}
     </div>
   </div>
 </div>
@@ -215,7 +235,7 @@
     position: relative;
     width: fit-content;
   }
-  .view-set-2-1 {
+  .view-set- {
     letter-spacing: 0;
     line-height: normal;
     margin-top: -1px;

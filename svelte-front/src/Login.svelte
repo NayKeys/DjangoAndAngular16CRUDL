@@ -1,7 +1,7 @@
 <script lang='ts'>
   import { auth } from './authentification'
   import { onMount } from 'svelte';
-  import { getMeta, getCookie, setCookie } from './main'
+  import { getMeta, getCookie, setCookie } from './requests'
   
   let error:string = ''
 

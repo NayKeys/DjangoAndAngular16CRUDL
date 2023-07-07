@@ -1,5 +1,5 @@
-import { getMeta } from "./main";
-import { getCookie, setCookie } from "./main";
+import { getMeta } from "./requests";
+import { getCookie, setCookie } from "./requests";
 
 export const casLoginUrl = "https://cas.ensea.fr/login";
 export function loginWithCAS() {
@@ -8,7 +8,7 @@ export function loginWithCAS() {
 }
 
 export async function auth() {
-  const csrfToken = getMeta("csrf-token");
+	const csrfToken = getMeta("csrf-token");
 	const casUrl = getMeta("cas-url");
 	const tokenValidationDuration: number = parseInt(getMeta("token-lifetime-hours"));
 	const jwt = getCookie("jwt");
@@ -78,8 +78,9 @@ export async function validateJWTToken(csrfToken: string, token: string): Promis
 	return false;
 }
 
-export async function logout() {  // Copilot generated
-  const response = await fetch("/user/auth/", {
+export async function logout() {
+	// Copilot generated
+	const response = await fetch("/user/auth/", {
 		method: "DELETE",
 		headers: {
 			"Content-Type": "application/json",
@@ -88,8 +89,8 @@ export async function logout() {  // Copilot generated
 			token: localStorage.getItem("jwt"),
 		}),
 	});
-  const res = await response.json();
-  if (res.status == 200) {
-    localStorage.removeItem("jwt");
-  }
+	const res = await response.json();
+	if (res.status == 200) {
+		localStorage.removeItem("jwt");
+	}
 }
