@@ -15,6 +15,7 @@ sqlalchemy = "*"
 python-decouple = "*"
 djangorestframework-simplejwt = "*"
 decouple = "*"
+django-cas-ng = "*"
 
 [dev-packages]
 

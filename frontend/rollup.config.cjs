@@ -42,7 +42,7 @@ module.exports = {
 		sourcemap: true,
 		format: "iife",
 		name: "app",
-		file: "public/build/bundle.js",
+		file: "../static/build/bundle.js",
 	},
 
 	plugins: [
