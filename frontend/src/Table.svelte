@@ -79,7 +79,6 @@
       if (target instanceof HTMLElement)
       if (target.tagName === 'INPUT')
       return;
-      console.log("J'ai les cramptés")
       table.search(event.key).draw();
       j('#table_filter input').trigger('focus')
     });
@@ -140,17 +139,17 @@
           {/each}
         {/if}
         {#each tableData as row}
-        <tr class="row">
-          {#each row as cell}
-          <th class="">
-            <div class="content">
-              <div class="text">
-                {cell}
-              </div>
-            </div>
-          </th>
-          {/each}
-        </tr>
+          <tr class="row">
+            {#each row as cell}
+              <th class="">
+                <div class="content">
+                  <div class="text">
+                    {cell}
+                  </div>
+                </div>
+              </th>
+            {/each}
+          </tr>
         {/each}
       </tbody>
     </table>

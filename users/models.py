@@ -2,7 +2,8 @@ from django.db import models
 
 # Create your models here.
 from django.contrib.auth.models import User
-from users.config import ROLE_PERMISSIONS, USERS
+from users.config import USERS
+from datahub.config import VIEW_TREE
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -54,32 +55,47 @@ class Profile(AbstractUser):
       related_query_name="user",
   )
 
+def flatten_view_tree(node, path=""):
+  flat_views = {}
+  for key, value in node.items():
+    new_path = f"{path} > {key}"
+    if "permissions" in value:
+      # This node is a view, add it to the flat_views
+      flat_views[new_path] = value["permissions"]
+    else:
+      # This node is not a view, recurse into it
+      flat_views.update(flatten_view_tree(value, new_path))
+  return flat_views
+
 def generate_users():
+  flat_views = flatten_view_tree(VIEW_TREE["root"])
+  
   # Delete any users not in the config file
   for user in Profile.objects.all():
     if user.username not in [user_config['username'] for user_in_role in USERS.values() for user_config in user_in_role]:  # Listing every username for every users by role in USERS list of roles
       user.delete()
+
   # Update or create each user from the config file
   for role_name, users_in_role in USERS.items():
-    if role_name not in ROLE_PERMISSIONS:
-      print(f"Error: Role '{role_name}' in USERS is not defined in ROLE_PERMISSIONS")
-      continue
-    view_permissions_of_role = ROLE_PERMISSIONS[role_name]
-    # Updating users in ORM
-    for user_config in users_in_role:  # User are listed by role
+    for user_config in users_in_role:
       username = user_config['username']
       user2, created = Profile.objects.update_or_create(
         username=username,
         defaults={
-          'role': role_name,
-          'can_create': {view_name: ('c' in view_rights) for view_name, view_rights in view_permissions_of_role.items()},  # Creates a dictionnary of booleans for creation rights of the different views, key: view name (each key of view_permissions_of_role), value: boolean (True if the user has the right to create, False otherwise)
-          'can_read': {view_name: ('r' in view_rights) for view_name, view_rights in view_permissions_of_role.items()},
-          'can_update': {view_name: ('u' in view_rights) for view_name, view_rights in view_permissions_of_role.items()},
-          'can_delete': {view_name: ('d' in view_rights) for view_name, view_rights in view_permissions_of_role.items()},
-          # add other fields as needed
+            'role': role_name,
         }
       )
-
+      # Updating permissions for each view
+      for view_name, view_permissions in flat_views.items():
+        user2.can_create[view_name] = ('c' in view_permissions.get(role_name, ""))# Creates a dictionnary of booleans for creation rights of the different views, key: view name (each key of view_permissions_of_role), value: boolean (True if the user has the right to create, False otherwise)
+        user2.can_read[view_name] = ('r' in view_permissions.get(role_name, ""))
+        user2.can_update[view_name] = ('u' in view_permissions.get(role_name, ""))
+        user2.can_delete[view_name] = ('d' in view_permissions.get(role_name, ""))
+      
+      # Save the changes to the user object
+      user2.save()
+      print(f"User '{username}' has been created or updated with role '{role_name}'")
+      
       # Update relationships for '<spe>' permissions
       # for view_name, view_rights in view_permissions_of_role.items():
       #   if view_rights == '<spe>':

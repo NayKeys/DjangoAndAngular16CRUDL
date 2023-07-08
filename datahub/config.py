@@ -14,16 +14,37 @@ VIEW_TREE = {
           "table_name": "students_app_student",
           "database_url": "studentsDB.sqlite3",
           "identifier_name": "username",
+          "permissions": {
+            "student": "_r__",
+            "teacher": "_ru_",
+            "parent": "<spe>",
+            "schooladmin": "crud",
+            "admin": "crud",
+          }
         },
         "view_2": {
           "method": "sql",
           "table_name": "teachers",
           "database_url": "studentsDB.sqlite3",
           "identifier_name": "username",
+          "permissions": {
+            "student": "_r__",
+            "teacher": "_r__",
+            "parent": "____",
+            "schooladmin": "_ru_",
+            "admin": "crud",
+          }
         },
-        "view_3":{
+        "view_3": {
           "method": "csv",
           "database_url": "view1.csv",
+          "permissions": {
+            "student": "_r__",
+            "teacher": "_r__",
+            "parent": "____",
+            "schooladmin": "_r__",
+            "admin": "crud",
+          }
         },
       },
     },
@@ -34,16 +55,48 @@ VIEW_TREE = {
           "table_name": "students_app_student",
           "database_url": "studentsDB.sqlite3",
           "identifier_name": "username",
+          "permissions": {
+            "student": "<spe>",
+            "teacher": "_r__",
+            "parent": "____",
+            "schooladmin": "crud",
+            "admin": "crud",
+          }
         },
         "view_2": {
           "method": "sql",
           "table_name": "teachers",
           "database_url": "studentsDB.sqlite3",
           "identifier_name": "username",
+          "permissions": {
+            "student": "_r__",
+            "teacher": "_r__",
+            "parent": "_r__",
+            "schooladmin": "crud",
+            "admin": "crud",
+          }
         },
-        "view_3":{
+        "view_3": {
           "method": "csv",
           "database_url": "view1.csv",
+          "permissions": {
+            "student": "_r__",
+            "teacher": "_r__",
+            "parent": "_r__",
+            "schooladmin": "crud",
+            "admin": "crud",
+          }
+        },
+        "view_4": {
+          "method": "csv",
+          "database_url": "view1.csv",
+          "permissions": {
+            "student": "_r__",
+            "teacher": "_r__",
+            "parent": "_r__",
+            "schooladmin": "crud",
+            "admin": "crud",
+          }
         },
       },
     }

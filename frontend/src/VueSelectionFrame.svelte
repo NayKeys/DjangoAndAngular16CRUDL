@@ -3,9 +3,8 @@
   import type { ViewTree } from './requests';
   import { TextInputSkeleton } from "carbon-components-svelte";
 
-  export let viewPath: string;
   export let viewTree: ViewTree;
-  export let fetchViewData;
+  export let fetchViewData: Function;
   
 </script>
 
@@ -59,7 +58,7 @@
     <div class="separator"></div>
     <div class="tree-container">
       {#if viewTree}
-        <Tree fetchViewData={fetchViewData} bind:viewPath={viewPath} nodes={viewTree.root}/>
+        <Tree fetchViewData={fetchViewData} nodes={viewTree.root}/>
       {:else}
         <div class="tree">
           {#each {length: 10} as _, i}
@@ -150,15 +149,6 @@
     width: 100%;
     position: relative;
   }
-  .tree-item {
-    background-color: var(--eerie-black);
-    border-bottom-style: solid;
-    border-bottom-width: 2px;
-    border-color: var(--bright-gray);
-    height: 50px;
-    width: 100%;
-    position: relative;
-  }
   .search-bar {
     align-items: center;
     align-self: stretch;
@@ -207,19 +197,6 @@
     display: flex;
     position: relative;
   }
-  .vector {
-    height: 25px;
-    margin-left: -1.5px;
-    min-width: 31px;
-    position: relative;
-  }
-  .view-set-4-1 {
-    letter-spacing: 0;
-    line-height: normal;
-    margin-top: -1px;
-    position: relative;
-    width: fit-content;
-  }
   .vector-3 {
     height: 43px;
     min-width: 43px;
@@ -232,26 +209,6 @@
     font-weight: 400;
     letter-spacing: 0;
     line-height: normal;
-    position: relative;
-    width: fit-content;
-  }
-  .view-set- {
-    letter-spacing: 0;
-    line-height: normal;
-    margin-top: -1px;
-    position: relative;
-    width: fit-content;
-  }
-  .vector-4 {
-    height: 23px;
-    margin-left: -1.5px;
-    min-width: 28px;
-    position: relative;
-  }
-  .view-set-3-1 {
-    letter-spacing: 0;
-    line-height: normal;
-    margin-top: -1px;
     position: relative;
     width: fit-content;
   }
@@ -307,23 +264,5 @@
     border-radius: 10px;
     width: 4px;
     height: 900px;
-  }
-  .vector-1 {
-    height: 18.83px;
-    min-width: 29.58px;
-    position: relative;
-  }
-  .notes-tudiants {
-    height: 31px;
-    left: 40px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 9px;
-  }
-  .vector-7 {
-    height: 27.38px;
-    min-width: 20.33px;
-    position: relative;
   }
 </style>

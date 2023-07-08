@@ -3,9 +3,9 @@
   import type { ViewTree, View, TreeNode, ViewList } from "./requests";
 
   export let nodes: TreeNode<View>;
-  export let viewPath: string;
-  export let fetchViewData;
-
+  export let fetchViewData: Function;
+    
+  let viewPath: string;
   let treeview: Tree;
   let activeId = "";
   let selectedIds = [];

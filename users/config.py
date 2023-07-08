@@ -9,39 +9,6 @@ parent = "parent"
 schooladmin = "schooladmin"
 admin = "admin"
 
-ROLE_PERMISSIONS = {
-  student: {
-    view_1: '_r__',
-    view_2: '_r__',
-    view_3: '_r__',
-    view_4: '<spe>',
-  },
-  teacher: {
-    view_1: '_ru_',
-    view_2: '_r__',
-    view_3: '_r__',
-    view_4: '_r__',
-  },
-  parent: {
-    view_1: '<spe>',
-    view_2: '____',
-    view_3: '____',
-    view_4: '____',
-  },
-  schooladmin: {
-    view_1: 'crud',
-    view_2: '_ru_',
-    view_3: '_r__',
-    view_4: 'crud',
-  },
-  admin: {
-    view_1: 'crud',
-    view_2: 'crud',
-    view_3: 'crud',
-    view_4: 'crud',
-  },
-}
-
 USERS = {
   student: [
     {

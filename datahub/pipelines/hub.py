@@ -40,7 +40,7 @@ def visit_node(node, path: str):
     node['path'] = path
   else:
     for key in node.keys():
-      visit_node(node[key], path+'>'+key)
+      visit_node(node[key], path+' > '+key)
 visit_node(config.VIEW_TREE['root'], '')
 
 def get_view_tree(safe: bool = False):

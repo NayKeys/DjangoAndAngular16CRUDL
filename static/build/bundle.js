@@ -16577,11 +16577,11 @@ var app = (function () {
     	let current;
 
     	function tree_activeId_binding(value) {
-    		/*tree_activeId_binding*/ ctx[9](value);
+    		/*tree_activeId_binding*/ ctx[8](value);
     	}
 
     	function tree_selectedIds_binding(value) {
-    		/*tree_selectedIds_binding*/ ctx[10](value);
+    		/*tree_selectedIds_binding*/ ctx[9](value);
     	}
 
     	let tree_props = {
@@ -16598,10 +16598,10 @@ var app = (function () {
     	}
 
     	tree = new Tree({ props: tree_props, $$inline: true });
-    	/*tree_binding*/ ctx[8](tree);
+    	/*tree_binding*/ ctx[7](tree);
     	binding_callbacks.push(() => bind(tree, 'activeId', tree_activeId_binding));
     	binding_callbacks.push(() => bind(tree, 'selectedIds', tree_selectedIds_binding));
-    	tree.$on("select", /*select_handler*/ ctx[11]);
+    	tree.$on("select", /*select_handler*/ ctx[10]);
 
     	const block = {
     		c: function create() {
@@ -16609,7 +16609,7 @@ var app = (function () {
     			create_component(tree.$$.fragment);
     			attr_dev(div, "id", "tree-view");
     			attr_dev(div, "class", "svelte-q9oayf");
-    			add_location(div, file$6, 54, 0, 1550);
+    			add_location(div, file$6, 54, 0, 1543);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -16647,7 +16647,7 @@ var app = (function () {
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
-    			/*tree_binding*/ ctx[8](null);
+    			/*tree_binding*/ ctx[7](null);
     			destroy_component(tree);
     		}
     	};
@@ -16667,8 +16667,8 @@ var app = (function () {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('VueTree', slots, []);
     	let { nodes } = $$props;
-    	let { viewPath } = $$props;
     	let { fetchViewData } = $$props;
+    	let viewPath;
     	let treeview;
     	let activeId = "";
     	let selectedIds = [];
@@ -16718,7 +16718,7 @@ var app = (function () {
     					return expandedIds.includes(node.id);
     				});
     		} else {
-    			$$invalidate(5, viewPath = paths[id]);
+    			viewPath = paths[id];
     			fetchViewData(viewPath);
     		}
     	};
@@ -16732,16 +16732,12 @@ var app = (function () {
     			console.warn("<VueTree> was created without expected prop 'nodes'");
     		}
 
-    		if (viewPath === undefined && !('viewPath' in $$props || $$self.$$.bound[$$self.$$.props['viewPath']])) {
-    			console.warn("<VueTree> was created without expected prop 'viewPath'");
-    		}
-
     		if (fetchViewData === undefined && !('fetchViewData' in $$props || $$self.$$.bound[$$self.$$.props['fetchViewData']])) {
     			console.warn("<VueTree> was created without expected prop 'fetchViewData'");
     		}
     	});
 
-    	const writable_props = ['nodes', 'viewPath', 'fetchViewData'];
+    	const writable_props = ['nodes', 'fetchViewData'];
 
     	Object_1$1.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<VueTree> was created with unknown prop '${key}'`);
@@ -16767,16 +16763,15 @@ var app = (function () {
     	const select_handler = ({ detail }) => selectItem(detail);
 
     	$$self.$$set = $$props => {
-    		if ('nodes' in $$props) $$invalidate(6, nodes = $$props.nodes);
-    		if ('viewPath' in $$props) $$invalidate(5, viewPath = $$props.viewPath);
-    		if ('fetchViewData' in $$props) $$invalidate(7, fetchViewData = $$props.fetchViewData);
+    		if ('nodes' in $$props) $$invalidate(5, nodes = $$props.nodes);
+    		if ('fetchViewData' in $$props) $$invalidate(6, fetchViewData = $$props.fetchViewData);
     	};
 
     	$$self.$capture_state = () => ({
     		Tree,
     		nodes,
-    		viewPath,
     		fetchViewData,
+    		viewPath,
     		treeview,
     		activeId,
     		selectedIds,
@@ -16791,9 +16786,9 @@ var app = (function () {
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ('nodes' in $$props) $$invalidate(6, nodes = $$props.nodes);
-    		if ('viewPath' in $$props) $$invalidate(5, viewPath = $$props.viewPath);
-    		if ('fetchViewData' in $$props) $$invalidate(7, fetchViewData = $$props.fetchViewData);
+    		if ('nodes' in $$props) $$invalidate(5, nodes = $$props.nodes);
+    		if ('fetchViewData' in $$props) $$invalidate(6, fetchViewData = $$props.fetchViewData);
+    		if ('viewPath' in $$props) viewPath = $$props.viewPath;
     		if ('treeview' in $$props) $$invalidate(0, treeview = $$props.treeview);
     		if ('activeId' in $$props) $$invalidate(1, activeId = $$props.activeId);
     		if ('selectedIds' in $$props) $$invalidate(2, selectedIds = $$props.selectedIds);
@@ -16813,7 +16808,6 @@ var app = (function () {
     		selectedIds,
     		children,
     		selectItem,
-    		viewPath,
     		nodes,
     		fetchViewData,
     		tree_binding,
@@ -16826,7 +16820,7 @@ var app = (function () {
     class VueTree extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init$1(this, options, instance$6, create_fragment$6, safe_not_equal, { nodes: 6, viewPath: 5, fetchViewData: 7 });
+    		init$1(this, options, instance$6, create_fragment$6, safe_not_equal, { nodes: 5, fetchViewData: 6 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -16841,14 +16835,6 @@ var app = (function () {
     	}
 
     	set nodes(value) {
-    		throw new Error("<VueTree>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-
-    	get viewPath() {
-    		throw new Error("<VueTree>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-
-    	set viewPath(value) {
     		throw new Error("<VueTree>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
 
@@ -16868,25 +16854,25 @@ var app = (function () {
 
     function get_each_context$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[4] = list[i];
-    	child_ctx[6] = i;
+    	child_ctx[2] = list[i];
+    	child_ctx[4] = i;
     	return child_ctx;
     }
 
     function get_each_context_2$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[4] = list[i];
-    	child_ctx[6] = i;
+    	child_ctx[2] = list[i];
+    	child_ctx[4] = i;
     	return child_ctx;
     }
 
     function get_each_context_1$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[7] = list[i];
+    	child_ctx[5] = list[i];
     	return child_ctx;
     }
 
-    // (35:10) {:else}
+    // (34:10) {:else}
     function create_else_block_2(ctx) {
     	let each_1_anchor;
     	let current;
@@ -16945,19 +16931,19 @@ var app = (function () {
     		block,
     		id: create_else_block_2.name,
     		type: "else",
-    		source: "(35:10) {:else}",
+    		source: "(34:10) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (21:10) {#if viewTree}
+    // (20:10) {#if viewTree}
     function create_if_block_1(ctx) {
     	let if_block_anchor;
 
     	function select_block_type_1(ctx, dirty) {
-    		if (/*viewTree*/ ctx[1].has_view_sets) return create_if_block_2;
+    		if (/*viewTree*/ ctx[0].has_view_sets) return create_if_block_2;
     		return create_else_block_1;
     	}
 
@@ -16998,14 +16984,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1.name,
     		type: "if",
-    		source: "(21:10) {#if viewTree}",
+    		source: "(20:10) {#if viewTree}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (36:12) {#each {length: 3} as _, i}
+    // (35:12) {#each {length: 3} as _, i}
     function create_each_block_2$1(ctx) {
     	let div;
     	let textinputskeleton;
@@ -17022,8 +17008,8 @@ var app = (function () {
     			div = element("div");
     			create_component(textinputskeleton.$$.fragment);
     			t = space();
-    			attr_dev(div, "class", "view-set svelte-1fz9j3z");
-    			add_location(div, file$5, 36, 14, 1759);
+    			attr_dev(div, "class", "view-set svelte-ywxs7p");
+    			add_location(div, file$5, 35, 14, 1738);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -17051,14 +17037,14 @@ var app = (function () {
     		block,
     		id: create_each_block_2$1.name,
     		type: "each",
-    		source: "(36:12) {#each {length: 3} as _, i}",
+    		source: "(35:12) {#each {length: 3} as _, i}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (29:12) {:else}
+    // (28:12) {:else}
     function create_else_block_1(ctx) {
     	let div1;
     	let img;
@@ -17073,14 +17059,14 @@ var app = (function () {
     			t0 = space();
     			div0 = element("div");
     			div0.textContent = "Views";
-    			attr_dev(img, "class", "vector-3 svelte-1fz9j3z");
+    			attr_dev(img, "class", "vector-3 svelte-ywxs7p");
     			if (!src_url_equal(img.src, img_src_value = "https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-2.svg")) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", "Vector");
-    			add_location(img, file$5, 30, 16, 1407);
-    			attr_dev(div0, "class", "view-set-1-1 valign-text-middle svelte-1fz9j3z");
-    			add_location(div0, file$5, 31, 16, 1591);
-    			attr_dev(div1, "class", "view-set svelte-1fz9j3z");
-    			add_location(div1, file$5, 29, 14, 1368);
+    			add_location(img, file$5, 29, 16, 1386);
+    			attr_dev(div0, "class", "view-set-1-1 valign-text-middle svelte-ywxs7p");
+    			add_location(div0, file$5, 30, 16, 1570);
+    			attr_dev(div1, "class", "view-set svelte-ywxs7p");
+    			add_location(div1, file$5, 28, 14, 1347);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div1, anchor);
@@ -17098,17 +17084,17 @@ var app = (function () {
     		block,
     		id: create_else_block_1.name,
     		type: "else",
-    		source: "(29:12) {:else}",
+    		source: "(28:12) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (22:12) {#if viewTree.has_view_sets}
+    // (21:12) {#if viewTree.has_view_sets}
     function create_if_block_2(ctx) {
     	let each_1_anchor;
-    	let each_value_1 = Object.keys(/*viewTree*/ ctx[1].root);
+    	let each_value_1 = Object.keys(/*viewTree*/ ctx[0].root);
     	validate_each_argument(each_value_1);
     	let each_blocks = [];
 
@@ -17134,8 +17120,8 @@ var app = (function () {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*Object, viewTree*/ 2) {
-    				each_value_1 = Object.keys(/*viewTree*/ ctx[1].root);
+    			if (dirty & /*Object, viewTree*/ 1) {
+    				each_value_1 = Object.keys(/*viewTree*/ ctx[0].root);
     				validate_each_argument(each_value_1);
     				let i;
 
@@ -17168,21 +17154,21 @@ var app = (function () {
     		block,
     		id: create_if_block_2.name,
     		type: "if",
-    		source: "(22:12) {#if viewTree.has_view_sets}",
+    		source: "(21:12) {#if viewTree.has_view_sets}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (23:14) {#each Object.keys(viewTree.root) as view_set_key}
+    // (22:14) {#each Object.keys(viewTree.root) as view_set_key}
     function create_each_block_1$1(ctx) {
     	let div1;
     	let img;
     	let img_src_value;
     	let t0;
     	let div0;
-    	let t1_value = /*view_set_key*/ ctx[7] + "";
+    	let t1_value = /*view_set_key*/ ctx[5] + "";
     	let t1;
     	let t2;
 
@@ -17194,14 +17180,14 @@ var app = (function () {
     			div0 = element("div");
     			t1 = text(t1_value);
     			t2 = space();
-    			attr_dev(img, "class", "vector-3 svelte-1fz9j3z");
+    			attr_dev(img, "class", "vector-3 svelte-ywxs7p");
     			if (!src_url_equal(img.src, img_src_value = "https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-2.svg")) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", "Vector");
-    			add_location(img, file$5, 24, 18, 1037);
-    			attr_dev(div0, "class", "view-set-1-1 valign-text-middle svelte-1fz9j3z");
-    			add_location(div0, file$5, 25, 18, 1223);
-    			attr_dev(div1, "class", "view-set svelte-1fz9j3z");
-    			add_location(div1, file$5, 23, 16, 996);
+    			add_location(img, file$5, 23, 18, 1016);
+    			attr_dev(div0, "class", "view-set-1-1 valign-text-middle svelte-ywxs7p");
+    			add_location(div0, file$5, 24, 18, 1202);
+    			attr_dev(div1, "class", "view-set svelte-ywxs7p");
+    			add_location(div1, file$5, 22, 16, 975);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div1, anchor);
@@ -17212,7 +17198,7 @@ var app = (function () {
     			append_dev(div1, t2);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*viewTree*/ 2 && t1_value !== (t1_value = /*view_set_key*/ ctx[7] + "")) set_data_dev(t1, t1_value);
+    			if (dirty & /*viewTree*/ 1 && t1_value !== (t1_value = /*view_set_key*/ ctx[5] + "")) set_data_dev(t1, t1_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div1);
@@ -17223,14 +17209,14 @@ var app = (function () {
     		block,
     		id: create_each_block_1$1.name,
     		type: "each",
-    		source: "(23:14) {#each Object.keys(viewTree.root) as view_set_key}",
+    		source: "(22:14) {#each Object.keys(viewTree.root) as view_set_key}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (59:6) {:else}
+    // (58:6) {:else}
     function create_else_block(ctx) {
     	let div;
     	let current;
@@ -17250,8 +17236,8 @@ var app = (function () {
     				each_blocks[i].c();
     			}
 
-    			attr_dev(div, "class", "tree svelte-1fz9j3z");
-    			add_location(div, file$5, 59, 8, 2861);
+    			attr_dev(div, "class", "tree svelte-ywxs7p");
+    			add_location(div, file$5, 58, 8, 2815);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -17293,34 +17279,25 @@ var app = (function () {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(59:6) {:else}",
+    		source: "(58:6) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (57:6) {#if viewTree}
+    // (56:6) {#if viewTree}
     function create_if_block$2(ctx) {
     	let tree;
-    	let updating_viewPath;
     	let current;
 
-    	function tree_viewPath_binding(value) {
-    		/*tree_viewPath_binding*/ ctx[3](value);
-    	}
-
-    	let tree_props = {
-    		fetchViewData: /*fetchViewData*/ ctx[2],
-    		nodes: /*viewTree*/ ctx[1].root
-    	};
-
-    	if (/*viewPath*/ ctx[0] !== void 0) {
-    		tree_props.viewPath = /*viewPath*/ ctx[0];
-    	}
-
-    	tree = new VueTree({ props: tree_props, $$inline: true });
-    	binding_callbacks.push(() => bind(tree, 'viewPath', tree_viewPath_binding));
+    	tree = new VueTree({
+    			props: {
+    				fetchViewData: /*fetchViewData*/ ctx[1],
+    				nodes: /*viewTree*/ ctx[0].root
+    			},
+    			$$inline: true
+    		});
 
     	const block = {
     		c: function create() {
@@ -17332,15 +17309,8 @@ var app = (function () {
     		},
     		p: function update(ctx, dirty) {
     			const tree_changes = {};
-    			if (dirty & /*fetchViewData*/ 4) tree_changes.fetchViewData = /*fetchViewData*/ ctx[2];
-    			if (dirty & /*viewTree*/ 2) tree_changes.nodes = /*viewTree*/ ctx[1].root;
-
-    			if (!updating_viewPath && dirty & /*viewPath*/ 1) {
-    				updating_viewPath = true;
-    				tree_changes.viewPath = /*viewPath*/ ctx[0];
-    				add_flush_callback(() => updating_viewPath = false);
-    			}
-
+    			if (dirty & /*fetchViewData*/ 2) tree_changes.fetchViewData = /*fetchViewData*/ ctx[1];
+    			if (dirty & /*viewTree*/ 1) tree_changes.nodes = /*viewTree*/ ctx[0].root;
     			tree.$set(tree_changes);
     		},
     		i: function intro(local) {
@@ -17361,14 +17331,14 @@ var app = (function () {
     		block,
     		id: create_if_block$2.name,
     		type: "if",
-    		source: "(57:6) {#if viewTree}",
+    		source: "(56:6) {#if viewTree}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (61:10) {#each {length: 10} as _, i}
+    // (60:10) {#each {length: 10} as _, i}
     function create_each_block$1(ctx) {
     	let textinputskeleton;
     	let current;
@@ -17405,7 +17375,7 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(61:10) {#each {length: 10} as _, i}",
+    		source: "(60:10) {#each {length: 10} as _, i}",
     		ctx
     	});
 
@@ -17455,7 +17425,7 @@ var app = (function () {
     	const if_blocks = [];
 
     	function select_block_type(ctx, dirty) {
-    		if (/*viewTree*/ ctx[1]) return 0;
+    		if (/*viewTree*/ ctx[0]) return 0;
     		return 1;
     	}
 
@@ -17465,7 +17435,7 @@ var app = (function () {
     	const if_blocks_1 = [];
 
     	function select_block_type_2(ctx, dirty) {
-    		if (/*viewTree*/ ctx[1]) return 0;
+    		if (/*viewTree*/ ctx[0]) return 0;
     		return 1;
     	}
 
@@ -17510,52 +17480,52 @@ var app = (function () {
     			t13 = space();
     			div13 = element("div");
     			if_block1.c();
-    			attr_dev(h1, "class", "title valign-text-middle lexenddeca-normal-geyser-24px-2 svelte-1fz9j3z");
-    			add_location(h1, file$5, 9, 4, 261);
-    			attr_dev(div0, "class", "view-selection-separator svelte-1fz9j3z");
-    			add_location(div0, file$5, 10, 4, 359);
-    			attr_dev(div1, "class", "app-title svelte-1fz9j3z");
-    			add_location(div1, file$5, 8, 2, 233);
-    			attr_dev(img0, "class", "vector-2 svelte-1fz9j3z");
+    			attr_dev(h1, "class", "title valign-text-middle lexenddeca-normal-geyser-24px-2 svelte-ywxs7p");
+    			add_location(h1, file$5, 8, 4, 240);
+    			attr_dev(div0, "class", "view-selection-separator svelte-ywxs7p");
+    			add_location(div0, file$5, 9, 4, 338);
+    			attr_dev(div1, "class", "app-title svelte-ywxs7p");
+    			add_location(div1, file$5, 7, 2, 212);
+    			attr_dev(img0, "class", "vector-2 svelte-ywxs7p");
     			if (!src_url_equal(img0.src, img0_src_value = "https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector.svg")) attr_dev(img0, "src", img0_src_value);
     			attr_dev(img0, "alt", "Vector");
-    			add_location(img0, file$5, 13, 4, 444);
-    			attr_dev(div2, "class", "search valign-text-middle lexenddeca-normal-oslo-gray-24px svelte-1fz9j3z");
-    			add_location(div2, file$5, 14, 4, 614);
-    			attr_dev(div3, "class", "search-bar svelte-1fz9j3z");
-    			add_location(div3, file$5, 12, 2, 415);
-    			attr_dev(div4, "class", "view-sets svelte-1fz9j3z");
-    			add_location(div4, file$5, 19, 8, 825);
-    			attr_dev(img1, "class", "vector-5 svelte-1fz9j3z");
+    			add_location(img0, file$5, 12, 4, 423);
+    			attr_dev(div2, "class", "search valign-text-middle lexenddeca-normal-oslo-gray-24px svelte-ywxs7p");
+    			add_location(div2, file$5, 13, 4, 593);
+    			attr_dev(div3, "class", "search-bar svelte-ywxs7p");
+    			add_location(div3, file$5, 11, 2, 394);
+    			attr_dev(div4, "class", "view-sets svelte-ywxs7p");
+    			add_location(div4, file$5, 18, 8, 804);
+    			attr_dev(img1, "class", "vector-5 svelte-ywxs7p");
     			if (!src_url_equal(img1.src, img1_src_value = "https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-5.svg")) attr_dev(img1, "src", img1_src_value);
     			attr_dev(img1, "alt", "Vector");
-    			add_location(img1, file$5, 44, 12, 1977);
-    			attr_dev(div5, "class", "profile-1 valign-text-middle lexenddeca-normal-oslo-gray-24px svelte-1fz9j3z");
-    			add_location(div5, file$5, 45, 12, 2157);
-    			attr_dev(div6, "class", "profile svelte-1fz9j3z");
-    			add_location(div6, file$5, 43, 10, 1943);
-    			attr_dev(img2, "class", "vector-6 svelte-1fz9j3z");
+    			add_location(img1, file$5, 43, 12, 1956);
+    			attr_dev(div5, "class", "profile-1 valign-text-middle lexenddeca-normal-oslo-gray-24px svelte-ywxs7p");
+    			add_location(div5, file$5, 44, 12, 2136);
+    			attr_dev(div6, "class", "profile svelte-ywxs7p");
+    			add_location(div6, file$5, 42, 10, 1922);
+    			attr_dev(img2, "class", "vector-6 svelte-ywxs7p");
     			if (!src_url_equal(img2.src, img2_src_value = "https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-6.svg")) attr_dev(img2, "src", img2_src_value);
     			attr_dev(img2, "alt", "Vector");
-    			add_location(img2, file$5, 48, 12, 2321);
-    			attr_dev(div7, "class", "settings-2 valign-text-middle settings-3lexenddeca-normal-oslo-gray-24px svelte-1fz9j3z");
-    			add_location(div7, file$5, 49, 12, 2501);
-    			attr_dev(div8, "class", "settings-1 settings-3 svelte-1fz9j3z");
-    			add_location(div8, file$5, 47, 10, 2273);
-    			attr_dev(div9, "class", "settings svelte-1fz9j3z");
-    			add_location(div9, file$5, 42, 8, 1910);
-    			attr_dev(div10, "class", "left-buttons svelte-1fz9j3z");
-    			add_location(div10, file$5, 18, 6, 790);
-    			attr_dev(div11, "class", "left-buttons-container svelte-1fz9j3z");
-    			add_location(div11, file$5, 17, 4, 747);
-    			attr_dev(div12, "class", "separator svelte-1fz9j3z");
-    			add_location(div12, file$5, 54, 4, 2662);
-    			attr_dev(div13, "class", "tree-container svelte-1fz9j3z");
-    			add_location(div13, file$5, 55, 4, 2696);
-    			attr_dev(div14, "class", "view-tree-selector svelte-1fz9j3z");
-    			add_location(div14, file$5, 16, 2, 710);
-    			attr_dev(div15, "class", "view-selection-frame svelte-1fz9j3z");
-    			add_location(div15, file$5, 7, 0, 196);
+    			add_location(img2, file$5, 47, 12, 2300);
+    			attr_dev(div7, "class", "settings-2 valign-text-middle settings-3lexenddeca-normal-oslo-gray-24px svelte-ywxs7p");
+    			add_location(div7, file$5, 48, 12, 2480);
+    			attr_dev(div8, "class", "settings-1 settings-3 svelte-ywxs7p");
+    			add_location(div8, file$5, 46, 10, 2252);
+    			attr_dev(div9, "class", "settings svelte-ywxs7p");
+    			add_location(div9, file$5, 41, 8, 1889);
+    			attr_dev(div10, "class", "left-buttons svelte-ywxs7p");
+    			add_location(div10, file$5, 17, 6, 769);
+    			attr_dev(div11, "class", "left-buttons-container svelte-ywxs7p");
+    			add_location(div11, file$5, 16, 4, 726);
+    			attr_dev(div12, "class", "separator svelte-ywxs7p");
+    			add_location(div12, file$5, 53, 4, 2641);
+    			attr_dev(div13, "class", "tree-container svelte-ywxs7p");
+    			add_location(div13, file$5, 54, 4, 2675);
+    			attr_dev(div14, "class", "view-tree-selector svelte-ywxs7p");
+    			add_location(div14, file$5, 15, 2, 689);
+    			attr_dev(div15, "class", "view-selection-frame svelte-ywxs7p");
+    			add_location(div15, file$5, 6, 0, 175);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -17680,15 +17650,10 @@ var app = (function () {
     function instance$5($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('VueSelectionFrame', slots, []);
-    	let { viewPath } = $$props;
     	let { viewTree } = $$props;
     	let { fetchViewData } = $$props;
 
     	$$self.$$.on_mount.push(function () {
-    		if (viewPath === undefined && !('viewPath' in $$props || $$self.$$.bound[$$self.$$.props['viewPath']])) {
-    			console.warn("<VueSelectionFrame> was created without expected prop 'viewPath'");
-    		}
-
     		if (viewTree === undefined && !('viewTree' in $$props || $$self.$$.bound[$$self.$$.props['viewTree']])) {
     			console.warn("<VueSelectionFrame> was created without expected prop 'viewTree'");
     		}
@@ -17698,53 +17663,40 @@ var app = (function () {
     		}
     	});
 
-    	const writable_props = ['viewPath', 'viewTree', 'fetchViewData'];
+    	const writable_props = ['viewTree', 'fetchViewData'];
 
     	Object_1.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<VueSelectionFrame> was created with unknown prop '${key}'`);
     	});
 
-    	function tree_viewPath_binding(value) {
-    		viewPath = value;
-    		$$invalidate(0, viewPath);
-    	}
-
     	$$self.$$set = $$props => {
-    		if ('viewPath' in $$props) $$invalidate(0, viewPath = $$props.viewPath);
-    		if ('viewTree' in $$props) $$invalidate(1, viewTree = $$props.viewTree);
-    		if ('fetchViewData' in $$props) $$invalidate(2, fetchViewData = $$props.fetchViewData);
+    		if ('viewTree' in $$props) $$invalidate(0, viewTree = $$props.viewTree);
+    		if ('fetchViewData' in $$props) $$invalidate(1, fetchViewData = $$props.fetchViewData);
     	};
 
     	$$self.$capture_state = () => ({
     		Tree: VueTree,
     		TextInputSkeleton: TextInputSkeleton$1,
-    		viewPath,
     		viewTree,
     		fetchViewData
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ('viewPath' in $$props) $$invalidate(0, viewPath = $$props.viewPath);
-    		if ('viewTree' in $$props) $$invalidate(1, viewTree = $$props.viewTree);
-    		if ('fetchViewData' in $$props) $$invalidate(2, fetchViewData = $$props.fetchViewData);
+    		if ('viewTree' in $$props) $$invalidate(0, viewTree = $$props.viewTree);
+    		if ('fetchViewData' in $$props) $$invalidate(1, fetchViewData = $$props.fetchViewData);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [viewPath, viewTree, fetchViewData, tree_viewPath_binding];
+    	return [viewTree, fetchViewData];
     }
 
     class VueSelectionFrame extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-
-    		init$1(this, options, instance$5, create_fragment$5, safe_not_equal, {
-    			viewPath: 0,
-    			viewTree: 1,
-    			fetchViewData: 2
-    		});
+    		init$1(this, options, instance$5, create_fragment$5, safe_not_equal, { viewTree: 0, fetchViewData: 1 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -17752,14 +17704,6 @@ var app = (function () {
     			options,
     			id: create_fragment$5.name
     		});
-    	}
-
-    	get viewPath() {
-    		throw new Error("<VueSelectionFrame>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-
-    	set viewPath(value) {
-    		throw new Error("<VueSelectionFrame>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
 
     	get viewTree() {
@@ -47453,7 +47397,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (105:10) {#each columnNames as column}
+    // (104:10) {#each columnNames as column}
     function create_each_block_4(ctx) {
     	let th;
     	let div1;
@@ -47470,11 +47414,11 @@ var app = (function () {
     			t0 = text(t0_value);
     			t1 = space();
     			attr_dev(div0, "class", "text svelte-1iuhk5h");
-    			add_location(div0, file$1, 107, 16, 4482);
+    			add_location(div0, file$1, 106, 16, 4440);
     			attr_dev(div1, "class", "");
-    			add_location(div1, file$1, 106, 14, 4451);
+    			add_location(div1, file$1, 105, 14, 4409);
     			attr_dev(th, "class", "");
-    			add_location(th, file$1, 105, 12, 4423);
+    			add_location(th, file$1, 104, 12, 4381);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, th, anchor);
@@ -47495,14 +47439,14 @@ var app = (function () {
     		block,
     		id: create_each_block_4.name,
     		type: "each",
-    		source: "(105:10) {#each columnNames as column}",
+    		source: "(104:10) {#each columnNames as column}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (117:8) {#if tableData.length == 0}
+    // (116:8) {#if tableData.length == 0}
     function create_if_block(ctx) {
     	let each_1_anchor;
     	let current;
@@ -47560,14 +47504,14 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(117:8) {#if tableData.length == 0}",
+    		source: "(116:8) {#if tableData.length == 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (120:14) {#each {length: 3} as _, i}
+    // (119:14) {#each {length: 3} as _, i}
     function create_each_block_3(ctx) {
     	let th;
     	let div1;
@@ -47587,11 +47531,11 @@ var app = (function () {
     			div0 = element("div");
     			create_component(textinputskeleton.$$.fragment);
     			attr_dev(div0, "class", "text svelte-1iuhk5h");
-    			add_location(div0, file$1, 122, 20, 4887);
+    			add_location(div0, file$1, 121, 20, 4845);
     			attr_dev(div1, "class", "content svelte-1iuhk5h");
-    			add_location(div1, file$1, 121, 18, 4845);
+    			add_location(div1, file$1, 120, 18, 4803);
     			attr_dev(th, "class", "");
-    			add_location(th, file$1, 120, 16, 4813);
+    			add_location(th, file$1, 119, 16, 4771);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, th, anchor);
@@ -47620,14 +47564,14 @@ var app = (function () {
     		block,
     		id: create_each_block_3.name,
     		type: "each",
-    		source: "(120:14) {#each {length: 3} as _, i}",
+    		source: "(119:14) {#each {length: 3} as _, i}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (118:10) {#each {length: 15} as _, i}
+    // (117:10) {#each {length: 15} as _, i}
     function create_each_block_2(ctx) {
     	let tr;
     	let t;
@@ -47650,7 +47594,7 @@ var app = (function () {
 
     			t = space();
     			attr_dev(tr, "class", "row svelte-1iuhk5h");
-    			add_location(tr, file$1, 118, 12, 4738);
+    			add_location(tr, file$1, 117, 12, 4696);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, tr, anchor);
@@ -47693,14 +47637,14 @@ var app = (function () {
     		block,
     		id: create_each_block_2.name,
     		type: "each",
-    		source: "(118:10) {#each {length: 15} as _, i}",
+    		source: "(117:10) {#each {length: 15} as _, i}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (134:10) {#each row as cell}
+    // (133:12) {#each row as cell}
     function create_each_block_1(ctx) {
     	let th;
     	let div1;
@@ -47715,11 +47659,11 @@ var app = (function () {
     			div0 = element("div");
     			t = text(t_value);
     			attr_dev(div0, "class", "text svelte-1iuhk5h");
-    			add_location(div0, file$1, 136, 14, 5266);
+    			add_location(div0, file$1, 135, 18, 5240);
     			attr_dev(div1, "class", "content svelte-1iuhk5h");
-    			add_location(div1, file$1, 135, 12, 5230);
+    			add_location(div1, file$1, 134, 16, 5200);
     			attr_dev(th, "class", "");
-    			add_location(th, file$1, 134, 10, 5204);
+    			add_location(th, file$1, 133, 14, 5170);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, th, anchor);
@@ -47739,14 +47683,14 @@ var app = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(134:10) {#each row as cell}",
+    		source: "(133:12) {#each row as cell}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (132:8) {#each tableData as row}
+    // (131:8) {#each tableData as row}
     function create_each_block(ctx) {
     	let tr;
     	let t;
@@ -47768,7 +47712,7 @@ var app = (function () {
 
     			t = space();
     			attr_dev(tr, "class", "row svelte-1iuhk5h");
-    			add_location(tr, file$1, 132, 8, 5147);
+    			add_location(tr, file$1, 131, 10, 5107);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, tr, anchor);
@@ -47816,7 +47760,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(132:8) {#each tableData as row}",
+    		source: "(131:8) {#each tableData as row}",
     		ctx
     	});
 
@@ -47923,50 +47867,50 @@ var app = (function () {
     			}
 
     			attr_dev(h1, "class", "vue-tudiants-1re-anne valign-text-middle svelte-1iuhk5h");
-    			add_location(h1, file$1, 85, 4, 3151);
+    			add_location(h1, file$1, 84, 4, 3109);
     			attr_dev(div0, "class", "top-seperator svelte-1iuhk5h");
-    			add_location(div0, file$1, 86, 4, 3238);
+    			add_location(div0, file$1, 85, 4, 3196);
     			attr_dev(div1, "class", "frame-31 svelte-1iuhk5h");
-    			add_location(div1, file$1, 84, 2, 3124);
+    			add_location(div1, file$1, 83, 2, 3082);
     			attr_dev(img0, "id", "search-vector");
     			attr_dev(img0, "class", "vector svelte-1iuhk5h");
     			if (!src_url_equal(img0.src, img0_src_value = "https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a3f5479ef0ce55861f0160/img/vector.svg")) attr_dev(img0, "src", img0_src_value);
     			attr_dev(img0, "alt", "Vector");
-    			add_location(img0, file$1, 88, 2, 3283);
+    			add_location(img0, file$1, 87, 2, 3241);
     			attr_dev(img1, "class", "vector-1 svelte-1iuhk5h");
     			if (!src_url_equal(img1.src, img1_src_value = "https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a3f5479ef0ce55861f0160/img/vector-1.svg")) attr_dev(img1, "src", img1_src_value);
     			attr_dev(img1, "alt", "Vector");
-    			add_location(img1, file$1, 91, 6, 3527);
+    			add_location(img1, file$1, 90, 6, 3485);
     			attr_dev(div2, "class", "filter-1 valign-text-middle lexenddeca-normal-oslo-gray-24px svelte-1iuhk5h");
-    			add_location(div2, file$1, 92, 6, 3701);
+    			add_location(div2, file$1, 91, 6, 3659);
     			attr_dev(div3, "class", "number valign-text-middle lexenddeca-normal-oslo-gray-24px svelte-1iuhk5h");
-    			add_location(div3, file$1, 93, 30, 3818);
+    			add_location(div3, file$1, 92, 30, 3776);
     			attr_dev(div4, "class", "frame-31-1 svelte-1iuhk5h");
-    			add_location(div4, file$1, 93, 6, 3794);
+    			add_location(div4, file$1, 92, 6, 3752);
     			attr_dev(div5, "class", "filter svelte-1iuhk5h");
-    			add_location(div5, file$1, 90, 4, 3500);
+    			add_location(div5, file$1, 89, 4, 3458);
     			attr_dev(img2, "class", "vector-2 svelte-1iuhk5h");
     			if (!src_url_equal(img2.src, img2_src_value = "https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a3f5479ef0ce55861f0160/img/vector-2.svg")) attr_dev(img2, "src", img2_src_value);
     			attr_dev(img2, "alt", "Vector");
-    			add_location(img2, file$1, 96, 6, 3944);
+    			add_location(img2, file$1, 95, 6, 3902);
     			attr_dev(div6, "class", "sort-1 valign-text-middle lexenddeca-normal-oslo-gray-24px svelte-1iuhk5h");
-    			add_location(div6, file$1, 97, 6, 4118);
+    			add_location(div6, file$1, 96, 6, 4076);
     			attr_dev(div7, "class", "sort svelte-1iuhk5h");
-    			add_location(div7, file$1, 95, 4, 3919);
+    			add_location(div7, file$1, 94, 4, 3877);
     			attr_dev(div8, "class", "table-buttons svelte-1iuhk5h");
-    			add_location(div8, file$1, 89, 2, 3468);
+    			add_location(div8, file$1, 88, 2, 3426);
     			attr_dev(tr, "class", "row-1 svelte-1iuhk5h");
-    			add_location(tr, file$1, 103, 8, 4352);
-    			add_location(thead, file$1, 102, 6, 4336);
-    			add_location(tbody, file$1, 115, 6, 4643);
+    			add_location(tr, file$1, 102, 8, 4310);
+    			add_location(thead, file$1, 101, 6, 4294);
+    			add_location(tbody, file$1, 114, 6, 4601);
     			attr_dev(table, "id", "table");
     			attr_dev(table, "class", "dataTable table hover order-column row-border svelte-1iuhk5h");
-    			add_location(table, file$1, 101, 4, 4257);
+    			add_location(table, file$1, 100, 4, 4215);
     			attr_dev(div9, "class", "table-container svelte-1iuhk5h");
-    			add_location(div9, file$1, 100, 2, 4223);
+    			add_location(div9, file$1, 99, 2, 4181);
     			attr_dev(div10, "id", "table-frame");
     			attr_dev(div10, "class", "table-frame screen svelte-1iuhk5h");
-    			add_location(div10, file$1, 83, 0, 3072);
+    			add_location(div10, file$1, 82, 0, 3030);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -48180,7 +48124,6 @@ var app = (function () {
     			const target = event.target;
     			console.log(target);
     			if (target instanceof HTMLElement) if (target.tagName === 'INPUT') return;
-    			console.log("J'ai les cramptés");
     			table.search(event.key).draw();
     			j('#table_filter input').trigger('focus');
     		});
@@ -48263,104 +48206,175 @@ var app = (function () {
     /* src/App.svelte generated by Svelte v3.59.2 */
     const file = "src/App.svelte";
 
+    // (57:4) {#key tableData}
+    function create_key_block(ctx) {
+    	let table;
+    	let current;
+
+    	table = new Table({
+    			props: {
+    				tableData: /*tableData*/ ctx[1],
+    				columnNames: /*columnNames*/ ctx[0]
+    			},
+    			$$inline: true
+    		});
+
+    	const block = {
+    		c: function create() {
+    			create_component(table.$$.fragment);
+    		},
+    		m: function mount(target, anchor) {
+    			mount_component(table, target, anchor);
+    			current = true;
+    		},
+    		p: function update(ctx, dirty) {
+    			const table_changes = {};
+    			if (dirty & /*tableData*/ 2) table_changes.tableData = /*tableData*/ ctx[1];
+    			if (dirty & /*columnNames*/ 1) table_changes.columnNames = /*columnNames*/ ctx[0];
+    			table.$set(table_changes);
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(table.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(table.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			destroy_component(table, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_key_block.name,
+    		type: "key",
+    		source: "(57:4) {#key tableData}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
     function create_fragment(ctx) {
     	let t0;
-    	let div1;
+    	let div2;
+    	let div0;
     	let login;
     	let t1;
     	let viewselectionframe;
     	let t2;
-    	let div0;
-    	let table;
+    	let div1;
+    	let previous_key = /*tableData*/ ctx[1];
     	let t3;
     	let editframe;
     	let current;
+    	let mounted;
+    	let dispose;
     	login = new Login({ $$inline: true });
 
     	viewselectionframe = new VueSelectionFrame({
     			props: {
-    				viewPath: /*viewPath*/ ctx[0],
-    				viewTree: /*viewTree*/ ctx[3],
-    				fetchViewData: /*fetchViewData*/ ctx[4]
+    				viewTree: /*viewTree*/ ctx[2],
+    				fetchViewData: /*fetchViewData*/ ctx[3]
     			},
     			$$inline: true
     		});
 
-    	table = new Table({
-    			props: {
-    				tableData: /*tableData*/ ctx[2],
-    				columnNames: /*columnNames*/ ctx[1]
-    			},
-    			$$inline: true
-    		});
-
+    	let key_block = create_key_block(ctx);
     	editframe = new EditFrame({ $$inline: true });
 
     	const block = {
     		c: function create() {
     			t0 = space();
-    			div1 = element("div");
+    			div2 = element("div");
+    			div0 = element("div");
     			create_component(login.$$.fragment);
     			t1 = space();
     			create_component(viewselectionframe.$$.fragment);
     			t2 = space();
-    			div0 = element("div");
-    			create_component(table.$$.fragment);
+    			div1 = element("div");
+    			key_block.c();
     			t3 = space();
     			create_component(editframe.$$.fragment);
-    			attr_dev(div0, "class", "side-container svelte-vgh2f0");
-    			add_location(div0, file, 48, 2, 1650);
-    			attr_dev(div1, "class", "app-container svelte-vgh2f0");
-    			add_location(div1, file, 45, 0, 1514);
+    			attr_dev(div0, "class", "left-container svelte-ka5cwg");
+    			add_location(div0, file, 51, 2, 1752);
+    			attr_dev(div1, "class", "side-container svelte-ka5cwg");
+    			add_location(div1, file, 55, 2, 1943);
+    			attr_dev(div2, "class", "app-container svelte-ka5cwg");
+    			add_location(div2, file, 50, 0, 1722);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, t0, anchor);
-    			insert_dev(target, div1, anchor);
-    			mount_component(login, div1, null);
-    			append_dev(div1, t1);
-    			mount_component(viewselectionframe, div1, null);
-    			append_dev(div1, t2);
-    			append_dev(div1, div0);
-    			mount_component(table, div0, null);
-    			append_dev(div0, t3);
-    			mount_component(editframe, div0, null);
+    			insert_dev(target, div2, anchor);
+    			append_dev(div2, div0);
+    			mount_component(login, div0, null);
+    			append_dev(div0, t1);
+    			mount_component(viewselectionframe, div0, null);
+    			append_dev(div2, t2);
+    			append_dev(div2, div1);
+    			key_block.m(div1, null);
+    			append_dev(div1, t3);
+    			mount_component(editframe, div1, null);
     			current = true;
+
+    			if (!mounted) {
+    				dispose = [
+    					listen_dev(div0, "click", /*showLeft*/ ctx[4], false, false, false, false),
+    					listen_dev(div0, "keypress", /*keypress_handler*/ ctx[6], false, false, false, false),
+    					listen_dev(div1, "click", /*showRight*/ ctx[5], false, false, false, false),
+    					listen_dev(div1, "keypress", /*keypress_handler_1*/ ctx[7], false, false, false, false)
+    				];
+
+    				mounted = true;
+    			}
     		},
     		p: function update(ctx, [dirty]) {
     			const viewselectionframe_changes = {};
-    			if (dirty & /*viewPath*/ 1) viewselectionframe_changes.viewPath = /*viewPath*/ ctx[0];
-    			if (dirty & /*viewTree*/ 8) viewselectionframe_changes.viewTree = /*viewTree*/ ctx[3];
+    			if (dirty & /*viewTree*/ 4) viewselectionframe_changes.viewTree = /*viewTree*/ ctx[2];
     			viewselectionframe.$set(viewselectionframe_changes);
-    			const table_changes = {};
-    			if (dirty & /*tableData*/ 4) table_changes.tableData = /*tableData*/ ctx[2];
-    			if (dirty & /*columnNames*/ 2) table_changes.columnNames = /*columnNames*/ ctx[1];
-    			table.$set(table_changes);
+
+    			if (dirty & /*tableData*/ 2 && safe_not_equal(previous_key, previous_key = /*tableData*/ ctx[1])) {
+    				group_outros();
+    				transition_out(key_block, 1, 1, noop);
+    				check_outros();
+    				key_block = create_key_block(ctx);
+    				key_block.c();
+    				transition_in(key_block, 1);
+    				key_block.m(div1, t3);
+    			} else {
+    				key_block.p(ctx, dirty);
+    			}
     		},
     		i: function intro(local) {
     			if (current) return;
     			transition_in(login.$$.fragment, local);
     			transition_in(viewselectionframe.$$.fragment, local);
-    			transition_in(table.$$.fragment, local);
+    			transition_in(key_block);
     			transition_in(editframe.$$.fragment, local);
     			current = true;
     		},
     		o: function outro(local) {
     			transition_out(login.$$.fragment, local);
     			transition_out(viewselectionframe.$$.fragment, local);
-    			transition_out(table.$$.fragment, local);
+    			transition_out(key_block);
     			transition_out(editframe.$$.fragment, local);
     			current = false;
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(t0);
-    			if (detaching) detach_dev(div1);
+    			if (detaching) detach_dev(div2);
     			destroy_component(login);
     			destroy_component(viewselectionframe);
-    			destroy_component(table);
+    			key_block.d(detaching);
     			destroy_component(editframe);
+    			mounted = false;
+    			run_all(dispose);
     		}
     	};
 
@@ -48389,15 +48403,12 @@ var app = (function () {
     	const csrfToken = getMeta('csrf-token');
     	let jwt = getCookie('jwt');
     	let viewTree;
-    	let viewPath;
 
     	function fetchViewData(path) {
-    		$$invalidate(0, viewPath = path);
-
-    		if (viewPath) {
-    			apiActionRequest(csrfToken, jwt, 'fetch_all', viewPath, [], []).then(res => {
-    				$$invalidate(1, columnNames = res.names);
-    				$$invalidate(2, tableData = res.table);
+    		if (path) {
+    			apiActionRequest(csrfToken, jwt, 'fetch_all', path, [], []).then(res => {
+    				$$invalidate(0, columnNames = res.names);
+    				$$invalidate(1, tableData = res.table);
     			});
     		}
     	}
@@ -48406,16 +48417,28 @@ var app = (function () {
     		await auth();
 
     		apiTreeRequest(csrfToken).then(res => {
-    			$$invalidate(3, viewTree = res);
+    			$$invalidate(2, viewTree = res);
     		});
     	});
 
     	let theme = "g100"; // "white" | "g10" | "g80" | "g90" | "g100"
+
+    	function showLeft(event) {
+    		j('.side-container').css('transform', 'translateX(0px)');
+    	}
+
+    	function showRight(event) {
+    		if (event.key && event.key == "ArrowRight" || event.type == "click") j('.side-container').css('transform', 'translateX(-360px)');
+    	}
+
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<App> was created with unknown prop '${key}'`);
     	});
+
+    	const keypress_handler = event => showLeft();
+    	const keypress_handler_1 = event => showRight(event);
 
     	$$self.$capture_state = () => ({
     		onMount,
@@ -48428,37 +48451,42 @@ var app = (function () {
     		getCookie,
     		apiTreeRequest,
     		getMeta,
+    		j,
     		columnNames,
     		tableData,
     		csrfToken,
     		jwt,
     		viewTree,
-    		viewPath,
     		fetchViewData,
-    		theme
+    		theme,
+    		showLeft,
+    		showRight
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ('columnNames' in $$props) $$invalidate(1, columnNames = $$props.columnNames);
-    		if ('tableData' in $$props) $$invalidate(2, tableData = $$props.tableData);
+    		if ('columnNames' in $$props) $$invalidate(0, columnNames = $$props.columnNames);
+    		if ('tableData' in $$props) $$invalidate(1, tableData = $$props.tableData);
     		if ('jwt' in $$props) jwt = $$props.jwt;
-    		if ('viewTree' in $$props) $$invalidate(3, viewTree = $$props.viewTree);
-    		if ('viewPath' in $$props) $$invalidate(0, viewPath = $$props.viewPath);
-    		if ('theme' in $$props) $$invalidate(7, theme = $$props.theme);
+    		if ('viewTree' in $$props) $$invalidate(2, viewTree = $$props.viewTree);
+    		if ('theme' in $$props) $$invalidate(10, theme = $$props.theme);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*viewPath*/ 1) {
-    			(fetchViewData(viewPath));
-    		}
-    	};
-
     	document.documentElement.setAttribute("theme", theme);
-    	return [viewPath, columnNames, tableData, viewTree, fetchViewData];
+
+    	return [
+    		columnNames,
+    		tableData,
+    		viewTree,
+    		fetchViewData,
+    		showLeft,
+    		showRight,
+    		keypress_handler,
+    		keypress_handler_1
+    	];
     }
 
     class App extends SvelteComponentDev {
