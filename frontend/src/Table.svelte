@@ -196,6 +196,8 @@
     margin-bottom: 12px;
   }
   .table-container {
+    width: 85%;
+    overflow-x: hidden;
   }
   .table {
     height: 100%;
@@ -309,7 +311,7 @@
     gap: 8px;
     justify-content: center;
     position: relative;
-    width: fit-content;
+    width: 90%;
   }
   .vue-tudiants-1re-anne {
     color: #d7dde6;
