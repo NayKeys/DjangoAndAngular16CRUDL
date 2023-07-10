@@ -1,9 +1,10 @@
-<script lang="ts">
+  <script lang="ts">
   import { TreeView as Tree} from "carbon-components-svelte";
   import type { ViewTree, View, TreeNode, ViewList } from "./requests";
 
   export let nodes: TreeNode<View>;
   export let fetchViewData: Function;
+  export let hideButtons: Function;
     
   let viewPath: string;
   let treeview: Tree;
@@ -40,7 +41,8 @@
   }
   // Parent node with children has id >= 100
 
-  const selectItem = (detail) => {
+  function selectItem(detail) {
+    hideButtons()  // This component has a stopPropagation on click, so we need to fire this function that way
     const id = detail.id
     if (id >= 100) {
       if (expandedIds.includes(id)) {

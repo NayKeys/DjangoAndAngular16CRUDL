@@ -1,95 +1,117 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+  import { writable } from 'svelte/store';
   import Tree from './VueTree.svelte';
   import type { ViewTree } from './requests';
   import { TextInputSkeleton } from "carbon-components-svelte";
+  import jquery from 'jquery';
 
   export let viewTree: ViewTree;
   export let fetchViewData: Function;
+  export let buttonsShown: boolean = false;
   
+  onMount(() => {
+    jquery('.left-buttons').on('click', function() {
+      buttonsShown = true
+    })
+    jquery(document).on('click', function(e) {
+      if ((!jquery(e.target).hasClass('left-buttons')) && jquery(e.target).parents('.left-buttons').length == 0) { // if the target not a child of the left-buttons
+        buttonsShown = false
+        console.log('left buttons not clicked')
+      }
+    })
+  });
+  const hideButtons = () => {
+    buttonsShown = false
+  }
 </script>
 
-<div class="view-selection-frame">
-  <div class="app-title">
-    <h1 class="title valign-text-middle lexenddeca-normal-geyser-24px-2">ENSEA Trendy Tables</h1>
-    <div class="view-selection-separator"></div>
-  </div>
-  <div class="search-bar">
-    <img class="vector-2" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector.svg" alt="Vector" />
-    <div class="search valign-text-middle lexenddeca-normal-oslo-gray-24px">Search</div>
-  </div>
-  <div class="view-tree-selector">
-    <div class="left-buttons-container">
-      <div class="left-buttons">
-        <div class="view-sets">
-          {#if viewTree}
-            {#if viewTree.has_view_sets}
-              {#each Object.keys(viewTree.root) as view_set_key}
-                <div class="view-set">
-                  <img class="vector-3" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-2.svg" alt="Vector" />
-                  <div class="view-set-1-1 valign-text-middle">{view_set_key}</div>
-                </div>
-              {/each}
-            {:else}
+
+<div class="app-title">
+  <h1 class="title valign-text-middle lexenddeca-normal-geyser-24px-2">ENSEA Trendy Tables</h1>
+  <div class="view-selection-separator"></div>
+</div>
+<div class="search-bar">
+  <img class="vector-2" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector.svg" alt="Vector" />
+  <div class="search valign-text-middle lexenddeca-normal-oslo-gray-24px">Search</div>
+</div>
+<div class="view-tree-selector">
+  <div class={"left-buttons-container "+(buttonsShown ? 'shown' : 'hidden')}>
+    <div class="left-buttons" on:click={() => (buttonsShown = true)} on:keypress>
+      <div class="view-sets">
+        {#if viewTree}
+          {#if viewTree.has_view_sets}
+            {#each Object.keys(viewTree.root) as view_set_key}
               <div class="view-set">
                 <img class="vector-3" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-2.svg" alt="Vector" />
-                <div class="view-set-1-1 valign-text-middle">Views</div>
-              </div>
-            {/if}
-          {:else}
-            {#each {length: 3} as _, i}
-              <div class="view-set">
-                <TextInputSkeleton hideLabel />
+                <div class="view-set-1-1 valign-text-middle">{view_set_key}</div>
               </div>
             {/each}
+          {:else}
+            <div class="view-set">
+              <img class="vector-3" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-2.svg" alt="Vector" />
+              <div class="view-set-1-1 valign-text-middle">Views</div>
+            </div>
           {/if}
+        {:else}
+          {#each {length: 3} as _, i}
+            <div class="view-set">
+              <TextInputSkeleton hideLabel />
+            </div>
+          {/each}
+        {/if}
+      </div>
+      <div class="settings">
+        <div class="profile">
+          <img class="vector-5" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-5.svg" alt="Vector" />
+          <div class="profile-1 valign-text-middle lexenddeca-normal-oslo-gray-24px">Profile</div>
         </div>
-        <div class="settings">
-          <div class="profile">
-            <img class="vector-5" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-5.svg" alt="Vector" />
-            <div class="profile-1 valign-text-middle lexenddeca-normal-oslo-gray-24px">Profile</div>
-          </div>
-          <div class="settings-1 settings-3">
-            <img class="vector-6" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-6.svg" alt="Vector" />
-            <div class="settings-2 valign-text-middle settings-3lexenddeca-normal-oslo-gray-24px">Settings</div>
-          </div>
+        <div class="settings-1 settings-3">
+          <img class="vector-6" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector-6.svg" alt="Vector" />
+          <div class="settings-2 valign-text-middle settings-3lexenddeca-normal-oslo-gray-24px">Settings</div>
         </div>
       </div>
     </div>
-    <div class="separator"></div>
-    <div class="tree-container">
-      {#if viewTree}
-        <Tree fetchViewData={fetchViewData} nodes={viewTree.root}/>
-      {:else}
-        <div class="tree">
-          {#each {length: 10} as _, i}
-            <TextInputSkeleton hideLabel />
-          {/each}
-        </div>
-      {/if}
-    </div>
+  </div>
+  <div class="separator"></div>
+  <div class="tree-container">
+    {#if viewTree}
+      <Tree hideButtons={hideButtons} fetchViewData={fetchViewData} nodes={viewTree.root}/>
+    {:else}
+      <div class="tree">
+        {#each {length: 10} as _, i}
+          <TextInputSkeleton hideLabel />
+        {/each}
+      </div>
+    {/if}
   </div>
 </div>
 
 <style>
+  .hidden {
+    width: 50px;
+  }
+  .shown {
+    width: 300px;
+  }
+  .left-buttons-container {
+    position: relative; 
+  }
   .view-tree-selector {
     position: relative;
     display: flex;
     gap: 5px;
     flex-direction: row;
     justify-content: start;
-    overflow: hidden;
+    overflow-y: scroll;
     width: fit-content;
+    height: 100%;
   }
   .tree-container {
     position: relative;
     width: 500px;
     display: block;
-    overflow: hidden;
-  }
-  .left-buttons-container {
-    position: relative;
-    width: 50px;
-    overflow: hidden;
+    height: fit-content;
   }
   .tree {
     align-items: flex-start;
@@ -130,17 +152,7 @@
     position: relative;
     width: 100%;
   }
-  .view-selection-frame {
-    align-items: center;
-    background-color: var(--eerie-black);
-    border: 1px none;
-    display: flex;
-    flex-direction: column;
-    gap: 21px;
-    padding: 25px;
-    position: relative;
-    width: fit-content;
-  }
+
   .view-selection-separator {
     background-color: var(--bright-gray);
     border-radius: 10px;
@@ -191,7 +203,7 @@
     margin-top: -1px;
     position: relative;
   }
-  .view-selection-frame .view-set {
+  .view-set {
     align-items: center;
     display: flex;
     position: relative;
@@ -243,7 +255,7 @@
     display: flex;
     gap: 22px;
   }
-  .view-selection-frame .settings-3 {
+  .settings-3 {
     position: relative;
     width: fit-content;
   }

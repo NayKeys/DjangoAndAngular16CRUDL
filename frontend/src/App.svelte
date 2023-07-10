@@ -43,14 +43,6 @@
   });
   let theme = "g100"; // "white" | "g10" | "g80" | "g90" | "g100"
   $: document.documentElement.setAttribute("theme", theme);
-  function showLeft(event) {
-    if ((event.key && event.key == "ArrowRight") || event.type == "click")
-    j('.side-container').css('transform', 'translateX(0px)');
-  }
-  function showRight(event) {
-    if ((event.key && event.key == "ArrowRight") || event.type == "click")
-    j('.side-container').css('transform', 'translateX(-360px)');
-  }
 </script>
 
 <svelte:head>
@@ -59,11 +51,13 @@
 </svelte:head>
 
 <div class="app-container">
-  <div class="left-container" on:click={showLeft} on:keypress={(event) => showLeft(event)}>
+  <div class="left-container">
     <Login />
-    <ViewSelectionFrame viewTree={viewTree} fetchViewData={fetchViewData}/>
+    <div class="view-selection-frame">
+      <ViewSelectionFrame viewTree={viewTree} fetchViewData={fetchViewData}/>
+    </div>
   </div>
-  <div class="side-container" on:click={showRight} on:keypress={(event) => showRight(event)}>
+  <div class="side-container">
     <div id="table-frame" class="table-frame screen" on:click|self={() => (showEditFrame = false)} on:keypress={() => (true)}>
       {#key tableData}
         <Table bind:selectedData={selectedData} tableData={tableData} columnNames={columnNames} showEditFrame={() => (showEditFrame = true)}/>
@@ -81,7 +75,8 @@
 
 <style>
   .toleft {
-    transform: translateX(-133%);
+    position: relative;
+    transform: translateX(-100%);
   }
   .unmoved {
     transform: translateX(100%);
@@ -110,6 +105,19 @@
     overflow-x: hidden;
     overflow-y: hidden;
     height: 100vh;
+  }
+  .view-selection-frame {
+    align-items: center;
+    background-color: var(--eerie-black);
+    border: 1px none;
+    display: flex;
+    flex-direction: column;
+    gap: 21px;
+    padding: 25px;
+    position: relative;
+    width: fit-content;
+    height: 100vh;
+    overflow: scroll;
   }
   .edit-frame {
     align-items: center;
