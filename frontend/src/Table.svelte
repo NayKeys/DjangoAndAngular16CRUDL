@@ -20,6 +20,7 @@
 
   export let columnNames: RowKeys = []
   export let tableData: RowValues[] = []
+  export let selectedData: RowValues = []
   
   let newRow: RowValues = [];
   const csrfToken = getMeta('csrf-token');
@@ -52,22 +53,25 @@
         s(this).html('<input type="text" placeholder="Search ' + title + '" />');
     });
     let table = new DataTable('#table', {
-      responsive: true,
       search: {
-        return: false
+        return: false,
       },
-      scrollX: true,
+      responsive: true,
       paging: true,
+      scrollCollapse: true,
+      scrollX: true,
       ordering: true,
-      scrollY: "720px",
+      scrollY: "620px",
       select: true,
-      pageLength: 50,
-      fixedHeader: true,
+      pageLength: 200,
+      dom: 'Plfrtip',
       searchPanes: {
         viewTotal: true
       },
-      dom: 'Plfrtip'
     });
+    table.rows().on('click', (e) => {
+      selectedData = table.row(e.target.parentElement).data();
+    })
     table.columns().every(function() {
       const that = this;
       s('input', this.footer()).on('keyup change', function() {
@@ -76,8 +80,10 @@
         }
       });
     });
+    table.columns.adjust().draw();
+    s('.table').css({"width":"100%"});
     //Editing the datatable
-    s('#table_length')[0].remove()  // Not using that
+    s('#table_length')[0].remove()
     s('#table_wrapper')[0].prepend(s('.table-buttons')[0]);
     s('#table_filter')[0].prepend(s('#search-vector')[0]); 
     
@@ -88,18 +94,31 @@
     s('#table_filter label')[0].remove()  // Cringe useless label
     s('#table_filter input')[0].classList.add('lexenddeca-normal-oslo-gray-24px');  // Unnecessary again
     s('#table_filter input')[0].attributes.placeholder.value = 'Search'  // Ignore TS error
-
-    s(document).on('keyup', function (event) {
-      const target = event.target as HTMLElement|Document;
-      console.log(target)
+    
+    s('thead tr th').each((i, e) => {
+      const correspondingWidth:string = s(s(`#table tfoot tr th`)[i]).css('width');
+      s(e).css({"width": correspondingWidth})
+    })
+    s(document).on('keyup', function (e) {
+      const target = e.target as HTMLElement|Document;
       if (target instanceof HTMLElement)
       if (target.tagName === 'INPUT')
       return;
-      table.search(event.key).draw();
-      s('#table_filter input').trigger('focus')
+      if (e.keyCode >= 48 && e.keyCode <= 57) {
+        // Number
+        table.search(e.key).draw();
+        s('#table_filter input').trigger('focus')
+      } else if (e.keyCode >= 65 && e.keyCode <= 90) {
+        // Alphabet upper case
+        table.search(e.key).draw();
+        s('#table_filter input').trigger('focus')
+      } else if (e.keyCode >= 97 && e.keyCode <= 122) {
+        // Alphabet lower case
+        table.search(e.key).draw();
+        s('#table_filter input').trigger('focus')
+      }
     });
   });
-  // bind:this={table}
 </script>
 
 <svelte:head>
@@ -129,11 +148,7 @@
         <tr class="row-1">
           {#each columnNames as column}
             <th class="">
-              <div class="">
-                <div class="text">
-                  {column}
-                </div>
-              </div>
+              {column}
             </th>
           {/each}
         </tr>
@@ -144,11 +159,7 @@
             <tr class="row">
               {#each {length: 3} as _, i}
                 <th class="">
-                  <div class="content">
-                    <div class="text">
-                      <TextInputSkeleton hideLabel />
-                    </div>
-                  </div>
+                  <TextInputSkeleton hideLabel />
                 </th>
               {/each}
             </tr>
@@ -158,11 +169,7 @@
           <tr class="row">
             {#each row as cell}
               <th class="">
-                <div class="content">
-                  <div class="text">
-                    {cell}
-                  </div>
-                </div>
+                {cell}
               </th>
             {/each}
           </tr>
@@ -190,24 +197,10 @@
     margin-bottom: 12px;
   }
   .table-container {
-    height: 900px;
   }
   .table {
     height: 100%;
     overflow: hidden;
-  }
-  .content {
-    padding-bottom: 4px;
-    padding-top: 4px;
-  }
-  .text {
-    text-align: start;
-    flex: 1;
-    letter-spacing: 0;
-    line-height: 28px;
-    margin-top: -1px;
-    position: relative;
-    white-space: nowrap;
   }
   .row-1 {
     height: 51px;

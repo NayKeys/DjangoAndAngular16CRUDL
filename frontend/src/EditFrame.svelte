@@ -1,6 +1,10 @@
 <script lang="ts">
   import { TextInput, TextInputSkeleton } from "carbon-components-svelte";
   import Button from "./Button.svelte";
+  import type { RowKeys, RowValues } from './requests';
+  
+  export let selectedData: RowValues = [];
+  export let columnNames: RowKeys = [];
 </script>
 
 
@@ -14,7 +18,11 @@
           <path d="M26.518 27.1179C26.1515 27.1179 25.7851 26.9829 25.4957 26.6936L20.5582 21.756C19.9988 21.1967 19.9988 20.2709 20.5582 19.7116L25.4957 14.7739C26.0551 14.2146 26.9809 14.2146 27.5402 14.7739C28.0995 15.3333 28.0995 16.2591 27.5402 16.8184L23.6442 20.7338L27.5595 24.6491C28.1188 25.2085 28.1188 26.1343 27.5595 26.6936C27.2702 26.9829 26.9037 27.1179 26.518 27.1179Z"/>
         </svg>
       </Button>
-      <h1 class="title valign-text-middle">yanregoj64</h1>
+      {#if columnNames.length === 0}
+        <h1 class="title valign-text-middle">Edit Element</h1>
+      {:else}
+        <h1 class="title valign-text-middle">{columnNames[0] + ': ' + selectedData[0]}</h1>
+      {/if}
     </div>
     <div class="save-button">
       <Button fill={false} width={40} text="save">
@@ -25,58 +33,33 @@
     </div>
   </div>
   <div id="edit-inputs" class="frame-31 frame">
-    <TextInput
+    <!-- <TextInput
       warn
       warnText="Your user name is different from your log in ID."
       labelText="User name"
       placeholder="Enter user name..."
     />
     <TextInput disabled labelText="User name" placeholder="Enter user name..." />
-    <TextInputSkeleton hideLabel />
-    <div class="value-field1">
-      <div class=" frame-1  frame"><div class="st-name  valign-text-middle  lexenddeca-normal-oslo-gray-20px">First Name</div></div>
-      <div class="text-field1"><div class="yan valign-text-middle  lexenddeca-normal-geyser-24px">Yan</div></div>
-    </div>
-    <div class="value-field1">
-      <div class=" frame-1  frame"><div class="st-name  valign-text-middle  lexenddeca-normal-oslo-gray-20px">Last Name</div></div>
-      <div class="text-field1"><div class="regojo valign-text-middle  lexenddeca-normal-geyser-24px">Regojo</div></div>
-    </div>
-    <div class="value-field1">
-      <div class=" frame-1  frame"><div class="st-name  valign-text-middle  lexenddeca-normal-oslo-gray-20px">First Name</div></div>
-      <div class="text-field1"><div class="yan-10  valign-text-middle  lexenddeca-normal-geyser-24px">Yan</div></div>
-    </div>
-    <div class="value-field1">
-      <div class=" frame-1  frame"><div class="st-name  valign-text-middle  lexenddeca-normal-oslo-gray-20px">First Name</div></div>
-      <div class="text-field1"><div class="yan-10  valign-text-middle  lexenddeca-normal-geyser-24px">Yan</div></div>
-    </div>
-    <div class="value-field1">
-      <div class=" frame-1 frame"><div class="st-name  valign-text-middle  lexenddeca-normal-oslo-gray-20px">First Name</div></div>
-      <div class="text-field1"><div class="yan-10  valign-text-middle  lexenddeca-normal-geyser-24px">Yan</div></div>
-    </div>
-    <div class="value-field1">
-      <div class=" frame-1  frame"><div class="st-name  valign-text-middle  lexenddeca-normal-oslo-gray-20px">First Name</div></div>
-      <div class="text-field1"><div class="yan-10  valign-text-middle  lexenddeca-normal-geyser-24px">Yan</div></div>
-    </div>
-    <div class="value-field1">
-      <div class=" frame-1  frame"><div class="st-name  valign-text-middle  lexenddeca-normal-oslo-gray-20px">First Name</div></div>
-      <div class="text-field1"><div class="yan-10  valign-text-middle  lexenddeca-normal-geyser-24px">Yan</div></div>
-    </div>
-    <div class="value-field1">
-      <div class=" frame-1 frame"><div class="st-name valign-text-middle lexenddeca-normal-oslo-gray-20px">First Name</div></div>
-      <div class="text-field1"><div class="yan-10 valign-text-middle lexenddeca-normal-geyser-24px">Yan</div></div>
-    </div>
-    <div class="value-field1">
-      <div class=" frame-1 frame"><div class="st-name valign-text-middle lexenddeca-normal-oslo-gray-20px">First Name</div></div>
-      <div class="text-field1"><div class="yan-10 valign-text-middle lexenddeca-normal-geyser-24px">Yan</div></div>
-    </div>
-    <div class="value-field1">
-      <div class=" frame-1 frame"><div class="st-name valign-text-middle lexenddeca-normal-oslo-gray-20px">First Name</div></div>
-      <div class="text-field1"><div class="yan-10 valign-text-middle lexenddeca-normal-geyser-24px">Yan</div></div>
-    </div>
-    <div class="value-field1">
-      <div class=" frame-1 frame"><div class="st-name valign-text-middle lexenddeca-normal-oslo-gray-20px">First Name</div></div>
-      <div class="text-field1"><div class="yan-10 valign-text-middle lexenddeca-normal-geyser-24px">Yan</div></div>
-    </div>
+    <TextInputSkeleton hideLabel /> -->
+    {#if columnNames.length === 0}
+      {#each {length: 3} as _, i}
+        <TextInputSkeleton hideLabel />
+      {/each}
+    {:else}
+      {#if selectedData.length === 0}
+        {#each selectedData as column}
+          <TextInputSkeleton hideLabel />
+        {/each}
+      {:else}
+        {#each {length: columnNames.length} as _, i}
+          <TextInput
+            labelText={columnNames[i]}
+            placeholder={`Edit ${columnNames[i]} ...`}
+            value={selectedData[i]}
+          />
+        {/each}
+      {/if}
+    {/if}
     <div class="delete-button">
       <img class=" vector-2 vector-3" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a3e2f85b10cc482f4aa8c8/img/vector-2.svg" alt="Vector" />
       <div class="delete-text-container"><div class="delete valign-text-middle">Delete</div></div>
@@ -92,9 +75,10 @@
     display: flex;
     flex-direction: column;
     gap: 31px;
-    min-height: 1438px;
     padding: 30px 0;
     width: 738px;
+    height: 100vh;
+    overflow-y: scroll;
   }
   .frame-31 {
     flex-direction: column;
@@ -106,49 +90,10 @@
     display: flex;
     position: relative;
   }
-  .value-field1 {
-    align-items: flex-start;
-    align-self: stretch;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    height: 77px;
-    position: relative;
-  }
-  .text-field1 {
-    align-items: flex-start;
-    align-self: stretch;
-    background-color: var(--shark);
-    border: 2px solid;
-    border-color: var(--bright-gray);
-    border-radius: 5px;
-    display: flex;
-    gap: 10px;
-    padding: 8px 12px;
-    position: relative;
-  }
   .valign-text-middle {
     display: flex;
     flex-direction: column;
     justify-content: center;
-  }
-  .edit-frame .yan-10 {
-    letter-spacing: 0;
-    line-height: normal;
-    margin-top: -2px;
-    position: relative;
-    width: fit-content;
-  }
-  .frame-1 {
-    align-self: stretch;
-    padding: 0px 12px;
-  }
-  .st-name {
-    letter-spacing: 0;
-    line-height: normal;
-    margin-top: -1px;
-    position: relative;
-    width: fit-content;
   }
   .delete-button {
     align-items: flex-start;
@@ -187,20 +132,6 @@
     position: relative;
     width: fit-content;
   }
-  .yan {
-    letter-spacing: 0;
-    line-height: normal;
-    margin-top: -2px;
-    position: relative;
-    width: fit-content;
-  }
-  .regojo {
-    letter-spacing: 0;
-    line-height: normal;
-    margin-top: -2px;
-    position: relative;
-    width: fit-content;
-  }
   .flex-row {
     gap: 303px;
     height: 130px;
@@ -233,9 +164,5 @@
     letter-spacing: 0;
     line-height: normal;
     min-width: 263px;
-  }
-  .vector {
-    height: 41px;
-    width: 41px;
   }
 </style>

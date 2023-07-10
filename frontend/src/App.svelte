@@ -23,6 +23,7 @@
   const csrfToken = getMeta('csrf-token');
   let jwt = getCookie('jwt')
   let viewTree: ViewTree;
+  let selectedData: RowValues = [];
 
   function fetchViewData (path : string) {
     if (path) {
@@ -63,9 +64,11 @@
   </div>
   <div class="side-container" on:click={showRight} on:keypress={(event) => showRight(event)}>
     {#key tableData}
-      <Table tableData={tableData} columnNames={columnNames}/>
+      <Table bind:selectedData={selectedData} tableData={tableData} columnNames={columnNames}/>
+      {#key selectedData}
+        <EditFrame columnNames={columnNames} selectedData={selectedData} />
+      {/key}
     {/key}
-    <EditFrame />
   </div>
 </div>
 
@@ -77,19 +80,20 @@
     flex-direction: row;
     align-items: start;
     justify-content: start;
-    overflow: hidden;
+    overflow-x: hidden;
     width: fit-content;
   }
   .left-container {
     width: fit-content;
   }
   .app-container {
-    width: fit-content;
+    width: 100vw;
     display: flex;
     flex-direction: row;
     align-items: start;
     justify-content: start;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: hidden;
     height: 100vh;
   }
 </style>

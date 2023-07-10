@@ -72,7 +72,6 @@
 
 <style>
   .view-tree-selector {
-    height: 940px;
     position: relative;
     display: flex;
     gap: 5px;
@@ -263,6 +262,6 @@
     background-color: var(--bright-gray);
     border-radius: 10px;
     width: 4px;
-    height: 900px;
+    height: 100%;
   }
 </style>

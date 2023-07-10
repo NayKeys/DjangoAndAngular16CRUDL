@@ -131,6 +131,23 @@
   background-color: var(--darkbackground);
   color: var(--darkcontroltext);
 }
+thead tr th {
+  vertical-align: middle;
+}
+thead tr th {
+  /* width: 500px !important; */
+}
+#table th {
+  text-align: start;
+  flex: 1;
+  letter-spacing: 0;
+  line-height: 28px;
+  margin-top: -1px;
+  position: relative;
+  white-space: nowrap;
+  padding-bottom: 4px;
+  padding-top: 4px;
+}
 table.dataTable tbody tr.selected .dtr-control::before {
   background-color: var(--specialcolor);
   position: absolute;
