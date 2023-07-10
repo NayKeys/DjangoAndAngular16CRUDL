@@ -95,7 +95,8 @@
     width: 300px;
   }
   .left-buttons-container {
-    position: relative; 
+    position: relative;
+    transition: width 0.2s ease-in-out;
   }
   .view-tree-selector {
     position: relative;
