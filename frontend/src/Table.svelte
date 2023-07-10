@@ -126,71 +126,69 @@
 	<!-- <link rel="stylesheet" href="//cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" /> -->
 </svelte:head>
 
-<div id="table-frame" class="table-frame screen">
-  <div class="frame-31">
-    <h1 class="vue-tudiants-1re-anne valign-text-middle">Vue étudiants 1ère année</h1>
-    <div class="top-seperator"></div>
+<div class="frame-31">
+  <h1 class="vue-tudiants-1re-anne valign-text-middle">Vue étudiants 1ère année</h1>
+  <div class="top-seperator"></div>
+</div>
+<img id="search-vector" class="vector" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a3f5479ef0ce55861f0160/img/vector.svg" alt="Vector" />
+<div class="table-buttons">
+  <div class="filter">
+    <img class="vector-1" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a3f5479ef0ce55861f0160/img/vector-1.svg" alt="Vector" />
+    <div class="filter-1 valign-text-middle lexenddeca-normal-oslo-gray-24px">Filter</div>
+    <div class="frame-31-1"><div class="number valign-text-middle lexenddeca-normal-oslo-gray-24px">7</div></div>
   </div>
-  <img id="search-vector" class="vector" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a3f5479ef0ce55861f0160/img/vector.svg" alt="Vector" />
-  <div class="table-buttons">
-    <div class="filter">
-      <img class="vector-1" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a3f5479ef0ce55861f0160/img/vector-1.svg" alt="Vector" />
-      <div class="filter-1 valign-text-middle lexenddeca-normal-oslo-gray-24px">Filter</div>
-      <div class="frame-31-1"><div class="number valign-text-middle lexenddeca-normal-oslo-gray-24px">7</div></div>
-    </div>
-    <div class="sort">
-      <img class="vector-2" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a3f5479ef0ce55861f0160/img/vector-2.svg" alt="Vector" />
-      <div class="sort-1 valign-text-middle lexenddeca-normal-oslo-gray-24px">Sort</div>
-    </div>
+  <div class="sort">
+    <img class="vector-2" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a3f5479ef0ce55861f0160/img/vector-2.svg" alt="Vector" />
+    <div class="sort-1 valign-text-middle lexenddeca-normal-oslo-gray-24px">Sort</div>
   </div>
-  <div class="table-container">
-    <table id="table" class="dataTable table hover order-column row-border">
-      <thead>
-        <tr class="row-1">
-          {#each columnNames as column}
-            <th class="">
-              {column}
-            </th>
-          {/each}
-        </tr>
-      </thead>
-      <tbody>
-        {#if tableData.length == 0}
-          {#each {length: 15} as _, i}
-            <tr class="row">
-              {#each {length: 3} as _, i}
-                <th class="">
-                  <TextInputSkeleton hideLabel />
-                </th>
-              {/each}
-            </tr>
-          {/each}
-        {/if}
-        {#each tableData as row}
+</div>
+<div class="table-container">
+  <table id="table" class="dataTable table hover order-column row-border">
+    <thead>
+      <tr class="row-1">
+        {#each columnNames as column}
+          <th class="">
+            {column}
+          </th>
+        {/each}
+      </tr>
+    </thead>
+    <tbody>
+      {#if tableData.length == 0}
+        {#each {length: 15} as _, i}
           <tr class="row">
-            {#each row as cell}
+            {#each {length: 3} as _, i}
               <th class="">
-                {cell}
+                <TextInputSkeleton hideLabel />
               </th>
             {/each}
           </tr>
         {/each}
-      </tbody>
-      <tfoot class="footer">
-        <tr>
-          {#each columnNames as column}
-            <th class="footer-search">
-              <div class="">
-                <div class="footer">
-                  {column}
-                </div>
-              </div>
+      {/if}
+      {#each tableData as row}
+        <tr class="row">
+          {#each row as cell}
+            <th class="">
+              {cell}
             </th>
           {/each}
         </tr>
-      </tfoot>
-    </table>
-  </div>
+      {/each}
+    </tbody>
+    <tfoot class="footer">
+      <tr>
+        {#each columnNames as column}
+          <th class="footer-search">
+            <div class="">
+              <div class="footer">
+                {column}
+              </div>
+            </div>
+          </th>
+        {/each}
+      </tr>
+    </tfoot>
+  </table>
 </div>
 
 <style>
@@ -216,17 +214,6 @@
     color: var(--whitetext);
     font-family: var(--font-family-lexend_deca);
     font-weight: 400;
-  }
-  .table-frame {
-    align-items: flex-start;
-    background-color: var(--shark);
-    border: 1px none;
-    display: flex;
-    flex-direction: column;
-    gap: 50px;
-    justify-content: center;
-    padding: 25px;
-    position: relative;
   }
   .table-buttons {
     align-items: center;
@@ -299,7 +286,7 @@
     justify-content: center;
     overflow: hidden;
     position: relative;
-    width: fit-content;
+    width: 100%;
   }
   .number {
     height: 31px;
@@ -339,7 +326,7 @@
     background-color: var(--bright-gray);
     border-radius: 10px;
     height: 4px;
-    min-width: 1114px;
+    min-width: 95%;
     position: relative;
   }
 </style>

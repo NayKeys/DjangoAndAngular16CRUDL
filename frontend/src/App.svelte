@@ -33,7 +33,6 @@
       });
     }
   }
-    
  
   onMount(async () => {
     await auth();
@@ -63,10 +62,16 @@
     <ViewSelectionFrame viewTree={viewTree} fetchViewData={fetchViewData}/>
   </div>
   <div class="side-container" on:click={showRight} on:keypress={(event) => showRight(event)}>
+    <div id="table-frame" class="table-frame screen">
+      {#key tableData}
+        <Table bind:selectedData={selectedData} tableData={tableData} columnNames={columnNames}/>
+      {/key}
+      </div>
     {#key tableData}
-      <Table bind:selectedData={selectedData} tableData={tableData} columnNames={columnNames}/>
       {#key selectedData}
-        <EditFrame columnNames={columnNames} selectedData={selectedData} />
+        <div class="edit-frame screen">
+          <EditFrame columnNames={columnNames} selectedData={selectedData} />
+        </div>
       {/key}
     {/key}
   </div>
@@ -80,7 +85,6 @@
     flex-direction: row;
     align-items: start;
     justify-content: start;
-    overflow-x: hidden;
     width: fit-content;
   }
   .left-container {
@@ -95,5 +99,30 @@
     overflow-x: hidden;
     overflow-y: hidden;
     height: 100vh;
+  }
+  .edit-frame {
+    align-items: center;
+    background-color: #14181b;
+    border: 1px none;
+    display: flex;
+    flex-direction: column;
+    gap: 31px;
+    padding: 30px 0;
+    width: 738px;
+    height: 100vh;
+    overflow-y: scroll;
+  }
+  .table-frame {
+    position: relative;
+    width: 100vw;
+    align-items: flex-start;
+    background-color: var(--shark);
+    border: 1px none;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    justify-content: center;
+    padding: 25px;
+    position: relative;
   }
 </style>
