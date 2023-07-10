@@ -24,6 +24,7 @@
   let jwt = getCookie('jwt')
   let viewTree: ViewTree;
   let selectedData: RowValues = [];
+  let showEditFrame: boolean = false;
 
   function fetchViewData (path : string) {
     if (path) {
@@ -43,11 +44,12 @@
   let theme = "g100"; // "white" | "g10" | "g80" | "g90" | "g100"
   $: document.documentElement.setAttribute("theme", theme);
   function showLeft(event) {
+    if ((event.key && event.key == "ArrowRight") || event.type == "click")
     j('.side-container').css('transform', 'translateX(0px)');
   }
   function showRight(event) {
     if ((event.key && event.key == "ArrowRight") || event.type == "click")
-      j('.side-container').css('transform', 'translateX(-360px)');
+    j('.side-container').css('transform', 'translateX(-360px)');
   }
 </script>
 
@@ -62,15 +64,15 @@
     <ViewSelectionFrame viewTree={viewTree} fetchViewData={fetchViewData}/>
   </div>
   <div class="side-container" on:click={showRight} on:keypress={(event) => showRight(event)}>
-    <div id="table-frame" class="table-frame screen">
+    <div id="table-frame" class="table-frame screen" on:click|self={() => (showEditFrame = false)} on:keypress={() => (true)}>
       {#key tableData}
-        <Table bind:selectedData={selectedData} tableData={tableData} columnNames={columnNames}/>
+        <Table bind:selectedData={selectedData} tableData={tableData} columnNames={columnNames} showEditFrame={() => (showEditFrame = true)}/>
       {/key}
       </div>
     {#key tableData}
       {#key selectedData}
-        <div class="edit-frame screen">
-          <EditFrame columnNames={columnNames} selectedData={selectedData} />
+        <div class={`edit-frame screen ${showEditFrame ? 'toleft' : 'unmoved'}`} >
+          <EditFrame hideEditFrame={() => (showEditFrame=false)} columnNames={columnNames} selectedData={selectedData} />
         </div>
       {/key}
     {/key}
@@ -78,6 +80,15 @@
 </div>
 
 <style>
+  .toleft {
+    transform: translateX(-100%);
+  }
+  .unmoved {
+    transform: translateX(100%);
+  }
+  .toright {
+    transform: translateX(100%);
+  }
   .side-container {
     display: flex;
     transform: translateX(0px);
@@ -111,6 +122,7 @@
     width: 738px;
     height: 100vh;
     overflow-y: scroll;
+    transition: transform 0.4s ease-in-out;
   }
   .table-frame {
     position: relative;

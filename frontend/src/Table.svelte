@@ -20,7 +20,8 @@
 
   export let columnNames: RowKeys = []
   export let tableData: RowValues[] = []
-  export let selectedData: RowValues = []
+  export let selectedData: RowValues[] = []
+  export let showEditFrame: (e: any) => void;
   
   let newRow: RowValues = [];
   const csrfToken = getMeta('csrf-token');
@@ -71,7 +72,8 @@
       },
     });
     table.rows().on('click', (e) => {
-      selectedData = table.row(e.target.parentElement).data();
+      selectedData = table.rows({selected: true})
+      showEditFrame(e)
     })
     table.columns().every(function() {
       const that = this;
