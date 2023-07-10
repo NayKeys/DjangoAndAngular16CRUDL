@@ -33,7 +33,8 @@
       }
     })
 	}
-	function deleteRow(rowToBeDeleted: RowValues) {
+	function deleteRows(table: any) {
+    const rows = table.rows({selected: true})
     apiActionRequest(csrfToken, jwt, 'remove', 'view_1', columnNames, rowToBeDeleted).then((res) => {
       if (res != undefined) {
         tableData = tableData.filter(row => row != rowToBeDeleted)
