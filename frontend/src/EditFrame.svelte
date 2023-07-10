@@ -6,6 +6,9 @@
   export let selectedData: RowValues[] = [];
   export let columnNames: RowKeys = [];
   export let hideEditFrame: (e: any) => void;
+
+  let show = selectedData.length == 1;
+  let editableData: RowValues = selectedData;
 </script>
 
 <div class="flex-row flex">
@@ -22,7 +25,7 @@
     {#if columnNames.length === 0}
       <h1 class="title valign-text-middle">Edit Element</h1>
     {:else}
-      <h1 class="title valign-text-middle">{columnNames[0] + ': ' + selectedData[0]}</h1>
+      <h1 class="title valign-text-middle">{columnNames[0] + ': ' + editableData[0]}</h1>
     {/if}
   </div>
   <div class="save-button">
@@ -56,7 +59,7 @@
         <TextInput
           labelText={columnNames[i]}
           placeholder={`Edit ${columnNames[i]} ...`}
-          value={selectedData[i]}
+          value={editableData[i]}
         />
       {/each}
     {/if}

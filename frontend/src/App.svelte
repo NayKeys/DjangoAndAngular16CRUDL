@@ -23,7 +23,7 @@
   const csrfToken = getMeta('csrf-token');
   let jwt = getCookie('jwt')
   let viewTree: ViewTree;
-  let selectedData: RowValues = [];
+  let selectedData: RowValues[] = [];
   let showEditFrame: boolean = false;
 
   function fetchViewData (path : string) {
@@ -70,18 +70,18 @@
       {/key}
       </div>
     {#key tableData}
-      {#key selectedData}
-        <div class={`edit-frame screen ${showEditFrame ? 'toleft' : 'unmoved'}`} >
+      <div class={`edit-frame screen ${showEditFrame ? 'toleft' : 'unmoved'}`} >
+        {#key selectedData}
           <EditFrame hideEditFrame={() => (showEditFrame=false)} columnNames={columnNames} selectedData={selectedData} />
-        </div>
-      {/key}
+        {/key}
+      </div>
     {/key}
   </div>
 </div>
 
 <style>
   .toleft {
-    transform: translateX(-100%);
+    transform: translateX(-133%);
   }
   .unmoved {
     transform: translateX(100%);
