@@ -62,24 +62,23 @@
       {#key tableData}
         <Table bind:selectedData={selectedData} tableData={tableData} columnNames={columnNames} showEditFrame={() => (showEditFrame = true)}/>
       {/key}
-      </div>
-    {#key tableData}
-      <div class={`edit-frame screen ${showEditFrame ? 'toleft' : 'unmoved'}`} >
-        {#key selectedData}
-          <EditFrame hideEditFrame={() => (showEditFrame=false)} columnNames={columnNames} selectedData={selectedData} />
-        {/key}
-      </div>
-    {/key}
+    </div>
   </div>
+  {#key tableData}
+    <div class={`edit-frame screen ${showEditFrame ? 'unmoved' : 'toright'}`} >
+      {#key selectedData}
+        <EditFrame hideEditFrame={() => (showEditFrame=false)} columnNames={columnNames} selectedData={selectedData} />
+      {/key}
+    </div>
+  {/key}
 </div>
 
 <style>
   .toleft {
-    position: relative;
     transform: translateX(-100%);
   }
   .unmoved {
-    transform: translateX(100%);
+    transform: translateX(0px);
   }
   .toright {
     transform: translateX(100%);
@@ -122,6 +121,9 @@
   .edit-frame {
     align-items: center;
     background-color: #14181b;
+    position: absolute;
+    top: 0;
+    right: 0;
     border: 1px none;
     display: flex;
     flex-direction: column;
