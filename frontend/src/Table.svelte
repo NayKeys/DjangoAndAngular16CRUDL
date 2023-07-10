@@ -2,7 +2,7 @@
   /*
   SEE: https://github.com/dhobi/datatables.colResize for column resizing implementation
   */
-  import j from 'jquery'
+  import s from 'jquery'
 	import { onMount, tick } from 'svelte'
 	import DataTable from 'datatables.net-dt'
   import 'datatables.net-buttons-dt';
@@ -47,6 +47,10 @@
   }
 
   onMount(async () => {
+    s('#table tfoot th').each(function() {
+        let title = s(this).text();
+        s(this).html('<input type="text" placeholder="Search ' + title + '" />');
+    });
     let table = new DataTable('#table', {
       responsive: true,
       search: {
@@ -58,29 +62,41 @@
       scrollY: "720px",
       select: true,
       pageLength: 50,
+      fixedHeader: true,
+      searchPanes: {
+        viewTotal: true
+      },
+      dom: 'Plfrtip'
+    });
+    table.columns().every(function() {
+      const that = this;
+      s('input', this.footer()).on('keyup change', function() {
+        if (that.search() !== this.value) {
+          that.search(this.value).draw();
+        }
+      });
     });
     //Editing the datatable
-    j('#table_length')[0].remove()  // Not using that
-    j('#table_wrapper')[0].prepend(j('.table-buttons')[0]);
-    j('#table_filter')[0].prepend(j('#search-vector')[0]); 
+    s('#table_length')[0].remove()  // Not using that
+    s('#table_wrapper')[0].prepend(s('.table-buttons')[0]);
+    s('#table_filter')[0].prepend(s('#search-vector')[0]); 
     
     //Editing table filter (the searchbar)
-    j('#table_wrapper .table-buttons')[0].prepend(j('#table_filter')[0]);
-    j('#table_filter')[0].classList.add('lexenddeca-normal-oslo-gray-24px');  // Changing fonts (unnecessary)
-    j('#table_filter')[0].appendChild(j('#table_filter label input')[0]);  // Moving input out of label
-    j('#table_filter label')[0].remove()  // Cringe useless label
-    j('#table_filter input')[0].classList.add('lexenddeca-normal-oslo-gray-24px');  // Unnecessary again
-    j('#table_filter input')[0].attributes.placeholder.value = 'Search'  // Ignore TS error
-    
+    s('#table_wrapper .table-buttons')[0].prepend(s('#table_filter')[0]);
+    s('#table_filter')[0].classList.add('lexenddeca-normal-oslo-gray-24px');  // Changing fonts (unnecessary)
+    s('#table_filter')[0].appendChild(s('#table_filter label input')[0]);  // Moving input out of label
+    s('#table_filter label')[0].remove()  // Cringe useless label
+    s('#table_filter input')[0].classList.add('lexenddeca-normal-oslo-gray-24px');  // Unnecessary again
+    s('#table_filter input')[0].attributes.placeholder.value = 'Search'  // Ignore TS error
 
-    j(document).on('keyup', function (event) {
+    s(document).on('keyup', function (event) {
       const target = event.target as HTMLElement|Document;
       console.log(target)
       if (target instanceof HTMLElement)
       if (target.tagName === 'INPUT')
       return;
       table.search(event.key).draw();
-      j('#table_filter input').trigger('focus')
+      s('#table_filter input').trigger('focus')
     });
   });
   // bind:this={table}
@@ -152,6 +168,19 @@
           </tr>
         {/each}
       </tbody>
+      <tfoot class="footer">
+        <tr>
+          {#each columnNames as column}
+            <th class="footer-search">
+              <div class="">
+                <div class="footer">
+                  {column}
+                </div>
+              </div>
+            </th>
+          {/each}
+        </tr>
+      </tfoot>
     </table>
   </div>
 </div>
