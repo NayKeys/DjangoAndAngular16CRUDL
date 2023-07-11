@@ -139,12 +139,12 @@
 </div>
 <img id="search-vector" class="vector" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a3f5479ef0ce55861f0160/img/vector.svg" alt="Vector" />
 <div class="table-buttons">
-  <Button width={35} text="Add" fill={false}>
+  <Button onClick={addRow} class="add-button" width={35} text="Add" fill={false}>
     <svg class="button-vector" viewBox="0 0 38 44" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M23.2311 25.0864L14.83 16.6854M23.1331 16.7843L14.7319 25.1855M15.9954 2.92749L6.13139 6.64376C3.85814 7.49376 2 10.1821 2 12.5937V27.281C2 29.6136 3.54186 32.6775 5.41976 34.081L13.9197 40.4263C16.707 42.5217 21.293 42.5217 24.0803 40.4263L32.5802 34.081C34.4581 32.6775 36 29.6136 36 27.281V12.5937C36 10.1624 34.1419 7.47399 31.8686 6.62399L22.0047 2.92749C20.3244 2.3147 17.6361 2.3147 15.9954 2.92749Z" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </Button>
-  <Button width={35} text="Delete" fill={false} on:click={() => deleteRows(table)}>
+  <Button onClick={() => deleteRows(table)} class="delete-button" width={35} text="Delete" fill={false} on:click={() => deleteRows(table)}>
     <svg class="button-vector" viewBox="0 0 38 44" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M23.2311 25.0864L14.83 16.6854M23.1331 16.7843L14.7319 25.1855M15.9954 2.92749L6.13139 6.64376C3.85814 7.49376 2 10.1821 2 12.5937V27.281C2 29.6136 3.54186 32.6775 5.41976 34.081L13.9197 40.4263C16.707 42.5217 21.293 42.5217 24.0803 40.4263L32.5802 34.081C34.4581 32.6775 36 29.6136 36 27.281V12.5937C36 10.1624 34.1419 7.47399 31.8686 6.62399L22.0047 2.92749C20.3244 2.3147 17.6361 2.3147 15.9954 2.92749Z" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
@@ -200,6 +200,25 @@
 </div>
 
 <style>
+  :global(:root) {
+    --specialred: #95312A;
+  }
+  :global(.button.delete-button:hover .button-vector, .button.delete-button:hover .button-label) {
+    stroke: var(--specialred) !important;
+    color: var(--specialred) !important;
+  }
+  :global(.button.delete-button:active .button-vector, .button.delete-button:active .button-label) {
+    stroke: var(--whitetext) !important;
+    color: var(--whitetext) !important;
+  }
+  :global(.button.add-button:hover .button-vector, .button.add-button:hover .button-label) {
+    stroke: var(--specialcolor) !important;
+    color: var(--specialcolor) !important;
+  }
+  :global(.button.add-button:active .button-vector, .button.add-button:active .button-label) {
+    stroke: var(--whitetext) !important;
+    color: var(--whitetext) !important;
+  }
   .table-buttons {
     margin-bottom: 12px;
   }

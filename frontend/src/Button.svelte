@@ -4,11 +4,9 @@
   export let fill:boolean = true;
   export let textHeight:number = undefined;
   export let onClick:() => void = () => {}
-  export let hover:string = undefined;
-  export let active:string = undefined;
 </script>
 
-<div class="button" on:click={onClick} on:keypress>
+<div class={"button "+$$restProps.class || ''} on:click={onClick} on:keypress>
   <div class={fill ? 'button-vector-fill' : 'button-vector-stroke'} style="width: {width}px; height: {width}px;">
     <slot class="button-vector"/>
   </div>
@@ -16,25 +14,25 @@
 </div>
 
 <style>
-  .button:hover {
+  :global(.button):hover {
     cursor: pointer;
   }
-  /* .button:active {
+  /* :global(.button):active {
     background-color: var(--darkcontrol);
   } */
-  .button:hover .button-label {
+  :global(.button):hover .button-label {
     color: var(--whitetext);
   }
-  .button:active .button-label {
+  :global(.button):active .button-label {
     color: var(--specialcolor);
   }
   .button-vector-stroke :global(.button-vector) {
     stroke: var(--darkcontroltext);
   }
-  .button:hover .button-vector-stroke :global(.button-vector) {
+  :global(.button):hover .button-vector-stroke :global(.button-vector) {
     stroke: var(--whitetext);
   }
-  .button:active .button-vector-stroke :global(.button-vector) {
+  :global(.button):active .button-vector-stroke :global(.button-vector) {
     stroke: var(--specialcolor);
   }
   .button-vector-fill :global(.button-vector) {
