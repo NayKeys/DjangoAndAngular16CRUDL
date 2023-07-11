@@ -5,6 +5,7 @@
   import s from 'jquery'
 	import { onMount, tick } from 'svelte'
 	import DataTable from 'datatables.net-dt'
+	import type { Api }from 'datatables.net-dt'
   import 'datatables.net-buttons-dt';
   import 'datatables.net-fixedheader-dt';
   import 'datatables.net-keytable-dt';
@@ -17,6 +18,7 @@
   import { getMeta, getCookie } from './requests'
   import type { RowKeys, RowValues } from './requests'
   import { apiActionRequest } from './requests';
+	import Button from './Button.svelte';
 
   export let columnNames: RowKeys = []
   export let tableData: RowValues[] = []
@@ -26,6 +28,7 @@
   let newRow: RowValues = [];
   const csrfToken = getMeta('csrf-token');
   let jwt = getCookie('jwt');
+  let table: Api<any>;
   
 	function addRow() {
     apiActionRequest(csrfToken, jwt, 'create', 'view_1', columnNames, newRow).then((res) => {
@@ -35,12 +38,13 @@
     })
 	}
 	function deleteRows(table: any) {
-    const rows = table.rows({selected: true})
-    apiActionRequest(csrfToken, jwt, 'remove', 'view_1', columnNames, rowToBeDeleted).then((res) => {
-      if (res != undefined) {
-        tableData = tableData.filter(row => row != rowToBeDeleted)
-      }
-    })
+    for (let row in selectedData) {
+      // apiActionRequest(csrfToken, jwt, 'remove', 'view_1', columnNames, rowToBeDeleted).then((res) => {
+      //   if (res != undefined) {
+      //     tableData = tableData.filter(row => row != rowToBeDeleted)
+      //   }
+      // })
+    }
 	}
   function updateRow(rowToBeEdited: RowValues) {
     apiActionRequest(csrfToken, jwt, 'update', 'view_1', columnNames, rowToBeEdited).then((res) => {
@@ -48,13 +52,13 @@
       }
     })
   }
-
+  
   onMount(async () => {
     s('#table tfoot th').each(function() {
-        let title = s(this).text();
-        s(this).html('<input type="text" placeholder="Search ' + title + '" />');
+      let title = s(this).text();
+      s(this).html('<input type="text" placeholder="Search ' + title + '" />');
     });
-    let table = new DataTable('#table', {
+    table = new DataTable('#table', {
       search: {
         return: false,
       },
@@ -70,9 +74,10 @@
       searchPanes: {
         viewTotal: true
       },
+      buttons: ['add', 'delete'],
     });
-    table.rows().on('click', (e) => {
-      selectedData = table.rows({selected: true})
+    table.on( 'select', function ( e, dt, type, indexes )  {
+      selectedData = table.rows({selected: true}).data().toArray() as RowValues[];
       showEditFrame(e)
     })
     table.columns().every(function() {
@@ -134,15 +139,16 @@
 </div>
 <img id="search-vector" class="vector" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a3f5479ef0ce55861f0160/img/vector.svg" alt="Vector" />
 <div class="table-buttons">
-  <div class="filter">
-    <img class="vector-1" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a3f5479ef0ce55861f0160/img/vector-1.svg" alt="Vector" />
-    <div class="filter-1 valign-text-middle lexenddeca-normal-oslo-gray-24px">Filter</div>
-    <div class="frame-31-1"><div class="number valign-text-middle lexenddeca-normal-oslo-gray-24px">7</div></div>
-  </div>
-  <div class="sort">
-    <img class="vector-2" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a3f5479ef0ce55861f0160/img/vector-2.svg" alt="Vector" />
-    <div class="sort-1 valign-text-middle lexenddeca-normal-oslo-gray-24px">Sort</div>
-  </div>
+  <Button width={35} text="Add" fill={false}>
+    <svg class="button-vector" viewBox="0 0 38 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M23.2311 25.0864L14.83 16.6854M23.1331 16.7843L14.7319 25.1855M15.9954 2.92749L6.13139 6.64376C3.85814 7.49376 2 10.1821 2 12.5937V27.281C2 29.6136 3.54186 32.6775 5.41976 34.081L13.9197 40.4263C16.707 42.5217 21.293 42.5217 24.0803 40.4263L32.5802 34.081C34.4581 32.6775 36 29.6136 36 27.281V12.5937C36 10.1624 34.1419 7.47399 31.8686 6.62399L22.0047 2.92749C20.3244 2.3147 17.6361 2.3147 15.9954 2.92749Z" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </Button>
+  <Button width={35} text="Delete" fill={false} on:click={() => deleteRows(table)}>
+    <svg class="button-vector" viewBox="0 0 38 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M23.2311 25.0864L14.83 16.6854M23.1331 16.7843L14.7319 25.1855M15.9954 2.92749L6.13139 6.64376C3.85814 7.49376 2 10.1821 2 12.5937V27.281C2 29.6136 3.54186 32.6775 5.41976 34.081L13.9197 40.4263C16.707 42.5217 21.293 42.5217 24.0803 40.4263L32.5802 34.081C34.4581 32.6775 36 29.6136 36 27.281V12.5937C36 10.1624 34.1419 7.47399 31.8686 6.62399L22.0047 2.92749C20.3244 2.3147 17.6361 2.3147 15.9954 2.92749Z" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </Button>
 </div>
 <div class="table-container">
   <table id="table" class="dataTable table hover order-column row-border">
@@ -198,7 +204,7 @@
     margin-bottom: 12px;
   }
   .table-container {
-    width: 85%;
+    width: 100%;
     overflow-x: hidden;
   }
   .table {
@@ -226,84 +232,14 @@
     gap: 37px;
     position: relative;
   }
-  .sort {
-    align-items: center;
-    background-color: var(--eerie-black);
-    border: 2px solid;
-    border-color: var(--bright-gray);
-    border-radius: 5px;
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    padding: 12px 16px;
-    position: relative;
-    width: fit-content;
-  }
-  .vector-2 {
-    height: 24.98px;
-    margin-left: -2.5px;
-    min-width: 40.96px;
-    position: relative;
-  }
   .valign-text-middle {
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
-  .sort-1 {
-    height: 31px;
-    letter-spacing: 0;
-    line-height: normal;
-    margin-top: -2px;
-    position: relative;
-    width: 53px;
-  }
   .vector {
     height: 31px;
     min-width: 31px;
-    position: relative;
-  }
-  .filter {
-    align-items: center;
-    background-color: var(--eerie-black);
-    border: 2px solid;
-    border-color: var(--bright-gray);
-    border-radius: 5px;
-    display: flex;
-    gap: 8px;
-    padding: 8px;
-    position: relative;
-    width: fit-content;
-  }
-  .filter-1 {
-    height: 31px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: relative;
-    width: 67px;
-  }
-  .frame-31-1 {
-    align-items: center;
-    background-color: #2a944780;
-    border-radius: 5px;
-    display: flex;
-    justify-content: center;
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-  }
-  .number {
-    height: 31px;
-    letter-spacing: 0;
-    line-height: normal;
-    margin-top: -1px;
-    position: relative;
-    text-align: center;
-    width: 31px;
-  }
-  .vector-1 {
-    height: 38.1px;
-    min-width: 33.48px;
     position: relative;
   }
   .frame-31 {
@@ -313,7 +249,7 @@
     gap: 8px;
     justify-content: center;
     position: relative;
-    width: 90%;
+      width: 100%;
   }
   .vue-tudiants-1re-anne {
     color: #d7dde6;

@@ -17,7 +17,6 @@
     jquery(document).on('click', function(e) {
       if ((!jquery(e.target).hasClass('left-buttons')) && jquery(e.target).parents('.left-buttons').length == 0) { // if the target not a child of the left-buttons
         buttonsShown = false
-        console.log('left buttons not clicked')
       }
     })
   });

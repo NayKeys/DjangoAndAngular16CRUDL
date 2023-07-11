@@ -64,13 +64,15 @@
       {/key}
     </div>
   </div>
-  {#key tableData}
+  <div class="relative">
     <div class={`edit-frame screen ${showEditFrame ? 'unmoved' : 'toright'}`} >
-      {#key selectedData}
-        <EditFrame hideEditFrame={() => (showEditFrame=false)} columnNames={columnNames} selectedData={selectedData} />
+      {#key tableData}
+        {#key selectedData}
+          <EditFrame hideEditFrame={() => (showEditFrame=false)} columnNames={columnNames} selectedData={selectedData} />
+        {/key}
       {/key}
     </div>
-  {/key}
+  </div>
 </div>
 
 <style>
@@ -90,20 +92,24 @@
     flex-direction: row;
     align-items: start;
     justify-content: start;
-    width: fit-content;
+    width: 100%;
+    width: stretch;             /* Unprefixed */
+    width: -webkit-fill-available;  /* For Chrome */
+    width: -moz-available;          /* For Mozzila */
   }
   .left-container {
     width: fit-content;
   }
   .app-container {
+    position: relative;
     width: 100vw;
+    height: 100vh;
     display: flex;
     flex-direction: row;
     align-items: start;
     justify-content: start;
     overflow-x: hidden;
     overflow-y: hidden;
-    height: 100vh;
   }
   .view-selection-frame {
     align-items: center;
@@ -136,7 +142,6 @@
   }
   .table-frame {
     position: relative;
-    width: 100vw;
     align-items: flex-start;
     background-color: var(--shark);
     border: 1px none;
@@ -145,6 +150,6 @@
     gap: 50px;
     justify-content: center;
     padding: 25px;
-    position: relative;
+    width: 67vw;
   }
 </style>

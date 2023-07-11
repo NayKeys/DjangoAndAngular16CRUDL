@@ -2,13 +2,17 @@
   export let width:number = 100;
   export let text:string = "";
   export let fill:boolean = true;
+  export let textHeight:number = undefined;
+  export let onClick:() => void = () => {}
+  export let hover:string = undefined;
+  export let active:string = undefined;
 </script>
 
-<div class="button">
+<div class="button" on:click={onClick} on:keypress>
   <div class={fill ? 'button-vector-fill' : 'button-vector-stroke'} style="width: {width}px; height: {width}px;">
     <slot class="button-vector"/>
   </div>
-  <h4 class="button-label" style="line-height: {width/2}px; font-size: {width/1.5}px">{text}</h4>
+  <h4 class="button-label" style="line-height: {textHeight ? textHeight : width/2}px; font-size: {textHeight ? textHeight : width/1.5}px">{text}</h4>
 </div>
 
 <style>
