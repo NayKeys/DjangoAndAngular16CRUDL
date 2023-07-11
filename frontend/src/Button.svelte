@@ -7,7 +7,7 @@
 </script>
 
 <div class={"button "+$$restProps.class || ''} on:click={onClick} on:keypress>
-  <div class={fill ? 'button-vector-fill' : 'button-vector-stroke'} style="width: {width}px; height: {width}px;">
+  <div class={fill ? 'button-vector-fill' : 'button-vector-stroke'}>
     <slot class="button-vector"/>
   </div>
   <h4 class="button-label" style="line-height: {textHeight ? textHeight : width/2}px; font-size: {textHeight ? textHeight : width/1.5}px">{text}</h4>
@@ -49,6 +49,7 @@
     align-items: center;
     flex-direction: row;
     gap: 10px;
+    width: fit-content;
     justify-content: space-around;
   }
   .button-label {

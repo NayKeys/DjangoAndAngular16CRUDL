@@ -100,6 +100,9 @@
   font-family: var(--font-family-lexend_deca);
   font-size: 18px;
   color: var(--whitetext);
+  border: 2px solid var(--lightseperation) ;
+  outline: none;
+  border-radius: 6px;
   background-color: var(--lightbackground);
 }
 

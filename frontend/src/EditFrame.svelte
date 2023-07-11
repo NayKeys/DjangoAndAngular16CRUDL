@@ -7,12 +7,13 @@
   export let columnNames: RowKeys = [];
   export let hideEditFrame: (e: any) => void;
   export let updateRow: (oldRow: RowValues, newRow: RowValues) => void;
+  export let deleteRows: (rows: RowValues[]) => void;
 
   let newRow: RowValues = [];
   let show = oldRow.length > 0;
 </script>
 
-<div class={show ? 'shown' : 'hidden'}>
+<div class="edit-frame-container {show ? 'shown' : 'hidden'}">
   {#if show}
     <div class="flex-col flex">
       <div class="flex-row flex">
@@ -42,12 +43,23 @@
     <div id="edit-inputs" class="frame-31 frame">
       <InputFieldsList disabled={oldRow.length == 0} labels={columnNames} initialValues={oldRow} bind:values={newRow}/>
     </div>
+    <Button onClick={() => deleteRows([oldRow])} class="delete-button" width={37} text="Delete" fill={true} >
+      <svg class="button-vector" xmlns="http://www.w3.org/2000/svg" width="37" height="37" fill="none" viewBox="0 0 64 76">
+        <path d="M27.647.583 7.127 8.269C3.208 9.76 0 14.388 0 18.604v30.22c0 3.023 1.977 7.015 4.403 8.806l20.52 15.334c3.62 2.724 9.551 2.724 13.17 0l20.52-15.334c2.426-1.828 4.403-5.783 4.403-8.805V18.604c0-4.179-3.208-8.843-7.126-10.298L35.37.62C33.28-.2 29.773-.2 27.647.583Z" opacity=".4"/>
+        <path d="m41.526 41.063-5.933-5.932 5.783-5.783a2.815 2.815 0 0 0 0-3.955 2.815 2.815 0 0 0-3.954 0l-5.783 5.783-5.933-5.932a2.815 2.815 0 0 0-3.954 0 2.815 2.815 0 0 0 0 3.955l5.932 5.932-6.12 6.12a2.815 2.815 0 0 0 0 3.954c.56.56 1.27.82 1.978.82.71 0 1.418-.26 1.978-.82l6.119-6.119 5.932 5.932c.56.56 1.268.821 1.977.821a2.77 2.77 0 0 0 1.978-.82c1.082-1.12 1.082-2.873 0-3.956Z"/>
+      </svg>
+    </Button>
   {/if}
 </div>
 
 <style>
+  .edit-frame-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
   .shown {
-    display: block;
+    display: flex;
   }
   .hidden {
     display: none;

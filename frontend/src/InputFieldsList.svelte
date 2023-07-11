@@ -35,7 +35,7 @@
       <TextInput
         labelText={labels[i]}
         placeholder={`Edit ${labels[i]} ...`}
-        value={values[i]}
+        bind:value={values[i]}
       />
     {/each}
   {/if}

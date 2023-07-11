@@ -111,7 +111,7 @@
       {:else}
         {#key tableData}
           {#key selectedData}
-            <EditFrame updateRow={updateRow} hideEditFrame={() => (showEditFrame=false)} columnNames={columnNames} oldRow={selectedData[0]} />
+            <EditFrame updateRow={updateRow} deleteRows={deleteRows} hideEditFrame={() => (showEditFrame=false)} columnNames={columnNames} oldRow={selectedData[0]} />
           {/key}
         {/key}
       {/if}
