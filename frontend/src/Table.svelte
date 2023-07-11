@@ -15,9 +15,7 @@
   import 'datatables.net-select-dt';
   import { TextInputSkeleton } from "carbon-components-svelte";
 
-  import { getMeta, getCookie } from './requests'
   import type { RowKeys, RowValues } from './requests'
-  import { apiActionRequest } from './requests';
 	import Button from './Button.svelte';
 
   export let showRowCreation: () => void;

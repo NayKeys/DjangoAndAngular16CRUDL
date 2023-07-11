@@ -9,7 +9,7 @@
   if (initialValues.length === 0) {
     values = new Array(initialValues.length).fill("");
   } else {
-    values = initialValues;
+    values = [...initialValues];
   }
 </script>
 

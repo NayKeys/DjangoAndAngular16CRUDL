@@ -26,13 +26,24 @@
   let showEditFrame: boolean = false;
   let createMode: boolean = false;
   let view_path: string;
+  let rerenderTable:boolean = false;
 
+  function areRowEquals(row1: RowValues, row2: RowValues) {
+    for (let i = 0; i < row1.length; i++) {
+      if (row1[i].toString() !== row2[i].toString()) {
+        return false;
+      }
+    }
+    return true;
+  }
+  
   function fetchViewData (path : string) {
     if (path) {
       view_path = path
       apiActionRequest('fetch_all', path, [], []).then((res) => {
         columnNames = res.names
         tableData = res.table;
+        rerenderTable = !rerenderTable;
       });
     }
   }
@@ -41,7 +52,7 @@
     if (view_path)
       apiActionRequest('create', view_path, keys, newRow).then((res) => {
         if (res != undefined) {
-          tableData = [...tableData, [...newRow]]
+          fetchViewData(view_path)
         }
       })
 	}
@@ -51,7 +62,10 @@
       for (let rowToBeDeleted of rowsToBeDeleted) {
         apiActionRequest('remove', view_path, columnNames, rowToBeDeleted).then((res) => {
           if (res != undefined) {
-            tableData = tableData.filter(row => row != rowToBeDeleted)
+            tableData = tableData.filter(row => !areRowEquals(row, rowToBeDeleted))
+            rerenderTable = !rerenderTable;
+            showEditFrame = false;
+            createMode = false;
           }
         })
       }
@@ -61,11 +75,12 @@
     if (view_path)
       apiActionRequest('update', view_path, columnNames, newRow).then((res) => {
         if (res != undefined) {
-          for (let row of tableData) {
-            if (row == oldRow) {
-              row = newRow
+          for (let i in tableData) {
+            if (areRowEquals(tableData[i], oldRow)) {
+              tableData[i] = newRow
             }
           }
+          rerenderTable = !rerenderTable;
         }
       })
   }
@@ -99,7 +114,7 @@
   </div>
   <div class="side-container">
     <div id="table-frame" class="table-frame screen" on:click|self={() => (showEditFrame = false)} on:keypress={() => (true)}>
-      {#key tableData}
+      {#key rerenderTable}
         <Table showRowCreation={showRowCreation} deleteRows={deleteRows} columnNames={columnNames} bind:selectedData={selectedData} tableData={tableData} showEditFrame={() => (showEditFrame = true)} hideEditFrame={() => (showEditFrame = false)} />
       {/key}
     </div>
