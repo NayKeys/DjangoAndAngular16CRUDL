@@ -17,8 +17,8 @@
   {#if show}
     <div class="flex-col flex">
       <div class="flex-row flex">
-        <div on:click={hideEditFrame} on:keypress={() => (true)}>
-          <Button fill={true} text="close" width={40} >
+        <div>
+          <Button onClick={() => hideEditFrame} fill={true} text="close" width={40} >
             <svg class="button-vector" width="42" height="42" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg">
               <path d="M26.5201 41.4679H14.9477C4.47467 41.4679 0 36.9932 0 26.5201V14.9477C0 4.47467 4.47467 0 14.9477 0H26.5201C36.9932 0 41.4679 4.47467 41.4679 14.9477V26.5201C41.4679 36.9932 37.0125 41.4679 26.5201 41.4679ZM14.9477 2.89311C6.05624 2.89311 2.89311 6.05624 2.89311 14.9477V26.5201C2.89311 35.4116 6.05624 38.5748 14.9477 38.5748H26.5201C35.4116 38.5748 38.5748 35.4116 38.5748 26.5201V14.9477C38.5748 6.05624 35.4116 2.89311 26.5201 2.89311H14.9477Z"/>
               <path d="M13.0185 41.4679C12.2277 41.4679 11.572 40.8121 11.572 40.0213V1.44658C11.572 0.655801 12.2277 3.05176e-05 13.0185 3.05176e-05C13.8093 3.05176e-05 14.4651 0.655801 14.4651 1.44658V40.0213C14.4651 40.8121 13.8286 41.4679 13.0185 41.4679Z"/>
@@ -27,7 +27,7 @@
           </Button>
         </div>
         <div class="save-button">
-          <Button onClick={() => updateRow(oldRow, newRow)} fill={false} width={40} text="save">
+          <Button onClick={() => updateRow(oldRow, newRow)} fill={false} width={40} text="save" confirmation="Are you sure you want to update this element ?">
             <svg class="button-vector" width="43" height="43" viewBox="0 0 43 43" xmlns="http://www.w3.org/2000/svg">
               <path d="M13.6807 21.5L19.1992 27.0185L30.2557 15.9816M16.1178 41H27.8178C37.5678 41 41.4678 37.1 41.4678 27.35V15.65C41.4678 5.9 37.5678 2 27.8178 2H16.1178C6.36777 2 2.46777 5.9 2.46777 15.65V27.35C2.46777 37.1 6.36777 41 16.1178 41Z" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>

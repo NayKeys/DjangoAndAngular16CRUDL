@@ -4,9 +4,16 @@
   export let fill:boolean = true;
   export let textHeight:number = undefined;
   export let onClick:() => void = () => {}
+  export let confirmation:string = undefined;
+
+  function confirm(e) {
+    if (window.confirm(confirmation)) {
+      onClick(e);
+    }
+  }
 </script>
 
-<div class={"button "+$$restProps.class || ''} on:click={onClick} on:keypress>
+<div class={"button "+$$restProps.class || ''} on:click={(confirmation ? confirm : onClick)} on:keypress>
   <div class={fill ? 'button-vector-fill' : 'button-vector-stroke'}>
     <slot class="button-vector"/>
   </div>
@@ -43,6 +50,9 @@
   }
   .button:active .button-vector-fill :global(.button-vector) {
     fill: var(--specialcolor);
+  }
+  .button .button-label {
+    user-select: none;
   }
   .button {
     display:flex;

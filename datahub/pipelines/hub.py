@@ -109,13 +109,13 @@ def insert(view_name: str, row: dict):
   view = VIEW_LIST[view_name]
   match view["method"]:
     case "sql":
-      dict_list = sql_pipeline.delete(view, row)
+      dict_list = sql_pipeline.insert(view, row)
       return dict_list
     case "csv":
-      dict_list = csv_pipeline.delete(view, row)
+      dict_list = csv_pipeline.insert(view, row)
       return dict_list
     case "ldap":
-      dict_list = ldap_pipeline.delete(view, row)
+      dict_list = ldap_pipeline.insert(view, row)
       return dict_list
 
 def update(view_name: str, row: dict):

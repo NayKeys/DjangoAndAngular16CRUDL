@@ -37,9 +37,9 @@
     }
   }
 
-  function addRow(newRow: RowValues) {
+  function addRow(keys: RowKeys, newRow: RowValues) {
     if (view_path)
-      apiActionRequest('create', view_path, columnNames, newRow).then((res) => {
+      apiActionRequest('create', view_path, keys, newRow).then((res) => {
         if (res != undefined) {
           tableData = [...tableData, [...newRow]]
         }
