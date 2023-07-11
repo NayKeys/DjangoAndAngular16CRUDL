@@ -25,6 +25,7 @@
   export let selectedData: RowValues[] = []
   export let showEditFrame: (e: any) => void;
   export let hideEditFrame: (e: any) => void;
+  export let viewName: string = "View";
   
   let newRow: RowValues = [];
   let table: Api<any>;
@@ -117,7 +118,7 @@
 </svelte:head>
 
 <div class="frame-31">
-  <h1 class="vue-tudiants-1re-anne valign-text-middle">Vue étudiants 1ère année</h1>
+  <h1 class="vue-tudiants-1re-anne valign-text-middle">{viewName.toLocaleUpperCase()}</h1>
   <div class="top-seperator"></div>
 </div>
 <img id="search-vector" class="vector" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a3f5479ef0ce55861f0160/img/vector.svg" alt="Vector" />

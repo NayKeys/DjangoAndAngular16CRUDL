@@ -115,7 +115,7 @@
   <div class="side-container">
     <div id="table-frame" class="table-frame screen" on:click|self={() => (showEditFrame = false)} on:keypress={() => (true)}>
       {#key rerenderTable}
-        <Table showRowCreation={showRowCreation} deleteRows={deleteRows} columnNames={columnNames} bind:selectedData={selectedData} tableData={tableData} showEditFrame={() => (showEditFrame = true)} hideEditFrame={() => (showEditFrame = false)} />
+        <Table showRowCreation={showRowCreation} deleteRows={deleteRows} columnNames={columnNames} bind:selectedData={selectedData} tableData={tableData} showEditFrame={() => (showEditFrame = true)} hideEditFrame={() => (showEditFrame = false)} viewName={view_path ? view_path.split(' > ')[view_path.split(' > ').length - 1] : "view"} />
       {/key}
     </div>
   </div>
