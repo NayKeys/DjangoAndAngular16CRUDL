@@ -4,6 +4,7 @@
   
   import ViewSelectionFrame from './VueSelectionFrame.svelte';
   import EditFrame from './EditFrame.svelte';
+  import CreationFrame from './CreationFrame.svelte';
   import Login from './Login.svelte';
   import Table from './Table.svelte';
   import { auth } from './authentification'
@@ -23,6 +24,7 @@
   let viewTree: ViewTree;
   let selectedData: RowValues[] = [];
   let showEditFrame: boolean = false;
+  let createMode: boolean = false;
   let view_path: string;
 
   function fetchViewData (path : string) {
@@ -68,8 +70,9 @@
       })
   }
  
-  function createNewRow() {
-    
+  function showRowCreation() {
+    createMode = true;
+    showEditFrame = true;
   }
   
   onMount(async () => {
@@ -97,17 +100,21 @@
   <div class="side-container">
     <div id="table-frame" class="table-frame screen" on:click|self={() => (showEditFrame = false)} on:keypress={() => (true)}>
       {#key tableData}
-        <Table createNewRow={createNewRow} deleteRows={deleteRows} bind:selectedData={selectedData} tableData={tableData} columnNames={columnNames} showEditFrame={() => (showEditFrame = true)} hideEditFrame={() => (showEditFrame = false)} />
+        <Table showRowCreation={showRowCreation} deleteRows={deleteRows} columnNames={columnNames} bind:selectedData={selectedData} tableData={tableData} showEditFrame={() => (showEditFrame = true)} hideEditFrame={() => (showEditFrame = false)} />
       {/key}
     </div>
   </div>
   <div class="relative">
     <div class={`edit-frame screen ${showEditFrame ? 'unmoved' : 'toright'}`} >
-      {#key tableData}
-        {#key selectedData}
-          <EditFrame updateRow={updateRow} hideEditFrame={() => (showEditFrame=false)} columnNames={columnNames} selectedData={selectedData} />
+      {#if createMode}
+        <CreationFrame addRow={addRow} hideCreationFrame={() => {showEditFrame=false; createMode=false}} columnNames={columnNames} />
+      {:else}
+        {#key tableData}
+          {#key selectedData}
+            <EditFrame updateRow={updateRow} hideEditFrame={() => (showEditFrame=false)} columnNames={columnNames} oldRow={selectedData} />
+          {/key}
         {/key}
-      {/key}
+      {/if}
     </div>
   </div>
 </div>

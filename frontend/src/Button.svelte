@@ -14,25 +14,25 @@
 </div>
 
 <style>
-  :global(.button):hover {
+  :global(.button:hover) {
     cursor: pointer;
   }
   /* :global(.button):active {
     background-color: var(--darkcontrol);
   } */
-  :global(.button):hover .button-label {
+  :global(.button:hover) .button-label {
     color: var(--whitetext);
   }
-  :global(.button):active .button-label {
+  :global(.button:active) .button-label {
     color: var(--specialcolor);
   }
   .button-vector-stroke :global(.button-vector) {
     stroke: var(--darkcontroltext);
   }
-  :global(.button):hover .button-vector-stroke :global(.button-vector) {
+  :global(.button:hover) .button-vector-stroke :global(.button-vector) {
     stroke: var(--whitetext);
   }
-  :global(.button):active .button-vector-stroke :global(.button-vector) {
+  :global(.button:active) .button-vector-stroke :global(.button-vector) {
     stroke: var(--specialcolor);
   }
   .button-vector-fill :global(.button-vector) {
