@@ -1,6 +1,9 @@
 export type RowKeys = string[];
 export type RowValues = string[];
 
+const csrfToken = getMeta("csrf-token");
+let jwt = getCookie("jwt");
+
 export type ApiActionRequest = {
 	action: string;
 	jwt: string;
@@ -14,7 +17,7 @@ export type ApiActionResponse = {
 	rows: RowValues[];
 };
 
-export async function apiActionRequest(csrfToken: string, jwt: string, action: string, viewName: string = "", keys: RowKeys, values: RowValues): Promise<{ names: RowKeys; table: RowValues[] } | undefined> {
+export async function apiActionRequest(action: string, viewName: string = "", keys: RowKeys, values: RowValues): Promise<{ names: RowKeys; table: RowValues[] } | undefined> {
 	const data = keys.reduce((obj, key, index) => {
 		// Converts key values to object
 		obj[key] = values[index];
@@ -58,7 +61,7 @@ export type ViewTree = {
 	root: TreeNode<View>;
 };
 
-export async function apiTreeRequest(csrfToken: string): Promise<ViewTree | undefined> {
+export async function apiTreeRequest(): Promise<ViewTree | undefined> {
 	let res = await fetch("http://localhost:8000/app/viewtree/", {
 		method: "GET",
 		headers: {

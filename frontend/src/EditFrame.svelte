@@ -2,11 +2,15 @@
   import { TextInput, TextInputSkeleton } from "carbon-components-svelte";
   import Button from "./Button.svelte";
   import type { RowKeys, RowValues } from './requests';
+  import { apiActionRequest } from './requests';
   
   export let selectedData: RowValues[] = [];
   export let columnNames: RowKeys = [];
   export let hideEditFrame: (e: any) => void;
+  export let updateRow: (oldRow: RowValues, newRow: RowValues) => void;
 
+  let oldRow: RowValues = [];
+  let newRow: RowValues = [];
   let show = selectedData.length > 0;
   let editableData: RowValues = selectedData[0];
 </script>
@@ -31,7 +35,7 @@
         {/if}
       </div>
       <div class="save-button">
-        <Button fill={false} width={40} text="save">
+        <Button onClick={() => updateRow(oldRow, newRow)} fill={false} width={40} text="save">
           <svg class="button-vector" width="43" height="43" viewBox="0 0 43 43" xmlns="http://www.w3.org/2000/svg">
             <path d="M13.6807 21.5L19.1992 27.0185L30.2557 15.9816M16.1178 41H27.8178C37.5678 41 41.4678 37.1 41.4678 27.35V15.65C41.4678 5.9 37.5678 2 27.8178 2H16.1178C6.36777 2 2.46777 5.9 2.46777 15.65V27.35C2.46777 37.1 6.36777 41 16.1178 41Z" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -91,43 +95,6 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-  }
-  .delete-button {
-    align-items: flex-start;
-    display: flex;
-    gap: 11px;
-    position: relative;
-    width: fit-content;
-  }
-  .vector-3 {
-    margin-bottom: -1.5px;
-    margin-left: -1.5px;
-    margin-top: -1.5px;
-    position: relative;
-  }
-  .vector-2 {
-    height: 42.53px;
-    min-width: 37px;
-  }
-  .delete-text-container {
-    align-items: flex-start;
-    align-self: stretch;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    justify-content: space-around;
-    position: relative;
-    width: fit-content;
-  }
-  .delete {
-    color: #94302a;
-    font-family: var(--font-family-lexend_deca);
-    font-size: var(--font-size-l);
-    font-weight: 400;
-    letter-spacing: 0;
-    line-height: normal;
-    position: relative;
-    width: fit-content;
   }
   .flex-row {
     gap: 303px;

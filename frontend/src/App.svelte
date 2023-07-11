@@ -20,24 +20,61 @@
 
   let columnNames = ['----------------------------', '----------------------------', '----------------------------'];
   let tableData = [];
-  const csrfToken = getMeta('csrf-token');
-  let jwt = getCookie('jwt')
   let viewTree: ViewTree;
   let selectedData: RowValues[] = [];
   let showEditFrame: boolean = false;
+  let view_path: string;
 
   function fetchViewData (path : string) {
     if (path) {
-      apiActionRequest(csrfToken, jwt, 'fetch_all', path, [], []).then((res) => {
+      view_path = path
+      apiActionRequest('fetch_all', path, [], []).then((res) => {
         columnNames = res.names
         tableData = res.table;
       });
     }
   }
+
+  function addRow(newRow: RowValues) {
+    if (view_path)
+      apiActionRequest('create', view_path, columnNames, newRow).then((res) => {
+        if (res != undefined) {
+          tableData = [...tableData, [...newRow]]
+        }
+      })
+	}
+
+	function deleteRows(rowsToBeDeleted: RowValues[]) {
+    if (view_path)
+      for (let rowToBeDeleted of rowsToBeDeleted) {
+        apiActionRequest('remove', view_path, columnNames, rowToBeDeleted).then((res) => {
+          if (res != undefined) {
+            tableData = tableData.filter(row => row != rowToBeDeleted)
+          }
+        })
+      }
+	}
+
+  function updateRow(oldRow: RowValues, newRow: RowValues) {
+    if (view_path)
+      apiActionRequest('update', view_path, columnNames, newRow).then((res) => {
+        if (res != undefined) {
+          for (let row of tableData) {
+            if (row == oldRow) {
+              row = newRow
+            }
+          }
+        }
+      })
+  }
  
+  function createNewRow() {
+    
+  }
+  
   onMount(async () => {
     await auth();
-    apiTreeRequest(csrfToken).then((res) =>  {
+    apiTreeRequest().then((res) =>  {
       viewTree = res;
     });
   });
@@ -53,14 +90,14 @@
 <div class="app-container">
   <div class="left-container">
     <Login />
-    <div class="view-selection-frame">
+    <div class="view-selection-frame" on:click={() => (showEditFrame = false)} on:keypress>
       <ViewSelectionFrame viewTree={viewTree} fetchViewData={fetchViewData}/>
     </div>
   </div>
   <div class="side-container">
     <div id="table-frame" class="table-frame screen" on:click|self={() => (showEditFrame = false)} on:keypress={() => (true)}>
       {#key tableData}
-        <Table bind:selectedData={selectedData} tableData={tableData} columnNames={columnNames} showEditFrame={() => (showEditFrame = true)}/>
+        <Table createNewRow={createNewRow} deleteRows={deleteRows} bind:selectedData={selectedData} tableData={tableData} columnNames={columnNames} showEditFrame={() => (showEditFrame = true)} hideEditFrame={() => (showEditFrame = false)} />
       {/key}
     </div>
   </div>
@@ -68,7 +105,7 @@
     <div class={`edit-frame screen ${showEditFrame ? 'unmoved' : 'toright'}`} >
       {#key tableData}
         {#key selectedData}
-          <EditFrame hideEditFrame={() => (showEditFrame=false)} columnNames={columnNames} selectedData={selectedData} />
+          <EditFrame updateRow={updateRow} hideEditFrame={() => (showEditFrame=false)} columnNames={columnNames} selectedData={selectedData} />
         {/key}
       {/key}
     </div>
