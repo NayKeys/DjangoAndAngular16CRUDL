@@ -3,12 +3,14 @@
   import { writable } from 'svelte/store';
   import Tree from './VueTree.svelte';
   import type { ViewTree } from './requests';
-  import { TextInputSkeleton } from "carbon-components-svelte";
+  import { TextInputSkeleton, Search } from "carbon-components-svelte";
   import jquery from 'jquery';
 
   export let viewTree: ViewTree;
   export let fetchViewData: Function;
   export let buttonsShown: boolean = false;
+
+  let query: string = "";
   
   onMount(() => {
     jquery('.left-buttons').on('click', function() {
@@ -23,6 +25,9 @@
   const hideButtons = () => {
     buttonsShown = false
   }
+  function performSearch(e) {
+    query = e.originalTarget.value.toLowerCase();
+  }
 </script>
 
 
@@ -30,10 +35,7 @@
   <h1 class="title valign-text-middle lexenddeca-normal-geyser-24px-2">ENSEA Trendy Tables</h1>
   <div class="view-selection-separator"></div>
 </div>
-<div class="search-bar">
-  <img class="vector-2" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a584ff82d80e5a118e543e/img/vector.svg" alt="Vector" />
-  <div class="search valign-text-middle lexenddeca-normal-oslo-gray-24px">Search</div>
-</div>
+<Search on:input={performSearch} placeholder="Search in tree..." autocomplete="on" autocorrect="off" />
 <div class="view-tree-selector">
   <div class={"left-buttons-container "+(buttonsShown ? 'shown' : 'hidden')}>
     <div class="left-buttons" on:click={() => (buttonsShown = true)} on:keypress>
@@ -75,7 +77,11 @@
   <div class="separator"></div>
   <div class="tree-container">
     {#if viewTree}
-      <Tree hideButtons={hideButtons} fetchViewData={fetchViewData} nodes={viewTree.root}/>
+      {#key query}
+        {#key viewTree}
+          <Tree query={query} hideButtons={hideButtons} fetchViewData={fetchViewData} nodes={viewTree.root}/>
+        {/key}
+      {/key}
     {:else}
       <div class="tree">
         {#each {length: 10} as _, i}
