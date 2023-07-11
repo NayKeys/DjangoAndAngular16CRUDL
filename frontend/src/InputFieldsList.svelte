@@ -7,9 +7,9 @@
   export let disabled: boolean = false;
 
   if (initialValues.length === 0) {
-    values = initialValues;
-  } else {
     values = new Array(initialValues.length).fill("");
+  } else {
+    values = initialValues;
   }
 </script>
 

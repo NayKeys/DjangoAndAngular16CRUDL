@@ -73,6 +73,11 @@
     min-width: 671px;
     justify-content: space-between;
   }
+  .flex-col {
+    flex-direction: column;
+    gap: 29px;
+    width: 100%;
+  }
   .flex {
     align-items: flex-start;
     display: flex;
@@ -83,11 +88,6 @@
     gap: 8px;
     position: relative;
     width: fit-content;
-  }
-  .flex-col {
-    flex-direction: column;
-    gap: 29px;
-    width: 100%;
   }
   .title {
     color: var(--oslo-gray);

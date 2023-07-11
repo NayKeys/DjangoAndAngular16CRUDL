@@ -124,14 +124,15 @@
 </div>
 <img id="search-vector" class="vector" src="https://anima-uploads.s3.amazonaws.com/projects/63f7f6d546da9210f99dd5aa/releases/64a3f5479ef0ce55861f0160/img/vector.svg" alt="Vector" />
 <div class="table-buttons">
-  <Button onClick={showRowCreation} class="add-button" width={35} text="Add" fill={false}>
-    <svg class="button-vector" viewBox="0 0 38 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M23.2311 25.0864L14.83 16.6854M23.1331 16.7843L14.7319 25.1855M15.9954 2.92749L6.13139 6.64376C3.85814 7.49376 2 10.1821 2 12.5937V27.281C2 29.6136 3.54186 32.6775 5.41976 34.081L13.9197 40.4263C16.707 42.5217 21.293 42.5217 24.0803 40.4263L32.5802 34.081C34.4581 32.6775 36 29.6136 36 27.281V12.5937C36 10.1624 34.1419 7.47399 31.8686 6.62399L22.0047 2.92749C20.3244 2.3147 17.6361 2.3147 15.9954 2.92749Z" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <Button onClick={showRowCreation} class="add-button" width={35} text="New Row" textHeight={35} fill={false}>
+    <svg class="button-vector" xmlns="http://www.w3.org/2000/svg" width="69" height="69" fill="none" viewBox="0 0 69 69">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4.726" d="M25.056 66.016H43.96c15.754 0 22.055-6.301 22.055-22.055V25.056C66.016 9.302 59.715 3 43.961 3H25.056C9.302 3 3 9.302 3 25.056V43.96c0 15.754 6.302 22.055 22.056 22.055Zm-3.151-31.508H47.11M34.508 47.111V21.905"/>
     </svg>
   </Button>
-  <Button onClick={() => deleteSelectedRows()} class="delete-button" width={35} text="Delete" fill={false} >
-    <svg class="button-vector" viewBox="0 0 38 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M23.2311 25.0864L14.83 16.6854M23.1331 16.7843L14.7319 25.1855M15.9954 2.92749L6.13139 6.64376C3.85814 7.49376 2 10.1821 2 12.5937V27.281C2 29.6136 3.54186 32.6775 5.41976 34.081L13.9197 40.4263C16.707 42.5217 21.293 42.5217 24.0803 40.4263L32.5802 34.081C34.4581 32.6775 36 29.6136 36 27.281V12.5937C36 10.1624 34.1419 7.47399 31.8686 6.62399L22.0047 2.92749C20.3244 2.3147 17.6361 2.3147 15.9954 2.92749Z" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <Button onClick={() => deleteSelectedRows()} class="delete-button" width={35} text="Delete" textHeight={35} fill={true} >
+    <svg class="button-vector" xmlns="http://www.w3.org/2000/svg" width="64" height="76" fill="none" viewBox="0 0 64 76">
+      <path d="M27.647.583 7.127 8.269C3.208 9.76 0 14.388 0 18.604v30.22c0 3.023 1.977 7.015 4.403 8.806l20.52 15.334c3.62 2.724 9.551 2.724 13.17 0l20.52-15.334c2.426-1.828 4.403-5.783 4.403-8.805V18.604c0-4.179-3.208-8.843-7.126-10.298L35.37.62C33.28-.2 29.773-.2 27.647.583Z" opacity=".4"/>
+      <path d="m41.526 41.063-5.933-5.932 5.783-5.783a2.815 2.815 0 0 0 0-3.955 2.815 2.815 0 0 0-3.954 0l-5.783 5.783-5.933-5.932a2.815 2.815 0 0 0-3.954 0 2.815 2.815 0 0 0 0 3.955l5.932 5.932-6.12 6.12a2.815 2.815 0 0 0 0 3.954c.56.56 1.27.82 1.978.82.71 0 1.418-.26 1.978-.82l6.119-6.119 5.932 5.932c.56.56 1.268.821 1.977.821a2.77 2.77 0 0 0 1.978-.82c1.082-1.12 1.082-2.873 0-3.956Z"/>
     </svg>
   </Button>
 </div>
