@@ -21,7 +21,7 @@
     <div class="flex-col flex">
       <div class="flex-row flex">
         <div on:click={hideCreationFrame} on:keypress={() => (true)}>
-          <Button fill={true} text="cancel" width={50} confirmation="Are you sure you want to cancel creation ?" >
+          <Button fill={true} text="cancel" width={50} >
             <svg xmlns="http://www.w3.org/2000/svg" class="button-vector" width="50" height="40" fill="none" viewBox="0 0 64 53">
               <path d="M46.171 52.733H26.484a16.858 16.858 0 0 1-12.451-5.507L3.69 35.859c-4.921-5.39-4.921-13.535 0-18.955L14.033 5.537A16.778 16.778 0 0 1 26.483 0h19.688c9.287 0 16.845 7.558 16.845 16.845v19.043c0 9.287-7.558 16.845-16.845 16.845ZM26.484 4.394a12.492 12.492 0 0 0-9.2 4.073L6.915 19.863a9.671 9.671 0 0 0 0 13.037l10.341 11.367a12.492 12.492 0 0 0 9.2 4.072H46.17c6.855 0 12.45-5.596 12.45-12.451V16.845c0-6.855-5.595-12.45-12.45-12.45H26.484Z"/>
               <path d="M43.24 35.8a2.173 2.173 0 0 1-1.552-.644L27.216 20.654a2.21 2.21 0 0 1 0-3.105 2.21 2.21 0 0 1 3.105 0L44.794 32.05c.85.85.85 2.256 0 3.106-.44.44-.996.644-1.553.644Z"/>
