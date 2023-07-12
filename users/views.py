@@ -7,6 +7,8 @@ from django.middleware.csrf import get_token
 from django.http import JsonResponse
 from cas import CASClient
 from rest_framework.exceptions import AuthenticationFailed, ParseError
+import logging
+
 
 from users.models import Profile
 import datahub.pipelines.hub as pipe
@@ -31,10 +33,11 @@ def permissions(request):
 @returns a Django response following ./restapiresponse.json pattern including a  jwt token if the user is authenticated
 """
 def cas_validation(request):
+  logger = logging.getLogger(__name__)
   req = json.loads(request.body)
   ticket = req.get('ticket')
   service = request.build_absolute_uri()[:-len(settings.CAS_ENDPOINT)]
-  sys.stdout.write(service)
+  logger.info(service+"\n")
   client = CASClient(server_url=settings.CAS_SERVER_URL, service_url=service, version=3)
   username, attributes, pgtiou = client.verify_ticket(ticket)
   if not username:
