@@ -6,7 +6,7 @@ cmds = ["echo installing python project dependencies...", "python -m venv --copi
 dependsOn = ["setup"]
 
 [phases.build]
-workdir = "frontend"
+workdir = ["frontend"]
 cmds = ["npm install", "npm run build", "echo build success"]
 dependsOn = ["install"]
 
