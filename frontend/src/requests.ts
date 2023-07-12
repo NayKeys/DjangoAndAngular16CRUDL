@@ -4,6 +4,10 @@ export type RowValues = string[];
 const csrfToken = getMeta("csrf-token");
 let jwt = getCookie("jwt");
 
+export function refreshToken() {
+  jwt = getCookie("jwt");
+}
+
 export type ApiActionRequest = {
 	action: string;
 	jwt: string;

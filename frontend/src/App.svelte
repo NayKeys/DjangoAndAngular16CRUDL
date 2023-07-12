@@ -8,7 +8,7 @@
   import Login from './Login.svelte';
   import Table from './Table.svelte';
   import { auth } from './authentification'
-  import { apiActionRequest, getCookie, apiTreeRequest, getMeta } from './requests'
+  import { apiActionRequest, refreshToken, apiTreeRequest, getMeta } from './requests'
   import type { RowKeys, RowValues, ViewTree } from './requests'
   import j from 'jquery'
 
@@ -91,7 +91,8 @@
   }
   
   onMount(async () => {
-    await auth();
+    const jwt = await auth();
+    refreshToken();
     apiTreeRequest().then((res) =>  {
       viewTree = res;
     });
