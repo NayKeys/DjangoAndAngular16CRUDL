@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from . import settings
 
@@ -9,3 +9,6 @@ def index(request):
     'token_lifetime_hours': settings.TOKEN_LIFETIME_HOURS,
   }
   return HttpResponse(template.render(context, request))
+
+def health(request):
+  return JsonResponse({'status': ':D'}, status=200)
