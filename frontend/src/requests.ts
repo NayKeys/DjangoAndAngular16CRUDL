@@ -29,7 +29,7 @@ export async function apiActionRequest(action: string, viewName: string = "", ke
 		view_name: viewName,
 		row: data,
 	};
-	const res = await fetch(window.location.origin+"app/execute/", {
+	const res = await fetch(window.location.origin+"/app/execute/", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -62,7 +62,7 @@ export type ViewTree = {
 };
 
 export async function apiTreeRequest(): Promise<ViewTree | undefined> {
-	let res = await fetch(window.location.origin+"app/viewtree/", {
+	let res = await fetch(window.location.origin+"/app/viewtree/", {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
