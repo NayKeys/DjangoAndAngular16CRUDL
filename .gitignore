@@ -7,8 +7,6 @@ svelte-front/node_modules
 animatohtml/*
 animatohtml
 
-static/build/
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
