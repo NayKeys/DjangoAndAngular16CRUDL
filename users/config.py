@@ -75,5 +75,7 @@ USERS = {
     { 'username': 'admin4' },
     { 'username': 'admin5' },
     { 'username': 'yanregoj64' },
+    { 'username': 'ludodesr' },
+    { 'username': 'alexdepe' },
   ],
 }
