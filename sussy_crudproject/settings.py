@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DEBUG = True
 
 ALLOWED_HOSTS = ['*'] # if you are in dev or docker
-CSRF_TRUSTED_ORIGINS = ['https://*.django-crud-app-production.up.railway.app','https://*.127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://*.django-crud-app-production.up.railway.app', 'https://ett.cringeapp.net', 'https://*.127.0.0.1']
 
 # Application definition
 
