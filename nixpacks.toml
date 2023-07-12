@@ -1,12 +1,16 @@
-providers = ["...", "node", "python"]
+[phases.setup]
+providers = ["python310", "pipenv", "gcc", "nodejs", "npm"]
+
+[phases.install]
+cmds = ["echo installing python project dependencies...", "python -m venv --copies /opt/venv && . /opt/venv/bin/activate && PIPENV_VENV_IN_PROJECT=1 pipenv install --deploy", "echo installation success"]
+dependsOn = ["setup"]
 
 [phases.build]
 cmds = ["echo building front", "cd frontend && npm install && npm run build", "echo build success"]
+dependsOn = ["install"]
 
-[phases.install]
-cmds = ["echo installing python project dependencies...", "pipenv install", "pipenv shell", "python3 run python manage.py migrate", "echo installation success"]
-dependsOn = ["build"]
 
 [phases.start]
-cmds = ["echo starting server...", "python3 manage.py runserver"]
+cmds = ["echo starting server...", "python manage.py migrate && gunicorn sussy_crudproject.wsgi
+"]
 dependsOn = ["install"]
