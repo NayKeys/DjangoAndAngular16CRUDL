@@ -7,7 +7,7 @@
 	},
 	"deploy": {
 		"numReplicas": 1,
-		"startCommand": "python manage.py runserver 0.0.0.0:8000",
+		"startCommand": "python manage.py runserver 0.0.0.0:$PORT",
 		"healthcheckPath": "/health/",
 		"restartPolicyType": "ON_FAILURE",
 		"healthcheckTimeout": 300,
