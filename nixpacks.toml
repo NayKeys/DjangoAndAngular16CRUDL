@@ -12,4 +12,4 @@ dependsOn = ["install"]
 
 [phases.start]
 cmds = ["echo starting server...", "python manage.py migrate && gunicorn sussy_crudproject.wsgi", "echo server started"]
-dependsOn = ["install"]
+dependsOn = ["build"]
