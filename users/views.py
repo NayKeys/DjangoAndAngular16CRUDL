@@ -38,6 +38,8 @@ def cas_validation(request):
   ticket = req.get('ticket')
   service = request.build_absolute_uri()[:-len(settings.CAS_ENDPOINT)]
   logger.info(service+"\n")
+  if request.is_secure():
+    service = service.replace("http://", "https://")
   client = CASClient(server_url=settings.CAS_SERVER_URL, service_url=service, version=3)
   username, attributes, pgtiou = client.verify_ticket(ticket)
   if not username:

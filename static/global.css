@@ -229,6 +229,33 @@ table.dataTable tbody tr.selected > * {
   color: var(--whitetext);
   background: var(--specialcolor);
 }
+*::-webkit-scrollbar-track
+{
+  border-radius: 2px;
+  background-color: var(--darkbackground);
+}
+
+*::-webkit-scrollbar
+{
+  width: 4px;
+  background-color: var(--darkbackground);
+}
+
+*::-webkit-scrollbar-thumb
+{
+  border-radius: 2px;
+  background-color: var(--darkcontroltext);
+}
+/* Hide scrollbar for Chrome, Safari and Opera */
+
+* {
+  color-scheme: dark;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+* {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
 .lexenddeca-normal-oslo-gray-18px {
   color: var(--oslo-gray);
   font-family: var(--font-family-lexend_deca);
