@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 import json
+import sys
 from django.middleware.csrf import get_token
 from django.http import JsonResponse
 from cas import CASClient
@@ -33,7 +34,7 @@ def cas_validation(request):
   req = json.loads(request.body)
   ticket = req.get('ticket')
   service = request.build_absolute_uri()[:-len(settings.CAS_ENDPOINT)]
-  print(service)
+  sys.stdout.write(service)
   client = CASClient(server_url=settings.CAS_SERVER_URL, service_url=service, version=3)
   username, attributes, pgtiou = client.verify_ticket(ticket)
   if not username:
