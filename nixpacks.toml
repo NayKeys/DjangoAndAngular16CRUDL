@@ -1,0 +1,12 @@
+providers = ["...", "node", "python"]
+
+[phases.build]
+cmds = ["echo building front", "cd frontend && npm install && npm run build", "echo build success"]
+
+[phases.install]
+cmds = ["echo installing python project dependencies...", "pipenv install", "pipenv shell", "python3 run python manage.py migrate", "echo installation success"]
+dependsOn = ["build"]
+
+[phases.start]
+cmds = ["echo starting server...", "python3 manage.py runserver"]
+dependsOn = ["install"]
