@@ -64,35 +64,16 @@ SECRET_KEY = os.environ['SECRET_KEY']  # Generated with from django.core.managem
 # AUTH_USER_MODEL = 'users.Profile'
 
 LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "formatters": {
-        "console": {
-            "format": "[%(asctime)s][%(levelname)8s][%(name)16.16s]@[%(lineno)5s]$ %(message)s"
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
         },
     },
-    "handlers": {
-        "console": {
-            "class": "logging.StreamHandler",
-            "formatter": "console",
-        },
-    },
-    "root": {
-        "handlers": ["console"],
-        "level": "WARNING",
-        "propagate": False,
-    },
-    "loggers": {
-        "django.server": {
-            "level": "WARNING",
-            "handlers": ["console"],
-            "propagate": False,
-        },
-        "myapp": {
-            "level": logging_level,
-            "handlers": ["console"],
-            "propagate": False,
-        },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
     },
 }
 
