@@ -5,8 +5,8 @@
 		"buildCommand": "echo building!"
 	},
 	"deploy": {
-		"startCommand": "echo starting!",
-		"healthcheckPath": "/health/",
+		"startCommand": "python manage.py runserver",
+		"healthcheckPath": "health/",
 		"healthcheckTimeout": 100,
 		"restartPolicyType": "ON_FAILURE"
 	}
