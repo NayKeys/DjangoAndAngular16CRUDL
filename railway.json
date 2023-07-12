@@ -5,8 +5,5 @@
 		"buildCommand": "echo building!"
 	},
 	"deploy": {
-		"healthcheckPath": "/health/",
-		"healthcheckTimeout": 100,
-		"restartPolicyType": "ON_FAILURE"
 	}
 }
