@@ -127,9 +127,7 @@
   <div class="left-container">
     <Login />
     <div class="view-selection-frame" on:click={() => (showEditFrame = false)} on:keypress>
-      {#key permissions}
-        <VueSelectionFrame permissions={permissions} viewTree={viewTree} fetchRequest={fetchRequest}/>
-      {/key}
+      <VueSelectionFrame permissions={permissions} viewTree={viewTree} fetchRequest={fetchRequest}/>
     </div>
   </div>
   <div class="side-container">

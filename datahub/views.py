@@ -26,7 +26,7 @@ def view_tree(request):
 """
 @jwt_role_required  # AMAZING PYTHON FEATURE
 def execute(request):
-  if request.method == 'GET':
+  if request.method == 'POST':
     body: ApiRequest = ApiRequest(json.loads(request.body))
     action = body.action
     view_name = body.view_name

@@ -37,12 +37,12 @@
       if (query.length > 0) {
         if (name == query || name.toLowerCase().includes(query)) {
           selectedItemId = i;
-          return {id: i++, disabled: permissions.can_read[name], text: name}
+          return {id: i++, disabled: !permissions.can_read[node['path']], text: name}
         } else {
           return null;
         }
       } else {
-        return {id: i++, disabled: permissions.can_read[name], text: name}
+        return {id: i++, disabled: !permissions.can_read[node['path']], text: name}
       }
     }
     else {

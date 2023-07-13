@@ -82,7 +82,11 @@
     {#if viewTree}
       {#key query}
         {#key viewTree}
-          <Tree permissions={permissions} query={query} hideButtons={hideButtons} fetchRequest={fetchRequest} nodes={viewTree.root}/>
+          {#key permissions}
+            {#if permissions}
+              <Tree permissions={permissions} query={query} hideButtons={hideButtons} fetchRequest={fetchRequest} nodes={viewTree.root}/>
+            {/if}
+          {/key}
         {/key}
       {/key}
     {:else}
