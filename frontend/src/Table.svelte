@@ -185,6 +185,92 @@
 </div>
 
 <style>
+  :global(thead tr th) {
+    vertical-align: middle;
+  }
+  :global(#table th) {
+  text-align: start;
+  flex: 1;
+  letter-spacing: 0;
+  line-height: 28px;
+  margin-top: -1px;
+  position: relative;
+  white-space: nowrap;
+  padding-bottom: 4px;
+  padding-top: 4px;
+}
+:global(table.dataTable tbody tr.selected .dtr-control::before) {
+  background-color: var(--specialcolor);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: .25rem;
+  height: 100%;
+  content: "";
+}
+:global(table.dataTable tbody tr.selected .dtr-control) {
+  position: relative;
+}
+:global(table.dataTable tbody tr.selected > *) {
+  box-shadow: inset 0 0 0 9999px rgba(55, 65, 73, 0.9);
+  box-shadow: inset 0 0 0 9999px rgba(var(--dt-row-selected), 0.9);
+  color: white;
+  color: rgb(var(--dt-row-selected-text));
+}
+:global(#table_wrapper) {
+  width: 100%;
+  overflow-x: hidden;
+  gap: 100px;
+}
+:global(#table_filter) {
+  left: 0px;
+  float: left !important;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  width: 748px;
+  background-color: var(--eerie-black);
+  border: 2px solid;
+  border-color: var(--bright-gray);
+  border-radius: 5px;
+}
+:global(#table_filter:focus-within) {
+  border-color: var(--specialcolor);
+}
+:global(#table_filter input:focus-visible) {
+  outline: none;
+}
+:global(#table_filter input) {
+  margin: 0px;
+  color: var(--white);
+  background-color: var(--eerie-black);
+  border: 0px solid;
+  align-items: center;
+  line-height: 31px;
+  display: flex;
+  gap: 12px;
+  padding: 12px 15px;
+  position: relative;
+  width: 94%;
+}
+:global(#table_info) {
+  color: var(--darkcontroltext);
+}
+:global(#table_paginate > )*{
+  color: var(--darkcontroltext);
+}
+:global(#table_paginate > * > *) {
+  color: var(--darkcontroltext);
+}
+:global(#table_previous:hover, #table_previous:active) {
+  color: var(--whitetext);
+  background: var(--darkselected);
+}
+:global(#table_next:hover, #table_previous:active) {
+  color: var(--whitetext);
+  background: var(--darkselected);
+}
   :global(:root) {
     --specialred: #95312A;
   }

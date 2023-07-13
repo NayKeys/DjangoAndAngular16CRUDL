@@ -112,6 +112,34 @@
 </div>
 
 <style>
+  :global(#tree-view .bx--tree-node__label) {
+    padding: 16px;
+  }
+  :global(#tree-view .bx--tree .bx--tree-node:focus > .bx--tree-node__label) {
+    outline: 2px solid var(--specialcolor);
+    outline-offset: -2px;
+  }
+  :global(#tree-view .bx--tree .bx--tree-node__label:hover) {
+    background-color: var(--darkselected);
+    color: var(--darkcontroltext);
+  }
+  :global(#tree-view .bx--tree .bx--tree-node--selected > .bx--tree-node__label) {
+    background-color: var(--darkselected);
+    color: var(--darkcontroltext);
+  }
+  :global(#tree-view .bx--tree .bx--tree-node--active > .bx--tree-node__label::before) {
+    background-color: var(--specialcolor);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: .25rem;
+    height: 100%;
+    content: "";
+  }
+  :global(#tree-view .bx--tree .bx--tree-node) {
+    background-color: var(--darkbackground);
+    color: var(--darkcontroltext);
+  }
   div {
     margin-top: var(--cds-spacing-05);
   }

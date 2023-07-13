@@ -32,9 +32,9 @@ CSRF_TRUSTED_ORIGINS = ['https://*.django-crud-app-production.up.railway.app', '
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-STATIC_URL = '/static/'
+STATIC_URL = '/frontend/public/'
 STATICFILES_DIRS = [
-  BASE_DIR / 'static',
+  BASE_DIR / 'frontend/public/',
 ]
 APPEND_SLASH=False
 logging_level = (
@@ -111,7 +111,7 @@ ROOT_URLCONF = 'sussy_crudproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'frontend/public/')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
