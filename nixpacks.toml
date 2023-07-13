@@ -1,9 +1,7 @@
-[phases.setup]
-providers = ["...", "python", "node"]
+providers = ["python", "node"]
 
 [phases.install]
 cmds = ["echo installing python project dependencies...", "python -m venv --copies /opt/venv && . /opt/venv/bin/activate && PIPENV_VENV_IN_PROJECT=1 pipenv install --deploy", "echo installation success"]
-dependsOn = ["setup"]
 
 [phases.build]
 workdir = ["frontend"]
@@ -11,5 +9,5 @@ cmds = ["npm install", "npm run build", "echo build success"]
 dependsOn = ["install"]
 
 [phases.deploy]
-cmds = ["echo starting server...", "python manage.py migrate", "echo theoritically, the server can be started now."]
+cmds = ["echo starting server...", "echo theoritically, the server can be started now..."]
 dependsOn = ["build"]
