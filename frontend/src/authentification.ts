@@ -54,22 +54,20 @@ export async function validateCASTicket(csrfToken: string, ticket: string): Prom
 	if (res.status != 200) {
 		return undefined;
 	}
-	if (res.jwt) {
-		localStorage.setItem("jwt", res.jwt); // Useless???
+	if (res.token) {
+		localStorage.setItem("jwt", res.token); // Useless???
 	}
-	return res.jwt;
+	return res.token;
 }
 
 export async function validateJWTToken(csrfToken: string, token: string): Promise<boolean> {
 	const response = await fetch("/user/auth/", {
-		method: "PUT",
+		method: "GET",
 		headers: {
 			"X-CSRFToken": csrfToken,
 			"Content-Type": "application/json",
+      "token": token,
 		},
-		body: JSON.stringify({
-			jwt: token,
-		}),
 	});
 	const res = await response.json();
 	if (res.status == 200) {

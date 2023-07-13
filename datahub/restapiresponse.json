@@ -1,12 +1,12 @@
 {
-	"status": "<status>",
-  "message": "<message>",
-	"row_keys": [
-    "<row_key>",
-    "<row_key>",
-    "<row_key>",
-    "<row_key>",
-    "<row_key>"
-  ],
-  "rows": [["<row_value1>", "<row_value2"]]
+	"headers": {
+		"crsf_token": "<crsf_token>",
+		"token": "<token>"
+	},
+	"body": {
+		"status": "<status>",
+		"message": "<message>",
+		"row_keys": ["<row_key>", "<row_key>", "<row_key>", "<row_key>", "<row_key>"],
+		"rows": [["<row_value1>", "<row_value2"]]
+	}
 }

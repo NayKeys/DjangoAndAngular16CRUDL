@@ -8,13 +8,14 @@ export function refreshToken() {
   jwt = getCookie("jwt");
 }
 
-export type ApiActionRequest = {
+refreshToken()
+
+export type ApiActionRequestBody = {
 	action: string;
-	jwt: string;
 	view_name: string;
 	row: { [key: string]: string };
 };
-export type ApiActionResponse = {
+export type ApiActionResponseBody = {
 	status: number;
 	message: string;
 	row_keys: RowKeys;
@@ -27,22 +28,22 @@ export async function apiActionRequest(action: string, viewName: string = "", ke
 		obj[key] = values[index];
 		return obj;
 	}, {} as { [key: string]: string });
-	const request: ApiActionRequest = {
+	const request: ApiActionRequestBody = {
 		action: action,
-		jwt: jwt,
 		view_name: viewName,
 		row: data,
 	};
 	const res = await fetch(window.location.origin+"/app/execute/", {
-		method: "POST",
+    method: "POST",
 		headers: {
+      "token": jwt,
 			"Content-Type": "application/json",
 			"X-CSRFToken": csrfToken,
 		},
 		body: JSON.stringify(request),
 	});
 	const rows: RowValues[] = [];
-	const resJson: ApiActionResponse = await res.json();
+	const resJson: ApiActionResponseBody = await res.json();
 	if (resJson.status !== 200) {
 		// If api returns error
 		console.log("Error: " + resJson.message);
@@ -84,6 +85,21 @@ export function getMeta(metaName: string) {
 		}
 	}
 	return "";
+}
+
+export async function getUserPermissions() {
+	const response = await fetch("/user/permissions/", {
+		method: "GET",
+		headers: {
+			"X-CSRFToken": csrfToken,
+      "token": jwt,
+			"Content-Type": "application/json",
+		},
+	});
+	if (response.status == 200) {
+		return response;
+	}
+	return null;
 }
 
 export function getCookie(name: string) {

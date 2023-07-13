@@ -1,8 +1,13 @@
 {
-	"action": "<action>",
-  "jwt": "<jwt>",
-  "view_name": "<view_name>",
-  "row": {
-    "<dict>...": "<value>..."
+  "headers": {
+    "crsf_token": "<crsf_token>",
+    "token": "<token>"
+  },
+  "body": {
+    "action": "<action>",
+    "view_name": "<view_name>",
+    "row": {
+      "<dict>...": "<value>..."
+    }
   }
 }

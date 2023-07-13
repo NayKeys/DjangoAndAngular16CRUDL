@@ -12,8 +12,7 @@ from users.authentification import verify_jwt
 def jwt_role_required(view_func):
   @wraps(view_func)
   def _wrapped_view(request, *args, **kwargs):
-    req = json.loads(request.body)
-    token = req.get('jwt')
+    token = request.headers.get('token')
     try:
       payload = verify_jwt(token)
       user = Profile.objects.get(username=payload.username)

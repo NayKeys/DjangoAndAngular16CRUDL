@@ -6,9 +6,12 @@
   import { TextInputSkeleton, Search } from "carbon-components-svelte";
   import jquery from 'jquery';
 
+  import type { Permissions } from './App.svelte';
+
   export let viewTree: ViewTree;
-  export let fetchViewData: Function;
+  export let fetchRequest: Function;
   export let buttonsShown: boolean = false;
+  export let permissions: Permissions;
 
   let query: string = "";
   
@@ -79,7 +82,7 @@
     {#if viewTree}
       {#key query}
         {#key viewTree}
-          <Tree query={query} hideButtons={hideButtons} fetchViewData={fetchViewData} nodes={viewTree.root}/>
+          <Tree permissions={permissions} query={query} hideButtons={hideButtons} fetchRequest={fetchRequest} nodes={viewTree.root}/>
         {/key}
       {/key}
     {:else}

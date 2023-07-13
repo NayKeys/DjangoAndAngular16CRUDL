@@ -1,22 +1,33 @@
+<script context="module" lang="ts">
+  export type Permissions = {
+    username: string;
+    role: string;
+    can_create: { [key: string]: boolean };
+    can_read: { [key: string]: boolean };
+    can_updated: { [key: string]: boolean };
+    can_delete: { [key: string]: boolean };
+  };
+</script>
 <script lang="ts">
   // From https://svelte.dev/repl/36aaf2a1807a4fed81fe6212d20bca24?version=3.25.1
   import { onMount } from 'svelte';
   
-  import ViewSelectionFrame from './VueSelectionFrame.svelte';
+  import VueSelectionFrame from './VueSelectionFrame.svelte';
   import EditFrame from './EditFrame.svelte';
   import CreationFrame from './CreationFrame.svelte';
   import Login from './Login.svelte';
   import Table from './Table.svelte';
   import { auth } from './authentification'
-  import { apiActionRequest, refreshToken, apiTreeRequest, getMeta } from './requests'
+  import { apiActionRequest, refreshToken, apiTreeRequest, getUserPermissions } from './requests'
   import type { RowKeys, RowValues, ViewTree } from './requests'
   import j from 'jquery'
 
   import "carbon-components-svelte/css/g100.css";
   /* Notes:
-  When update fails, the row is not updated in the backend, but the frontend is updated
-  No undo button yet
-  
+  When update fails, the row is not updated in the backend, but the frontend is updateds="view-selection-frame" on:click={() => (showEditFrame = false)} on:keypress>
+      {#key permissions}
+        <VueSelectionFrame permissions={permissions} viewTree={viewTree} fetchRequest={fetchRequest}/>
+      {/key}
   */
 
   let columnNames = ['----------------------------', '----------------------------', '----------------------------'];
@@ -27,6 +38,7 @@
   let createMode: boolean = false;
   let view_path: string;
   let rerenderTable:boolean = false;
+  let permissions: Permissions|undefined = undefined;
 
   function areRowEquals(row1: RowValues, row2: RowValues) {
     for (let i = 0; i < row1.length; i++) {
@@ -37,7 +49,7 @@
     return true;
   }
   
-  function fetchViewData (path : string) {
+  function fetchRequest (path : string) {
     if (path) {
       view_path = path
       apiActionRequest('fetch_all', path, [], []).then((res) => {
@@ -48,16 +60,16 @@
     }
   }
 
-  function addRow(keys: RowKeys, newRow: RowValues) {
+  function addRequest(keys: RowKeys, newRow: RowValues) {
     if (view_path)
       apiActionRequest('create', view_path, keys, newRow).then((res) => {
         if (res != undefined) {
-          fetchViewData(view_path)
+          fetchRequest(view_path)
         }
       })
 	}
 
-	function deleteRows(rowsToBeDeleted: RowValues[]) {
+	function deleteRequest(rowsToBeDeleted: RowValues[]) {
     if (view_path)
       for (let rowToBeDeleted of rowsToBeDeleted) {
         apiActionRequest('remove', view_path, columnNames, rowToBeDeleted).then((res) => {
@@ -71,7 +83,7 @@
       }
 	}
 
-  function updateRow(oldRow: RowValues, newRow: RowValues) {
+  function updateRequest(oldRow: RowValues, newRow: RowValues) {
     if (view_path)
       apiActionRequest('update', view_path, columnNames, newRow).then((res) => {
         if (res != undefined) {
@@ -93,6 +105,11 @@
   onMount(async () => {
     const jwt = await auth();
     refreshToken();
+    getUserPermissions().then((res) => {
+      res.json().then((res) => {
+        permissions = res.permissions;
+      })
+    });
     apiTreeRequest().then((res) =>  {
       viewTree = res;
     });
@@ -110,24 +127,26 @@
   <div class="left-container">
     <Login />
     <div class="view-selection-frame" on:click={() => (showEditFrame = false)} on:keypress>
-      <ViewSelectionFrame viewTree={viewTree} fetchViewData={fetchViewData}/>
+      {#key permissions}
+        <VueSelectionFrame permissions={permissions} viewTree={viewTree} fetchRequest={fetchRequest}/>
+      {/key}
     </div>
   </div>
   <div class="side-container">
     <div id="table-frame" class="table-frame screen" on:click|self={() => (showEditFrame = false)} on:keypress={() => (true)}>
       {#key rerenderTable}
-        <Table showRowCreation={showRowCreation} deleteRows={deleteRows} columnNames={columnNames} bind:selectedData={selectedData} tableData={tableData} showEditFrame={() => (showEditFrame = true)} hideEditFrame={() => (showEditFrame = false)} viewName={view_path ? view_path.split(' > ')[view_path.split(' > ').length - 1] : "view"} />
+        <Table showRowCreation={showRowCreation} deleteRows={deleteRequest} columnNames={columnNames} bind:selectedData={selectedData} tableData={tableData} showEditFrame={() => (showEditFrame = true)} hideEditFrame={() => (showEditFrame = false)} viewName={view_path ? view_path.split(' > ')[view_path.split(' > ').length - 1] : "view"} />
       {/key}
     </div>
   </div>
   <div class="relative">
     <div class={`edit-frame screen ${showEditFrame ? 'unmoved' : 'toright'}`} >
       {#if createMode}
-        <CreationFrame addRow={addRow} hideCreationFrame={() => {showEditFrame=false; createMode=false}} columnNames={columnNames} />
+        <CreationFrame addRow={addRequest} hideCreationFrame={() => {showEditFrame=false; createMode=false}} columnNames={columnNames} />
       {:else}
         {#key tableData}
           {#key selectedData}
-            <EditFrame updateRow={updateRow} deleteRows={deleteRows} hideEditFrame={() => (showEditFrame=false)} columnNames={columnNames} oldRow={selectedData[0]} />
+            <EditFrame updateRow={updateRequest} deleteRows={deleteRequest} hideEditFrame={() => (showEditFrame=false)} columnNames={columnNames} oldRow={selectedData[0]} />
           {/key}
         {/key}
       {/if}

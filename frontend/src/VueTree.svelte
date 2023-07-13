@@ -4,8 +4,11 @@
   import j from "jquery" ;
   import { onMount } from "svelte";
 
+  import type { Permissions } from "./App.svelte";
+
+  export let permissions: Permissions;
   export let nodes: TreeNode<View>;
-  export let fetchViewData: Function;
+  export let fetchRequest: Function;
   export let hideButtons: Function;
   export let query: string;
     
@@ -19,6 +22,7 @@
     id: number;
     text: string;
     disabled?: boolean;
+    icon?: typeof import("svelte").SvelteComponent;
     children?: Node[];
   };
 
@@ -33,12 +37,12 @@
       if (query.length > 0) {
         if (name == query || name.toLowerCase().includes(query)) {
           selectedItemId = i;
-          return {id: i++, text: name}
+          return {id: i++, disabled: permissions.can_read[name], text: name}
         } else {
           return null;
         }
       } else {
-        return {id: i++, text: name}
+        return {id: i++, disabled: permissions.can_read[name], text: name}
       }
     }
     else {
@@ -90,7 +94,7 @@
     } else {
       viewPath = paths[id]
       if (fetch)
-        fetchViewData(viewPath)
+        fetchRequest(viewPath)
     }
   };
 

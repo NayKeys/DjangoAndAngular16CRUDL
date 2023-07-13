@@ -5,10 +5,10 @@ import sys
 
 import datahub.pipelines.hub as pipe
 from datahub.pipelines.hub import ApiRequest
-from datahub.decorators import jwt_role_required
+from users.decorators import jwt_role_required
 import datahub.pipelines.hub as pipe
 from datahub.pipelines.hub import ApiResponse
-from datahub.pipelines.hub import check_permission_create, check_permission_update, check_permission_delete, check_permission_fetch, check_permission_fetch_all
+from users.permissions import check_permission_create, check_permission_update, check_permission_delete, check_permission_fetch, check_permission_fetch_all
 
 """_summary_
 @params request: 
@@ -26,11 +26,11 @@ def view_tree(request):
 """
 @jwt_role_required  # AMAZING PYTHON FEATURE
 def execute(request):
-  if request.method == 'POST':
-    req: ApiRequest = ApiRequest(json.loads(request.body))
-    action = req.action
-    view_name = req.view_name
-    row = req.row
+  if request.method == 'GET':
+    body: ApiRequest = ApiRequest(json.loads(request.body))
+    action = body.action
+    view_name = body.view_name
+    row = body.row
     
     if action == 'create':
       try:

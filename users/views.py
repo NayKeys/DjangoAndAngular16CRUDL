@@ -17,6 +17,7 @@ from datahub.pipelines.hub import ApiResponse
 from users.authentification import verify_jwt
 from users.authentification import create_jwt
 import sussy_crudproject.settings as settings
+from users.decorators import jwt_role_required 
 
 """NOTE:
   actions shouldnt implement a try catch block, that block should be specific to each different data pipelines
@@ -24,8 +25,17 @@ import sussy_crudproject.settings as settings
 
 """_summary_
 """
+@jwt_role_required
 def permissions(request):
-  return JsonResponse({"permissions": request.user.default})
+  user_info = {
+    "username": request.user.username,
+    "role": request.user.role,
+    "can_create": request.user.can_read,
+    "can_read": request.user.can_read,
+    "can_update": request.user.can_update,
+    "can_delete": request.user.can_delete,
+  }
+  return JsonResponse({"permissions": user_info})
 
 """_summary_
 @params request: django request object containing a cas ticket
@@ -34,8 +44,8 @@ def permissions(request):
 """
 def cas_validation(request):
   logger = logging.getLogger(__name__)
-  req = json.loads(request.body)
-  ticket = req.get('ticket')
+  body = json.loads(request.body)
+  ticket = body.get('ticket')
   service = request.build_absolute_uri()[:-len(settings.CAS_ENDPOINT)]
   logger.info(service+"\n")
   if request.is_secure():
@@ -50,7 +60,7 @@ def cas_validation(request):
     return ApiResponse(401, "Authentification failed", None)
   else:
     token = create_jwt(username, user.role)
-    response = JsonResponse({"status": 200, "jwt": token}, status=200)
+    response = JsonResponse({"status": 200, "token": token}, status=200)
     return response
 
 """_summary_
@@ -59,8 +69,8 @@ def cas_validation(request):
 @returns a django response following ./restapiresponse.json with status 200 if the token is valid, 401 if not
 """
 def authenticate(request):
-  req = json.loads(request.body)
-  token = req.get('jwt')
+  headers = request.headers
+  token = headers.get('token')
   try:
     payload = verify_jwt(token)
   except AuthenticationFailed:
