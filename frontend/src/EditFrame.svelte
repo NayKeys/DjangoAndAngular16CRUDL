@@ -53,6 +53,28 @@
 </div>
 
 <style>
+  :global(#edit-inputs .bx--form-item) {
+    width: 100%;
+  }
+  :global(#edit-inputs .bx--label) {
+    font-family: var(--font-family-lexend_deca);
+    font-size: 16px;
+    color: var(--darkcontroltext);
+  }
+  :global(#edit-inputs .bx--text-input:focus) {
+    outline: 2px solid var(--specialcolor);
+    outline-offset: -2px;
+  }
+  :global(#edit-inputs .bx--text-input) {
+    width: 100%;
+    font-family: var(--font-family-lexend_deca);
+    font-size: 18px;
+    color: var(--whitetext);
+    border: 2px solid var(--lightseperation) ;
+    outline: none;
+    border-radius: 6px;
+    background-color: var(--lightbackground);
+  }
   .edit-frame-container {
     display: flex;
     flex-direction: column;

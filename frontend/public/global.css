@@ -70,28 +70,6 @@
   --font-family-lexend_deca-medium: "Lexend Deca-Medium";
   --font-family-nats-regular: "NATS-Regular";
 }
-#edit-inputs .bx--form-item {
-  width: 100%;
-}
-#edit-inputs .bx--label {
-  font-family: var(--font-family-lexend_deca);
-  font-size: 16px;
-  color: var(--darkcontroltext);
-}
-#edit-inputs .bx--text-input:focus {
-  outline: 2px solid var(--specialcolor);
-  outline-offset: -2px;
-}
-#edit-inputs .bx--text-input {
-  width: 100%;
-  font-family: var(--font-family-lexend_deca);
-  font-size: 18px;
-  color: var(--whitetext);
-  border: 2px solid var(--lightseperation) ;
-  outline: none;
-  border-radius: 6px;
-  background-color: var(--lightbackground);
-}
 ::-moz-selection { /* Code for Firefox */
   color: var(--whitetext);
   background: var(--specialcolor);

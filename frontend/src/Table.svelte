@@ -270,7 +270,7 @@
 :global(#table_info) {
   color: var(--darkcontroltext);
 }
-:global(#table_paginate > )*{
+:global(#table_paginate > *) {
   color: var(--darkcontroltext);
 }
 :global(#table_paginate > * > *) {
@@ -278,10 +278,12 @@
 }
 :global(#table_previous:hover, #table_previous:active) {
   color: var(--whitetext);
+  cursor: pointer;
   background: var(--darkselected);
 }
 :global(#table_next:hover, #table_previous:active) {
   color: var(--whitetext);
+  cursor: pointer;
   background: var(--darkselected);
 }
   :global(:root) {
