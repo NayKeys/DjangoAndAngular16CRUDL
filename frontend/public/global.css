@@ -70,19 +70,6 @@
   --font-family-lexend_deca-medium: "Lexend Deca-Medium";
   --font-family-nats-regular: "NATS-Regular";
 }
-#table thead {
-  display: none;
-}
-.footer .footer-search > *:focus-visible {
-  outline: none;
-  border: 1px solid var(--specialcolor);
-}
-.footer .footer-search > * {
-  border: 0px solid var(--whitetext);
-  border-radius: 2px;
-  background-color: var(--lightbackground);
-  color: var(--whitetext);
-}
 #edit-inputs .bx--form-item {
   width: 100%;
 }

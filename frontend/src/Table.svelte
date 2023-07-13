@@ -185,6 +185,19 @@
 </div>
 
 <style>
+  :global(#table thead) {
+  display: none;
+  }
+  :global(.footer .footer-search > *:focus-visible) {
+    outline: none;
+    border: 1px solid var(--specialcolor);
+  }
+  :global(.footer .footer-search > *) {
+    border: 0px solid var(--whitetext);
+    border-radius: 2px;
+    background-color: var(--lightbackground);
+    color: var(--whitetext);
+  }
   :global(thead tr th) {
     vertical-align: middle;
   }
